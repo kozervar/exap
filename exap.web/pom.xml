@@ -36,8 +36,14 @@
 		<!-- Import the JAX-RS API, we use provided scope as the API is included 
 			in JBoss AS 7 -->
 		<dependency>
-			<groupId>org.jboss.spec.javax.ws.rs</groupId>
-			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>jaxrs-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.xml.ws</groupId>
+			<artifactId>jboss-jaxws-api_2.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -53,7 +59,7 @@
 			JBoss AS 7 -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.faces</groupId>
-			<artifactId>jboss-jsf-api_2.1_spec</artifactId>
+			<artifactId>jboss-jsf-api_2.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -61,7 +67,13 @@
 			JBoss AS 7 -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
