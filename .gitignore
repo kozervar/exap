@@ -1,0 +1,23 @@
+# gitignore
+# Java & maven project ignore
+#
+*.class
+rebel.xml
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# but not .ear project
+!/*.ear
+
+# Files
+*.launch
+
+# Directories
+.classpath
+.project
+.settings/
+.metadata/
+target/
