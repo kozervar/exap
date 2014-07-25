@@ -1,0 +1,19 @@
+{
+  "name": "exap",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kozervar/exap",
+  "authors": [
+    "Marcin Kozaczyk <kozervar@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "angular-mocks": "~1.2.20",
+    "jquery": "~2.1.1",
+    "angular-loader": "~1.2.20",
+    "angular-route": "~1.2.20",
+    "underscore": "~1.6.0",
+    "angular": "1.2.20",
+    "html5-boilerplate": "~4.3.0"
+  }
+}
