@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import pl.kozervar.exap.model.ExamPaperQuestionSubject;
 import pl.kozervar.exap.model.Informable;
 
@@ -100,6 +103,24 @@ public class QuestionSubject extends Informable {
 	public void setExamPaperQuestionSubjects(
 	        Set<ExamPaperQuestionSubject> examPaperQuestionSubjects) {
 		this.examPaperQuestionSubjects = examPaperQuestionSubjects;
+	}
+
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) return true;
+		if (!(other instanceof QuestionSubject)) return false;
+		QuestionSubject castOther = (QuestionSubject) other;
+		return new EqualsBuilder().append(content, castOther.content)
+		        .append(totalScore, castOther.totalScore)
+		        .append(questionType, castOther.questionType).isEquals();
+	}
+
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(content).append(totalScore)
+		        .append(questionType).toHashCode();
 	}
 
 

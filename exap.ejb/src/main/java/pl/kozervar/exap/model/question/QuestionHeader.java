@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import pl.kozervar.exap.model.Informable;
 
 @Entity
@@ -115,6 +118,27 @@ public class QuestionHeader extends Informable {
 
 	public void setQuestionDetails(Set<QuestionDetail> questionDetails) {
 		this.questionDetails = questionDetails;
+	}
+
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) return true;
+		if (!(other instanceof QuestionHeader)) return false;
+		QuestionHeader castOther = (QuestionHeader) other;
+		return new EqualsBuilder().append(description, castOther.description)
+		        .append(score, castOther.score)
+		        .append(questionSubject, castOther.questionSubject)
+		        .append(questionType, castOther.questionType)
+		        .append(questionAnswer, castOther.questionAnswer).isEquals();
+	}
+
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(description).append(score)
+		        .append(questionSubject).append(questionType)
+		        .append(questionAnswer).toHashCode();
 	}
 
 

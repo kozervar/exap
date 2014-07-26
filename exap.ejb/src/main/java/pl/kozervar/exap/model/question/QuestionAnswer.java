@@ -5,6 +5,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import pl.kozervar.exap.model.Informable;
 
 @Entity
@@ -68,5 +71,24 @@ public class QuestionAnswer extends Informable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) return true;
+		if (!(other instanceof QuestionAnswer)) return false;
+		QuestionAnswer castOther = (QuestionAnswer) other;
+		return new EqualsBuilder().append(binaryValue, castOther.binaryValue)
+		        .append(shortTextValue, castOther.shortTextValue)
+		        .append(longTextValue, castOther.longTextValue)
+		        .append(comment, castOther.comment).isEquals();
+	}
+
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(binaryValue).append(shortTextValue)
+		        .append(longTextValue).append(comment).toHashCode();
 	}
 }

@@ -5,6 +5,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import pl.kozervar.exap.model.Identifiable;
 
 @Entity
@@ -40,5 +43,22 @@ public class QuestionType extends Identifiable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) return true;
+		if (!(other instanceof QuestionType)) return false;
+		QuestionType castOther = (QuestionType) other;
+		return new EqualsBuilder().append(name, castOther.name)
+		        .append(description, castOther.description).isEquals();
+	}
+
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(name).append(description)
+		        .toHashCode();
 	}
 }

@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import pl.kozervar.exap.model.ExamPaperQuestionSubject;
 import pl.kozervar.exap.model.Informable;
 
@@ -97,6 +100,25 @@ public class ExamPaper extends Informable {
 
 	public void setExamType(ExamType examType) {
 		this.examType = examType;
+	}
+
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) return true;
+		if (!(other instanceof ExamPaper)) return false;
+		ExamPaper castOther = (ExamPaper) other;
+		return new EqualsBuilder().append(name, castOther.name)
+		        .append(description, castOther.description)
+		        .append(active, castOther.active)
+		        .append(examType, castOther.examType).isEquals();
+	}
+
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(name).append(description)
+		        .append(active).append(examType).toHashCode();
 	}
 
 }

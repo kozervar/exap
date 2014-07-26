@@ -9,6 +9,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import pl.kozervar.exap.model.Identifiable;
 
 @Entity
@@ -73,6 +76,25 @@ public class QuestionDetail extends Identifiable {
 
 	public void setChecked(Boolean checked) {
 		this.checked = checked;
+	}
+
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) return true;
+		if (!(other instanceof QuestionDetail)) return false;
+		QuestionDetail castOther = (QuestionDetail) other;
+		return new EqualsBuilder().append(content, castOther.content)
+		        .append(sortOrder, castOther.sortOrder)
+		        .append(questionHeader, castOther.questionHeader)
+		        .append(checked, castOther.checked).isEquals();
+	}
+
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(content).append(sortOrder)
+		        .append(questionHeader).append(checked).toHashCode();
 	}
 
 }

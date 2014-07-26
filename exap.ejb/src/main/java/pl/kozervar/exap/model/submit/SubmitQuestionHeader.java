@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import pl.kozervar.exap.model.Informable;
 
 @Entity
@@ -78,6 +81,26 @@ public class SubmitQuestionHeader extends Informable {
 	public void setSubmitQuestionAnswer(
 	        SubmitQuestionAnswer submitQuestionAnswer) {
 		this.submitQuestionAnswer = submitQuestionAnswer;
+	}
+
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) return true;
+		if (!(other instanceof SubmitQuestionHeader)) return false;
+		SubmitQuestionHeader castOther = (SubmitQuestionHeader) other;
+		return new EqualsBuilder().append(comment, castOther.comment)
+		        .append(obtainedScore, castOther.obtainedScore)
+		        .append(reviewDate, castOther.reviewDate)
+		        .append(submitQuestionAnswer, castOther.submitQuestionAnswer)
+		        .isEquals();
+	}
+
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(comment).append(obtainedScore)
+		        .append(reviewDate).append(submitQuestionAnswer).toHashCode();
 	}
 
 }
