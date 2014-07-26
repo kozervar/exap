@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import pl.kozervar.exap.model.Identifiable;
 
@@ -60,5 +61,12 @@ public class ExamType extends Identifiable {
 	public int hashCode() {
 		return new HashCodeBuilder().append(name).append(description)
 		        .toHashCode();
+	}
+
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).append("name", name)
+		        .append("description", description).toString();
 	}
 }

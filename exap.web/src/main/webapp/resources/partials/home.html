@@ -3,3 +3,22 @@
     Showing of 'interpolate' filter:
     {{ 'Current version is v%VERSION%.' | interpolate }}
 </p>
+<table>
+    <td>ID:</td>
+    <td>NAME:</td>
+    <td>DESC:</td>
+    <td>DEL:</td>
+    <td>UPD:</td>
+    </th>
+    <tr ng-repeat="entity in examTypes">
+        <td style="width:100px">{{entity.id}}</td>
+        <td style="width:100px">{{entity.name}}</td>
+        <td style="width:100px">{{entity.description}}</td>
+        <td style="width:100px" ng-click="removeEntity(entity)">remove</td>
+        <td style="width:100px" ng-click="updateEntity(entity)">update</td>
+    </tr>
+</table>
+<p>
+    <button name="save" ng-click="saveEntity(examType)">Save entity</button>
+    <button name="refresh" ng-click="refresh()">Refresh entities</button>
+</p>
