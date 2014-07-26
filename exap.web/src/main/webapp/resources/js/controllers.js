@@ -2,10 +2,8 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', [])
-  .controller('MyCtrl1', ['$scope', function($scope) {
+var exapControllers = angular.module('exap.controllers', []);
 
-  }])
-  .controller('MyCtrl2', ['$scope', function($scope) {
+exapControllers.controller('HomeController', ['$scope', function ($scope) {
 
-  }]);
+}]);

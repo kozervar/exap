@@ -21,6 +21,7 @@ rebel.xml
 .settings/
 .metadata/
 target/
+.idea
 
 # Bower
 bower_components/
