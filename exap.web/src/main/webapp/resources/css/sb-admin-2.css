@@ -349,3 +349,9 @@ table.dataTable thead .sorting:after {
 .dropdown-menu li a {
    cursor: pointer;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.table-editable tr {
+    cursor: pointer;
+}

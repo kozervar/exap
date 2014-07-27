@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Nowy {{entityName.name}}</h4>
+</div>
+<div class="modal-body">
+    <form role="form">
+        <div class="form-group">
+            <label>Nazwa</label>
+            <input class="form-control" ng-model="newEntity.name">
+        </div>
+        <div class="form-group">
+            <label>Opis</label>
+            <input class="form-control" ng-model="newEntity.description">
+        </div>
+    </form>
+    <p>{{newEntity.name}}</p>
+
+    <p>{{newEntity.description}}</p>
+</div>
+<div class="modal-footer">
+    <div class="pull-left" ng-if="editMode == true">
+        <button class="btn btn-danger" ng-click="remove()">Usuń</button>
+    </div>
+    <div class="pull-right">
+        <button class="btn btn-default" ng-click="cancel()">Anuluj</button>
+        <button class="btn btn-primary" ng-click="save(newEntity)">Zapisz</button>
+    </div>
+</div>

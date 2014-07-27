@@ -6,6 +6,8 @@ var routeProvider;
 var app = angular.module('exap-admin', [
 //    'ngRoute',
     'ui.router',
+    'ui.bootstrap',
+    'ui.bootstrap.dropdown',
     'exap-admin.filters',
     'exap-admin.services',
     'exap-admin.directives',
@@ -36,6 +38,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
                     },
                     controller: "OverviewDataController"
                 }
+//                "overview_new_entity": {
+//                    templateUrl: function ($stateParams) {
+//                        return 'resources/partials/admin/overview/' + $stateParams.entityName + '.new.html';
+//                    }
+////                    },
+////                    controller: "OverviewNewEntityController"
+//                }
             }
         })
 }]);

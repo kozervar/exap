@@ -47,15 +47,7 @@ exapServices.factory('RESTfacade', ['$resource',
             update: { method: 'PUT', params: {entityName: '@entityName', entityId: '@id'}},
             query: {method: 'GET', params: {entityName: '@entityName'}, isArray: true},
             get: {method: 'GET', params: {entityName: '@entityName', entityId: '@id'}, isArray: false},
-            remove: {method: 'DELETE', params: {entityName: '@entityName', entityId: '@id'}}
-        });
-    }]);
-exapServices.factory('RESTfacade', ['$resource',
-    function ($resource) {
-        return $resource('rest/:entityName/:entityId', {}, {
-            update: { method: 'PUT', params: {entityName: '@entityName', entityId: '@id'}},
-            query: {method: 'GET', params: {entityName: '@entityName'}, isArray: true},
-            get: {method: 'GET', params: {entityName: '@entityName', entityId: '@id'}, isArray: false},
-            remove: {method: 'DELETE', params: {entityName: '@entityName', entityId: '@id'}}
+            remove: {method: 'DELETE', params: {entityName: '@entityName', entityId: '@id'}},
+            save: {method: 'POST', params: {entityName: '@entityName'}}
         });
     }]);
