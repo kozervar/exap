@@ -13,6 +13,7 @@
     "angular-loader": "~1.2.20",
     "angular-route": "~1.2.20",
     "angular-resource": "~1.2.x",
+    "angular-ui-router": "~0.2.x",
     "underscore": "~1.6.0",
     "angular": "1.2.20",
     "html5-boilerplate": "~4.3.0"

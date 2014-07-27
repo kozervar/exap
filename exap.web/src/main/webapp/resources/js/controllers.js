@@ -13,8 +13,9 @@ exapControllers.controller('HomeController', ['$scope', 'ExamType', function ($s
         entity.$save();
     };
     $scope.updateEntity = function (entity) {
-        entity.description = "updated";
-        var ent = new ExamType(entity);
+        var ent = entity;
+        ent.description = "updated";
+        var ent = new ExamType(ent);
         entity.$update({id: entity.id});
     };
     $scope.removeEntity = function (entity) {

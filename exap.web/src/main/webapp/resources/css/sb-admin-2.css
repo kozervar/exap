@@ -42,6 +42,7 @@ body {
 
 .navbar-top-links .dropdown-menu li {
     display: block;
+    cursor: hand;
 }
 
 .navbar-top-links .dropdown-menu li:last-child {
@@ -342,4 +343,9 @@ table.dataTable thead .sorting:after {
 
 .panel-yellow a:hover {
     color: #df8a13;
+}
+
+/* custom */
+.dropdown-menu li a {
+   cursor: pointer;
 }
