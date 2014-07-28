@@ -4,35 +4,19 @@
 
 var exapControllers = angular.module('exap-admin.controllers', []);
 
-exapControllers.controller('OverviewController', ['$scope', '$stateParams', 'EntityNameFactory', function ($scope, $stateParams, EntityNameFactory) {
-
-    $('#new-entity-modal').on('hidden.bs.modal', function () {
-        $(this).removeData('bs.modal');
-        $(this).data('bs.modal', null);
-    });
-
-    $scope.$on('$stateChangeSuccess',
+exapControllers.controller('StateController', ['$scope', '$stateParams', 'EntityNameFactory', function ($scope, $stateParams, EntityNameFactory) {
+    $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {
             $scope.entityName = EntityNameFactory.get(toParams.entityName);
-            $scope.$broadcast('NAME_SET', {entityName: $scope.entityName});
+            $scope.$broadcast(EVENTS.OVERVIEW_ENTITY_NAME_SET, {entityName: $scope.entityName});
         });
 }]);
-
-exapControllers.controller('OverviewDataController', ['$scope', '$stateParams', '$modal', 'EntityNameFactory', 'RESTfacade', function ($scope, $stateParams, $modal, EntityNameFactory, RESTfacade) {
-    $scope.entityName = EntityNameFactory.get($stateParams.entityName);
+exapControllers.controller('OverviewController', ['$scope', '$stateParams', '$modal', 'EntityNameFactory', 'RESTfacade', '$q', function ($scope, $stateParams, $modal, EntityNameFactory, RESTfacade, $q) {
 
     $scope.entities = {};
 
-    $scope.$on('$viewContentLoaded',
-        function (event) {
-            $scope.refresh();
-        });
+    /* CRUD */
 
-    $scope.getAll = function (entityName) {
-        RESTfacade.query({entityName: entityName}).$promise.then(function (result) {
-            $scope.entities = result;
-        });
-    };
     $scope.getEntity = function (entity) {
         entity.$get({entityName: $scope.entityName, id: entity.id});
     };
@@ -53,18 +37,23 @@ exapControllers.controller('OverviewDataController', ['$scope', '$stateParams', 
         });
     };
 
+    $scope.getAll = function (entityName) {
+        RESTfacade.query({entityName: entityName}).$promise.then(function (result) {
+            $scope.entities = result;
+        });
+    };
+
     $scope.refresh = function () {
         $scope.getAll($scope.entityName.entityName);
     };
 
-    $scope.editRow = function (entity) {
-        $scope.updateEntityModal(entity);
-    };
+    /* MODAL */
 
     $scope.newEntityModal = function (args) {
         var modalInstance = $modal.open({
-            templateUrl: 'resources/partials/admin/overview/' + $stateParams.entityName + '.new.html',
-            controller: 'ModalNewEntityController'
+            templateUrl: 'resources/partials/admin/overview/' + $scope.entityName.entityName + '.new.html',
+            controller: 'ModalNewEntityController',
+            backdrop: 'static'
         });
 
         modalInstance.result.then(function (result) {
@@ -76,8 +65,9 @@ exapControllers.controller('OverviewDataController', ['$scope', '$stateParams', 
 
     $scope.updateEntityModal = function (args) {
         var modalInstance = $modal.open({
-            templateUrl: 'resources/partials/admin/overview/' + $stateParams.entityName + '.new.html',
+            templateUrl: 'resources/partials/admin/overview/' + $scope.entityName.entityName + '.new.html',
             controller: 'ModalUpdateEntityController',
+            backdrop: 'static',
             resolve: {
                 args: function () {
                     return args;
@@ -93,16 +83,32 @@ exapControllers.controller('OverviewDataController', ['$scope', '$stateParams', 
                 $scope.removeEntity(result.entity);
             }
         }, function () {
-            console.log('Modal dismissed at: ' + new Date());
+            $scope.refresh();
         });
     };
 }]);
 
+exapControllers.controller('OverviewDataController', ['$scope', '$stateParams', 'EntityNameFactory', 'RESTfacade', function ($scope, $stateParams, EntityNameFactory, RESTfacade) {
+
+    $scope.$on('$viewContentLoaded',
+        function (event) {
+            $scope.refresh();
+        });
+
+    $scope.editRow = function (entity) {
+        $scope.updateEntityModal(entity);
+    };
+}]);
+
+/* MODALS */
+
 exapControllers.controller('ModalNewEntityController', ['$scope', '$stateParams', '$modalInstance', 'EntityNameFactory', function ($scope, $stateParams, $modalInstance, EntityNameFactory) {
     $scope.entityName = EntityNameFactory.get($stateParams.entityName);
 
+    $scope.modalMode = { name : "Nowy" };
+
     $scope.newEntity = {};
-    
+
     $scope.save = function (entity) {
         $modalInstance.close($scope.newEntity);
     };
@@ -110,10 +116,11 @@ exapControllers.controller('ModalNewEntityController', ['$scope', '$stateParams'
         $modalInstance.dismiss('cancel');
     };
 }]);
-exapControllers.controller('ModalUpdateEntityController', ['$scope', '$stateParams', '$modalInstance', 'EntityNameFactory', 'args', function ($scope, $stateParams, $modalInstance, EntityNameFactory, args) {
+exapControllers.controller('ModalUpdateEntityController', ['$scope', '$stateParams', '$modalInstance', '$modal', 'EntityNameFactory', 'args', function ($scope, $stateParams, $modalInstance, $modal, EntityNameFactory, args) {
     $scope.entityName = EntityNameFactory.get($stateParams.entityName);
 
     $scope.editMode = true;
+    $scope.modalMode = { name : "Edycja" };
 
     if (typeof args !== 'undefined') {
         $scope.newEntity = args;
@@ -128,6 +135,40 @@ exapControllers.controller('ModalUpdateEntityController', ['$scope', '$statePara
         $modalInstance.dismiss('cancel');
     };
     $scope.remove = function () {
-        $modalInstance.close({action: 'remove', entity: $scope.newEntity });
+        $scope.removeEntityModal($scope.newEntity);
+    };
+
+    $scope.removeEntityModal = function (args) {
+        var modalInstance = $modal.open({
+            templateUrl: 'resources/partials/admin/overview/delete.confirmation.modal.html',
+            controller: 'ModalDeleteEntityController',
+            backdrop: 'static',
+            resolve: {
+                args: function () {
+                    return args;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (result) {
+            $modalInstance.close({action: 'remove', entity: $scope.newEntity });
+        });
+    };
+}]);
+exapControllers.controller('ModalDeleteEntityController', ['$scope', '$stateParams', '$modalInstance', 'EntityNameFactory', 'args', function ($scope, $stateParams, $modalInstance, EntityNameFactory, args) {
+
+    $scope.entityName = EntityNameFactory.get($stateParams.entityName);
+
+    if (typeof args !== 'undefined') {
+        $scope.entity = args;
+    } else {
+        $scope.entity = {};
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss($scope.entity);
+    };
+    $scope.confirm = function () {
+        $modalInstance.close($scope.entity);
     };
 }]);

@@ -352,6 +352,12 @@ table.dataTable thead .sorting:after {
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-.table-editable tr {
+.table-editable tbody tr {
     cursor: pointer;
+}
+
+.modal.fade .modal-dialog {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
 }

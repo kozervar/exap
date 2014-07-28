@@ -7,7 +7,7 @@ var app = angular.module('exap-admin', [
 //    'ngRoute',
     'ui.router',
     'ui.bootstrap',
-    'ui.bootstrap.dropdown',
+    'ngAnimate',
     'exap-admin.filters',
     'exap-admin.services',
     'exap-admin.directives',
@@ -37,14 +37,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
                         return 'resources/partials/admin/overview/' + $stateParams.entityName + '.html';
                     },
                     controller: "OverviewDataController"
+                },
+                "overview_actions_menu": {
+                    templateUrl: 'resources/partials/admin/overview/overview.panel.header.html'
                 }
-//                "overview_new_entity": {
-//                    templateUrl: function ($stateParams) {
-//                        return 'resources/partials/admin/overview/' + $stateParams.entityName + '.new.html';
-//                    }
-////                    },
-////                    controller: "OverviewNewEntityController"
-//                }
             }
         })
 }]);

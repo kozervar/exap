@@ -1,0 +1,13 @@
+<i class="fa fa-bar-chart-o fa-fw"></i>
+<div class="pull-right" ng-controller="DropdownController">
+    <div class="btn-group" dropdown is-open="status.isopen">
+        <button type="button" class="btn btn-default btn-xs dropdown-toggle" ng-disabled="disabled">
+            Akcje <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu pull-right" role="menu">
+            <li><a ng-click="newEntityModal()">Nowy {{entityName.name}}</a></li>
+            <li class="divider"></li>
+            <li><a ng-click="refresh()">Odśwież</a></li>
+        </ul>
+    </div>
+</div>
