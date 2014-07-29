@@ -31,6 +31,9 @@ exapServices.factory('EntityNameFactory', function () {
             case 'QuestionType' :
                 name = 'Typ Pytania';
                 break;
+            case 'ExamPaper' :
+                name = 'Egzamin';
+                break;
             default :
                 name = 'NAZWA_ENCJI';
                 break;

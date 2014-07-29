@@ -72,7 +72,8 @@ exapControllers.controller('OverviewController', ['$scope', '$stateParams', '$mo
                 args: function () {
                     return args;
                 }
-            }
+            },
+            scope : $scope
         });
 
         modalInstance.result.then(function (result) {
@@ -116,8 +117,17 @@ exapControllers.controller('ModalNewEntityController', ['$scope', '$stateParams'
         $modalInstance.dismiss('cancel');
     };
 }]);
-exapControllers.controller('ModalUpdateEntityController', ['$scope', '$stateParams', '$modalInstance', '$modal', 'EntityNameFactory', 'args', function ($scope, $stateParams, $modalInstance, $modal, EntityNameFactory, args) {
-    $scope.entityName = EntityNameFactory.get($stateParams.entityName);
+exapControllers.controller('ModalUpdateEntityController', ['$scope', '$stateParams', '$modalInstance', '$modal', 'RESTfacade', 'args', function ($scope, $stateParams, $modalInstance, $modal, RESTfacade, args) {
+    // $scope.entityName = EntityNameFactory.get($stateParams.entityName);
+
+    $scope.collection1;
+
+    if($scope.entityName.entityName === "ExamPaper")
+    {
+        RESTfacade.query({entityName: "ExamType"}).$promise.then(function (result) {
+            $scope.collection1 = result;
+        });
+    }
 
     $scope.editMode = true;
     $scope.modalMode = { name : "Edycja" };
