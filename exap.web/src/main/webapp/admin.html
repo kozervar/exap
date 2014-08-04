@@ -57,7 +57,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li ng-controller="CollapseController" ng-class="{ 'active': !isCollapsed }">
-                    <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-database fa-fw"></i> Pytania<span class="fa arrow"></span></a>
+                    <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-question fa-fw"></i> Pytania<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level" collapse="isCollapsed">
                         <li>
                             <a ui-sref="Overview.Masterdata({ entityName: 'QuestionAnswer'})">Odpowiedź na pytanie</a>
@@ -75,7 +75,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li ng-controller="CollapseController" ng-class="{ 'active': !isCollapsed }">
-                    <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-database fa-fw"></i> Odpowiedzi<span class="fa arrow"></span></a>
+                    <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-reply fa-fw"></i> Odpowiedzi<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level" collapse="isCollapsed">
                         <li>
                             <a ui-sref="Overview.Masterdata({ entityName: 'SubmitQuestionHeader'})">Odpowiedź na pytanie</a>

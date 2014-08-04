@@ -17,7 +17,6 @@ import pl.kozervar.exap.model.Identifiable;
 @Entity
 @Table(
         name = "exam_type")
-@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class ExamType extends Identifiable {
 
 

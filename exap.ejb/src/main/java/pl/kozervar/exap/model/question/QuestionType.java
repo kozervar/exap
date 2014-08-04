@@ -16,7 +16,6 @@ import pl.kozervar.exap.model.Identifiable;
 @Entity
 @Table(
         name = "question_type")
-@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class QuestionType extends Identifiable {
 
     private static final long serialVersionUID = 4968827308076301052L;

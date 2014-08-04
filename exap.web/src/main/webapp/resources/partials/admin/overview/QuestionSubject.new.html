@@ -6,11 +6,11 @@
     <form role="form">
         <div class="form-group">
             <label>Zawartość</label>
-            <input class="form-control" ng-model="newEntity.content">
+            <input class="form-control" ng-model="newEntity.content" required>
         </div>
         <div class="form-group">
             <label>Wynik całkowity</label>
-            <input class="form-control" ng-model="newEntity.totalScore">
+            <input name="score" class="form-control" ng-model="newEntity.totalScore" integer>
         </div>
         <div class="form-group">
             <label for="form_q_type">Typ pytania</label>

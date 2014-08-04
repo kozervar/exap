@@ -361,3 +361,12 @@ table.dataTable thead .sorting:after {
     -ms-transform: translate(0, 0);
     transform: translate(0, 0);
 }
+
+/* FORM VALIDATION */
+
+input.ng-invalid {
+    border: 1px solid red;
+}
+input.ng-valid {
+    border: 1px solid green;
+}

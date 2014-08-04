@@ -16,7 +16,6 @@ import pl.kozervar.exap.model.Informable;
 @Entity
 @Table(
         name = "submit_question_answer")
-@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class SubmitQuestionAnswer extends Informable {
 
 
