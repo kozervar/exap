@@ -14,3 +14,7 @@ function DropdownController($scope) {
         $scope.status.isopen = !$scope.status.isopen;
     };
 }
+
+function CollapseController($scope) {
+    $scope.isCollapsed = CONSTANTS.MENU_COLLAPSED;
+}

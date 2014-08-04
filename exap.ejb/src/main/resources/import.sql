@@ -7,3 +7,6 @@ INSERT INTO exam_type VALUES (2, 'Egzamin typu ZAMKNIĘTY', 'ZAMKNIĘTY');
 
 INSERT INTO question_type VALUES (1, 'Pytanie typu OTWARTE', 'OTWARTE');
 INSERT INTO question_type VALUES (2, 'Pytanie typu ZAMKNIĘTE', 'ZAMKNIĘTE');
+
+INSERT INTO question_header (id, version, creationdate, creationuser, updatedate, updateuser, description, score, question_answer_id, question_subject_id, question_type_id) VALUES (1, 1, NULL, NULL, NULL, NULL, 'TEST', NULL, NULL, NULL, NULL);
+INSERT INTO question_detail (id, content, sort_order, question_header_id) VALUES (1, 'TEST DETAIL', NULL, 1);

@@ -34,6 +34,15 @@ exapServices.factory('EntityNameFactory', function () {
             case 'ExamPaper' :
                 name = 'Egzamin';
                 break;
+            case 'QuestionDetail' :
+                name = 'Szczegóły pytania';
+                break;
+            case 'QuestionAnswer' :
+                name = 'Odpowiedź na pytanie';
+                break;
+            case 'QuestionHeader' :
+                name = 'Nagłówek pytania';
+                break;
             default :
                 name = 'NAZWA_ENCJI';
                 break;

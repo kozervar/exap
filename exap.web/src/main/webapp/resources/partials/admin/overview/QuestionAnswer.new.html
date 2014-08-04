@@ -5,26 +5,20 @@
 <div class="modal-body">
     <form role="form">
         <div class="form-group">
-            <label for="form_name">Nazwa</label>
-            <input id="form_name" class="form-control" ng-model="newEntity.name">
+            <label for="form_comment">Wartość binarna</label>
+            <input id="form_comment" class="form-control" ng-model="newEntity.binaryValue">
         </div>
         <div class="form-group">
-            <label for="form_desc">Opis</label>
-            <input id="form_desc" class="form-control" ng-model="newEntity.description">
+            <label for="form_comment">Opis Krótki</label>
+            <input id="form_comment" class="form-control" ng-model="newEntity.shortTextValue">
         </div>
         <div class="form-group">
-            <div class="checkbox">
-                <label for="form_active">
-                    <input id="form_active" type="checkbox" ng-model="newEntity.active"
-                           ng-checked="newEntity.active">
-                    Aktywny
-                </label>
-            </div>
+            <label for="form_comment">Opis Długi</label>
+            <input id="form_comment" class="form-control" ng-model="newEntity.longTextValue">
         </div>
         <div class="form-group">
-            <label for="form_ex_type">Typ egzaminu</label>
-            <select id="form_ex_type" required="required" class="form-control" ng-model="newEntity.examType" ng-options="e as e.name for e in collection1">
-            </select>
+            <label for="form_comment">Komentarz</label>
+            <input id="form_comment" class="form-control" ng-model="newEntity.comment">
         </div>
     </form>
 </div>

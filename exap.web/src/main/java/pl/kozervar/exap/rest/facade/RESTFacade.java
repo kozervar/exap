@@ -4,6 +4,8 @@ package pl.kozervar.exap.rest.facade;
 import java.util.Collection;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 import pl.kozervar.exap.dao.DAO;
 import pl.kozervar.exap.model.Identifiable;
@@ -14,6 +16,9 @@ public abstract class RESTFacade<T extends Identifiable> {
 	private DAO dao;
 
 	private final Class<T> entityClass;
+	
+	@Inject
+	private EntityManager entityManager;
 
 	public RESTFacade(Class<T> entityClass) {
 		this.entityClass = entityClass;
@@ -52,4 +57,8 @@ public abstract class RESTFacade<T extends Identifiable> {
 	public void remove(Integer id) {
 		getDao().delete(getDao().get(entityClass, id));
 	}
+
+	public EntityManager getEntityManager() {
+	    return entityManager;
+    }
 }

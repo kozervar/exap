@@ -2,8 +2,13 @@
 package pl.kozervar.exap.rest.facade.question;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.Root;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,6 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import pl.kozervar.exap.model.question.QuestionDetail;
+import pl.kozervar.exap.model.question.QuestionHeader;
 import pl.kozervar.exap.rest.facade.RESTFacade;
 
 
@@ -62,7 +68,13 @@ public class QuestionDetailRESTFacade extends RESTFacade<QuestionDetail> {
 	@Produces({ "application/json" })
 	@Override
 	public Collection<QuestionDetail> findAll() {
-		return super.findAll();
+		EntityManager em = getEntityManager();
+		CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+		Root from = cq.from(QuestionDetail.class);
+		Fetch fetch = from.fetch("questionHeader");
+		cq.select(from);
+		List resultList = em.createQuery(cq).getResultList();
+		return resultList;
 	}
 
 	@GET

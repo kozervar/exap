@@ -16,26 +16,39 @@ exapDirectives.directive('appName', ['name', function (name) {
         elm.text(name);
     };
 }]);
-exapDirectives.directive('overviewEntityName', ['$stateParams', function ($stateParams) {
-    return function (scope, element, attributes) {
-        var Name = {};
-        if ($stateParams.hasOwnProperty('entityName')) {
-            Name.entityName = $stateParams.entityName;
-            var name = "NAZWA_ENCJI";
 
-            switch ($stateParams.entityName) {
-                case 'ExamType' :
-                    name = 'Typy Egzaminów';
-                    break;
-                case 'QuestionType' :
-                    name = 'Typy Pytań';
-                    break;
-                default :
-                    name =  'NAZWA_ENCJI';
-                    break;
-            }
-            Name.name = name;
+exapDirectives.directive('postRender', [ '$timeout', function($timeout) {
+    var def = {
+        restrict : 'A',
+        terminal : true,
+        transclude : true,
+        link : function(scope, element, attrs) {
+            $timeout(scope.resize, 0);  //Calling a scoped method
         }
-        element.text(Name.name);
     };
+    return def;
 }]);
+//
+//exapDirectives.directive('overviewEntityName', ['$stateParams', function ($stateParams) {
+//    return function (scope, element, attributes) {
+//        var Name = {};
+//        if ($stateParams.hasOwnProperty('entityName')) {
+//            Name.entityName = $stateParams.entityName;
+//            var name = "NAZWA_ENCJI";
+//
+//            switch ($stateParams.entityName) {
+//                case 'ExamType' :
+//                    name = 'Typy Egzaminów';
+//                    break;
+//                case 'QuestionType' :
+//                    name = 'Typy Pytań';
+//                    break;
+//                default :
+//                    name =  'NAZWA_ENCJI';
+//                    break;
+//            }
+//            Name.name = name;
+//        }
+//        element.text(Name.name);
+//    };
+//}]);

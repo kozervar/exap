@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+	<ear-subdeployments-isolated>false</ear-subdeployments-isolated>
+
+	<sub-deployment name="exap.ejb.jar">
+		<exclusions>
+			<module name="org.jboss.resteasy.resteasy-jackson-provider" />
+		</exclusions>
+
+		<dependencies>
+			<module name="org.jboss.resteasy.resteasy-jackson2-provider"
+				services="import" />
+		</dependencies>
+	</sub-deployment>
+	<sub-deployment name="exap.web.war">
+		<exclusions>
+			<module name="org.jboss.resteasy.resteasy-jackson-provider" />
+		</exclusions>
+
+		<dependencies>
+			<module name="org.jboss.resteasy.resteasy-jackson2-provider"
+				services="import" />
+		</dependencies>
+	</sub-deployment>
+</jboss-deployment-structure>
