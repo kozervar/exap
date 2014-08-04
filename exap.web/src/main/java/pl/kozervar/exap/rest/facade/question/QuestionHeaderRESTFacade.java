@@ -2,8 +2,14 @@
 package pl.kozervar.exap.rest.facade.question;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,6 +20,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import pl.kozervar.exap.model.question.QuestionHeader;
+import pl.kozervar.exap.model.question.QuestionHeader_;
+import pl.kozervar.exap.model.question.QuestionSubject;
+import pl.kozervar.exap.model.question.QuestionSubject_;
 import pl.kozervar.exap.rest.facade.RESTFacade;
 
 
@@ -62,7 +71,14 @@ public class QuestionHeaderRESTFacade extends RESTFacade<QuestionHeader> {
 	@Produces({ "application/json" })
 	@Override
 	public Collection<QuestionHeader> findAll() {
-		return super.findAll();
+		EntityManager em = getEntityManager();
+		CriteriaQuery<QuestionHeader> cq = em.getCriteriaBuilder().createQuery(QuestionHeader.class);
+		Root<QuestionHeader> root = cq.from(QuestionHeader.class);
+		Fetch<QuestionHeader, QuestionSubject> fetch = root.fetch(QuestionHeader_.questionSubject, JoinType.LEFT);
+		fetch.fetch(QuestionSubject_.examPaperQuestionSubjects, JoinType.LEFT);
+		cq.distinct(true);
+		List<QuestionHeader> resultList = em.createQuery(cq).getResultList();
+		return resultList;
 	}
 
 	@GET

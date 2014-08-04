@@ -26,10 +26,11 @@ import pl.kozervar.exap.model.Informable;
 @Entity
 @Table(
         name = "question_header")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@jsonID")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class QuestionHeader extends Informable {
 
-	private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 4626491842358924512L;
 
 	@Column(
 	        name = "description")

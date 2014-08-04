@@ -17,15 +17,19 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import pl.kozervar.exap.model.ExamPaperQuestionSubject;
 import pl.kozervar.exap.model.Informable;
 
 @Entity
 @Table(
         name = "question_subject")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class QuestionSubject extends Informable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8335171476206865514L;
 
 	@Column(
 	        name = "content")

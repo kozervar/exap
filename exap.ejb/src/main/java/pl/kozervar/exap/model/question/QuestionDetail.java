@@ -20,10 +20,10 @@ import pl.kozervar.exap.model.Identifiable;
 @Entity
 @Table(
         name = "question_detail")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@jsonID")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class QuestionDetail extends Identifiable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2879799465099634347L;
 
 	@Column(
 	        name = "content")

@@ -138,6 +138,27 @@ exapControllers.controller('ModalNewEntityController', ['$scope', '$stateParams'
             $scope.collection3 = result;
         });
     }
+    if($scope.entityName.entityName === "QuestionSubject")
+    {
+        RESTfacade.query({entityName: "QuestionType"}).$promise.then(function (result) {
+            $scope.collection1 = result;
+        });
+    }
+    if($scope.entityName.entityName === "SubmitQuestionHeader")
+    {
+        RESTfacade.query({entityName: "SubmitQuestionAnswer"}).$promise.then(function (result) {
+            $scope.collection1 = result;
+        });
+    }
+    if($scope.entityName.entityName === "ExamPaperQuestionSubject")
+    {
+        RESTfacade.query({entityName: "ExamPaper"}).$promise.then(function (result) {
+            $scope.collection1 = result;
+        });
+        RESTfacade.query({entityName: "QuestionSubject"}).$promise.then(function (result) {
+            $scope.collection2 = result;
+        });
+    }
 
 
     $scope.save = function (entity) {
@@ -201,6 +222,51 @@ exapControllers.controller('ModalUpdateEntityController', ['$scope', '$statePara
         RESTfacade.query({entityName: "QuestionSubject"}).$promise.then(function (result) {
             $scope.collection3 = result;
             $scope.collection3.forEach(function(entry){
+                if($scope.newEntity.questionSubject.id == entry.id) {
+                    $scope.newEntity.questionSubject = entry;
+                    return;
+                }
+            });
+        });
+    }
+    if($scope.entityName.entityName === "QuestionSubject")
+    {
+        RESTfacade.query({entityName: "QuestionType"}).$promise.then(function (result) {
+            $scope.collection1 = result;
+            $scope.collection1.forEach(function(entry){
+                if($scope.newEntity.questionType.id == entry.id) {
+                    $scope.newEntity.questionType = entry;
+                    return;
+                }
+            });
+        });
+    }
+    if($scope.entityName.entityName === "SubmitQuestionHeader")
+    {
+        RESTfacade.query({entityName: "SubmitQuestionAnswer"}).$promise.then(function (result) {
+            $scope.collection1 = result;
+            $scope.collection1.forEach(function(entry){
+                if($scope.newEntity.submitQuestionAnswer.id == entry.id) {
+                    $scope.newEntity.submitQuestionAnswer = entry;
+                    return;
+                }
+            });
+        });
+    }
+    if($scope.entityName.entityName === "ExamPaperQuestionSubject")
+    {
+        RESTfacade.query({entityName: "ExamPaper"}).$promise.then(function (result) {
+            $scope.collection1 = result;
+            $scope.collection1.forEach(function(entry){
+                if($scope.newEntity.examPaper.id == entry.id) {
+                    $scope.newEntity.examPaper = entry;
+                    return;
+                }
+            });
+        });
+        RESTfacade.query({entityName: "QuestionSubject"}).$promise.then(function (result) {
+            $scope.collection2 = result;
+            $scope.collection2.forEach(function(entry){
                 if($scope.newEntity.questionSubject.id == entry.id) {
                     $scope.newEntity.questionSubject = entry;
                     return;

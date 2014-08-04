@@ -8,14 +8,19 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import pl.kozervar.exap.model.Informable;
 
 @Entity
 @Table(
         name = "question_answer")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class QuestionAnswer extends Informable {
 
-	private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 7547040375533609739L;
 
 	@Column(
 	        name = "binary_value")

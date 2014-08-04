@@ -1,0 +1,20 @@
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover table-editable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Zawartość</th>
+            <th>Wynik całkowity</th>
+            <th>Typ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="e in entities" ng-click="editRow(e)">
+            <td>{{e.id}}</td>
+            <td>{{e.content}}</td>
+            <td>{{e.totalScore}}</td>
+            <td>{{e.questionType.name}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

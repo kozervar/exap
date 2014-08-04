@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,7 +20,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import pl.kozervar.exap.model.question.QuestionDetail;
+import pl.kozervar.exap.model.question.QuestionDetail_;
 import pl.kozervar.exap.model.question.QuestionHeader;
+import pl.kozervar.exap.model.question.QuestionSubject;
+import pl.kozervar.exap.model.question.QuestionSubject_;
 import pl.kozervar.exap.rest.facade.RESTFacade;
 
 
@@ -69,11 +73,11 @@ public class QuestionDetailRESTFacade extends RESTFacade<QuestionDetail> {
 	@Override
 	public Collection<QuestionDetail> findAll() {
 		EntityManager em = getEntityManager();
-		CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-		Root from = cq.from(QuestionDetail.class);
-		Fetch fetch = from.fetch("questionHeader");
-		cq.select(from);
-		List resultList = em.createQuery(cq).getResultList();
+		CriteriaQuery<QuestionDetail> cq = em.getCriteriaBuilder().createQuery(QuestionDetail.class);
+		Root<QuestionDetail> root = cq.from(QuestionDetail.class);
+		root.fetch(QuestionDetail_.questionHeader);
+		cq.distinct(true);
+		List<QuestionDetail> resultList = em.createQuery(cq).getResultList();
 		return resultList;
 	}
 

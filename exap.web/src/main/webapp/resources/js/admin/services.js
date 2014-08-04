@@ -43,6 +43,18 @@ exapServices.factory('EntityNameFactory', function () {
             case 'QuestionHeader' :
                 name = 'Nagłówek pytania';
                 break;
+            case 'QuestionSubject' :
+                name = 'Temat pytania';
+                break;
+            case 'SubmitQuestionHeader' :
+                name = 'Odpowiedź na pytanie';
+                break;
+            case 'SubmitQuestionAnswer' :
+                name = 'Szczegóły odpowiedzi';
+                break;
+            case 'ExamPaperQuestionSubject' :
+                name = 'Egzamin - Tematy odpowiedzi';
+                break;
             default :
                 name = 'NAZWA_ENCJI';
                 break;

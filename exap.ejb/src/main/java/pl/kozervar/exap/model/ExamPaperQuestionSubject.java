@@ -11,6 +11,9 @@ import javax.persistence.UniqueConstraint;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import pl.kozervar.exap.model.exam.ExamPaper;
 import pl.kozervar.exap.model.question.QuestionSubject;
 
@@ -19,9 +22,10 @@ import pl.kozervar.exap.model.question.QuestionSubject;
         name = "exam_paper_question_subject",
         uniqueConstraints = { @UniqueConstraint(
                 columnNames = { "exam_paper_id", "question_subject_id" }) })
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class ExamPaperQuestionSubject extends Identifiable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -7735885151222781908L;
 
 	@ManyToOne(
 	        optional = false,

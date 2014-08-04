@@ -8,14 +8,18 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import pl.kozervar.exap.model.Identifiable;
 
 @Entity
 @Table(
         name = "question_type")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class QuestionType extends Identifiable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 4968827308076301052L;
 
 	@Column(
 	        name = "name")

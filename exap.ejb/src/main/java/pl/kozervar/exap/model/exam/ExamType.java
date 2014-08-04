@@ -9,14 +9,19 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import pl.kozervar.exap.model.Identifiable;
 
 @Entity
 @Table(
         name = "exam_type")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class ExamType extends Identifiable {
 
-	private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 5733102753873162089L;
 
 	@Column(
 	        name = "name")

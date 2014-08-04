@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{modalMode.name}}: {{entityName.name}}</h4>
+</div>
+<div class="modal-body">
+    <form role="form">
+        <div class="form-group">
+            <label for="form_comment">Wartość binarna</label>
+            <input id="form_comment" class="form-control" ng-model="newEntity.binaryValue">
+        </div>
+        <div class="form-group">
+            <label for="form_comment">Opis Krótki</label>
+            <input id="form_comment" class="form-control" ng-model="newEntity.shortTextValue">
+        </div>
+        <div class="form-group">
+            <label for="form_comment">Opis Długi</label>
+            <input id="form_comment" class="form-control" ng-model="newEntity.longTextValue">
+        </div>
+        <div class="form-group">
+            <label for="form_comment">Komentarz</label>
+            <input id="form_comment" class="form-control" ng-model="newEntity.comment">
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="pull-left" ng-if="editMode == true">
+        <button class="btn btn-danger" ng-click="remove()">Usuń</button>
+    </div>
+    <div class="pull-right">
+        <button class="btn btn-default" ng-click="cancel()">Anuluj</button>
+        <button class="btn btn-primary" ng-click="save(newEntity)">Zapisz</button>
+    </div>
+</div>
