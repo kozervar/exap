@@ -1,4 +1,3 @@
-
 package pl.kozervar.exap.model.question;
 
 import javax.persistence.Column;
@@ -12,9 +11,6 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import pl.kozervar.exap.model.Identifiable;
 
 @Entity
@@ -22,10 +18,10 @@ import pl.kozervar.exap.model.Identifiable;
         name = "question_detail")
 public class QuestionDetail extends Identifiable {
 
-    private static final long serialVersionUID = 2879799465099634347L;
+    private static final long serialVersionUID = -7212424997926199361L;
 
-	@Column(
-	        name = "content")
+    @Column(
+	        name = "content", columnDefinition="TEXT")
 	private String content;
 
 	@Column(
@@ -35,8 +31,12 @@ public class QuestionDetail extends Identifiable {
 	@ManyToOne(
 	        fetch = FetchType.LAZY)
 	@JoinColumn(
-	        name = "question_header_id")
-	private QuestionHeader questionHeader;
+	        name = "question_id")
+	private Question question;
+	
+	@Column(
+	        name = "score")
+	private Double score;
 
 	@Transient
 	private Boolean checked;
@@ -62,13 +62,13 @@ public class QuestionDetail extends Identifiable {
 	}
 
 
-	public QuestionHeader getQuestionHeader() {
-		return questionHeader;
+	public Question getQuestionHeader() {
+		return question;
 	}
 
 
-	public void setQuestionHeader(QuestionHeader questionHeader) {
-		this.questionHeader = questionHeader;
+	public void setQuestionHeader(Question question) {
+		this.question = question;
 	}
 
 
@@ -82,6 +82,16 @@ public class QuestionDetail extends Identifiable {
 	}
 
 
+	public Double getScore() {
+	    return score;
+    }
+
+
+	public void setScore(Double score) {
+	    this.score = score;
+    }
+
+
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) return true;
@@ -89,15 +99,14 @@ public class QuestionDetail extends Identifiable {
 		QuestionDetail castOther = (QuestionDetail) other;
 		return new EqualsBuilder().append(content, castOther.content)
 		        .append(sortOrder, castOther.sortOrder)
-		        .append(questionHeader, castOther.questionHeader)
-		        .append(checked, castOther.checked).isEquals();
+		        .append(score, castOther.score).isEquals();
 	}
 
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(content).append(sortOrder)
-		        .append(questionHeader).append(checked).toHashCode();
+		        .append(score).toHashCode();
 	}
 
 }

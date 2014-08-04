@@ -19,7 +19,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import pl.kozervar.exap.model.ExamPaperQuestionSubject;
+import pl.kozervar.exap.model.ExamPaperQuestion;
 import pl.kozervar.exap.model.Informable;
 
 @Entity
@@ -54,7 +54,7 @@ public class ExamPaper extends Informable {
 	        fetch = FetchType.EAGER,
 	        orphanRemoval = true,
 	        cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private Set<ExamPaperQuestionSubject> examPaperQuestionSubjects = new HashSet<ExamPaperQuestionSubject>();
+	private Set<ExamPaperQuestion> examPaperQuestions = new HashSet<ExamPaperQuestion>();
 
 
 	public String getName() {
@@ -87,14 +87,14 @@ public class ExamPaper extends Informable {
 	}
 
 
-	public Set<ExamPaperQuestionSubject> getExamPaperQuestionSubjects() {
-		return examPaperQuestionSubjects;
+	public Set<ExamPaperQuestion> getExamPaperQuestions() {
+		return examPaperQuestions;
 	}
 
 
 	public void setExamPaperQuestionSubjects(
-	        Set<ExamPaperQuestionSubject> examPaperQuestionSubjects) {
-		this.examPaperQuestionSubjects = examPaperQuestionSubjects;
+	        Set<ExamPaperQuestion> examPaperQuestions) {
+		this.examPaperQuestions = examPaperQuestions;
 	}
 
 

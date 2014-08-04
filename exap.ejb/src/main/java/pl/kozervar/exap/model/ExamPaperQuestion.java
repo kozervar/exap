@@ -15,17 +15,17 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import pl.kozervar.exap.model.exam.ExamPaper;
-import pl.kozervar.exap.model.question.QuestionSubject;
+import pl.kozervar.exap.model.question.Question;
 
 @Entity
 @Table(
-        name = "exam_paper_question_subject",
+        name = "exam_paper_question",
         uniqueConstraints = { @UniqueConstraint(
-                columnNames = { "exam_paper_id", "question_subject_id" }) })
+                columnNames = { "exam_paper_id", "question_id" }) })
 @JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
-public class ExamPaperQuestionSubject extends Identifiable {
+public class ExamPaperQuestion extends Identifiable {
 
-    private static final long serialVersionUID = -7735885151222781908L;
+    private static final long serialVersionUID = 4053835661995721531L;
 
 	@ManyToOne(
 	        optional = false,
@@ -36,10 +36,10 @@ public class ExamPaperQuestionSubject extends Identifiable {
 
 	@ManyToOne(
 	        optional = false,
-	        targetEntity = QuestionSubject.class)
+	        targetEntity = Question.class)
 	@JoinColumn(
-	        name = "question_subject_id")
-	private QuestionSubject questionSubject;
+	        name = "question_id")
+	private Question question;
 
 	@Column(
 	        name = "sort_order")
@@ -56,13 +56,13 @@ public class ExamPaperQuestionSubject extends Identifiable {
 	}
 
 
-	public QuestionSubject getQuestionSubject() {
-		return questionSubject;
+	public Question getQuestionSubject() {
+		return question;
 	}
 
 
-	public void setQuestionSubject(QuestionSubject questionSubject) {
-		this.questionSubject = questionSubject;
+	public void setQuestionSubject(Question question) {
+		this.question = question;
 	}
 
 
@@ -79,17 +79,17 @@ public class ExamPaperQuestionSubject extends Identifiable {
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) return true;
-		if (!(other instanceof ExamPaperQuestionSubject)) return false;
-		ExamPaperQuestionSubject castOther = (ExamPaperQuestionSubject) other;
+		if (!(other instanceof ExamPaperQuestion)) return false;
+		ExamPaperQuestion castOther = (ExamPaperQuestion) other;
 		return new EqualsBuilder().append(examPaper, castOther.examPaper)
-		        .append(questionSubject, castOther.questionSubject)
+		        .append(question, castOther.question)
 		        .append(sortOrder, castOther.sortOrder).isEquals();
 	}
 
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(examPaper).append(questionSubject)
+		return new HashCodeBuilder().append(examPaper).append(question)
 		        .append(sortOrder).toHashCode();
 	}
 }

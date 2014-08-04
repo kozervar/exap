@@ -9,8 +9,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class QuestionDetail_ extends pl.kozervar.exap.model.Identifiable_ {
 
 	public static volatile SingularAttribute<QuestionDetail, String> content;
-	public static volatile SingularAttribute<QuestionDetail, QuestionHeader> questionHeader;
 	public static volatile SingularAttribute<QuestionDetail, Integer> sortOrder;
+	public static volatile SingularAttribute<QuestionDetail, Double> score;
+	public static volatile SingularAttribute<QuestionDetail, Question> question;
 
 }
 

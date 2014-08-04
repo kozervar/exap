@@ -13,16 +13,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import pl.kozervar.exap.model.ExamPaperQuestionSubject;
+import pl.kozervar.exap.model.ExamPaperQuestion;
 
 
 @Stateless
-@Path("/ExamPaperQuestionSubject")
-public class ExamPaperQuestionSubjectRESTFacade extends
-        RESTFacade<ExamPaperQuestionSubject> {
+@Path("/ExamPaperQuestion")
+public class ExamPaperQuestionRESTFacade extends
+        RESTFacade<ExamPaperQuestion> {
 
-	public ExamPaperQuestionSubjectRESTFacade() {
-		super(ExamPaperQuestionSubject.class);
+	public ExamPaperQuestionRESTFacade() {
+		super(ExamPaperQuestion.class);
 	}
 
 	@GET
@@ -37,7 +37,7 @@ public class ExamPaperQuestionSubjectRESTFacade extends
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
 	@Override
-	public ExamPaperQuestionSubject create(ExamPaperQuestionSubject entity) {
+	public ExamPaperQuestion create(ExamPaperQuestion entity) {
 		return super.create(entity);
 	}
 
@@ -46,7 +46,7 @@ public class ExamPaperQuestionSubjectRESTFacade extends
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
 	@Override
-	public ExamPaperQuestionSubject edit(ExamPaperQuestionSubject entity) {
+	public ExamPaperQuestion edit(ExamPaperQuestion entity) {
 		return super.edit(entity);
 	}
 
@@ -54,14 +54,14 @@ public class ExamPaperQuestionSubjectRESTFacade extends
 	@Path("{id}")
 	@Produces({ "application/json" })
 	@Override
-	public ExamPaperQuestionSubject find(@PathParam("id") Integer id) {
+	public ExamPaperQuestion find(@PathParam("id") Integer id) {
 		return super.find(id);
 	}
 
 	@GET
 	@Produces({ "application/json" })
 	@Override
-	public Collection<ExamPaperQuestionSubject> findAll() {
+	public Collection<ExamPaperQuestion> findAll() {
 		return super.findAll();
 	}
 
@@ -69,7 +69,7 @@ public class ExamPaperQuestionSubjectRESTFacade extends
 	@Path("{from}/{to}")
 	@Produces({ "application/json" })
 	@Override
-	public Collection<ExamPaperQuestionSubject> findRange(
+	public Collection<ExamPaperQuestion> findRange(
 	        @PathParam("from") Integer from, @PathParam("to") Integer to) {
 		return super.findRange(from, to);
 	}

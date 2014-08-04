@@ -40,11 +40,8 @@ exapServices.factory('EntityNameFactory', function () {
             case 'QuestionAnswer' :
                 name = 'Odpowiedź na pytanie';
                 break;
-            case 'QuestionHeader' :
-                name = 'Nagłówek pytania';
-                break;
-            case 'QuestionSubject' :
-                name = 'Temat pytania';
+            case 'Question' :
+                name = 'Pytania';
                 break;
             case 'SubmitQuestionHeader' :
                 name = 'Odpowiedź na pytanie';
@@ -52,8 +49,8 @@ exapServices.factory('EntityNameFactory', function () {
             case 'SubmitQuestionAnswer' :
                 name = 'Szczegóły odpowiedzi';
                 break;
-            case 'ExamPaperQuestionSubject' :
-                name = 'Egzamin - Tematy odpowiedzi';
+            case 'ExamPaperQuestion' :
+                name = 'Egzamin - Odpowiedzi';
                 break;
             default :
                 name = 'NAZWA_ENCJI';

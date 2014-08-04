@@ -142,26 +142,17 @@ exapControllers.controller('ModalNewEntityController', ['$scope', '$stateParams'
     }
     if($scope.entityName.entityName === "QuestionDetail")
     {
-        RESTfacade.query({entityName: "QuestionHeader"}).$promise.then(function (result) {
+        RESTfacade.query({entityName: "Question"}).$promise.then(function (result) {
             $scope.collection1 = result;
         });
     }
-    if($scope.entityName.entityName === "QuestionHeader")
+    if($scope.entityName.entityName === "Question")
     {
         RESTfacade.query({entityName: "QuestionType"}).$promise.then(function (result) {
             $scope.collection1 = result;
         });
         RESTfacade.query({entityName: "QuestionAnswer"}).$promise.then(function (result) {
             $scope.collection2 = result;
-        });
-        RESTfacade.query({entityName: "QuestionSubject"}).$promise.then(function (result) {
-            $scope.collection3 = result;
-        });
-    }
-    if($scope.entityName.entityName === "QuestionSubject")
-    {
-        RESTfacade.query({entityName: "QuestionType"}).$promise.then(function (result) {
-            $scope.collection1 = result;
         });
     }
     if($scope.entityName.entityName === "SubmitQuestionHeader")
@@ -170,12 +161,12 @@ exapControllers.controller('ModalNewEntityController', ['$scope', '$stateParams'
             $scope.collection1 = result;
         });
     }
-    if($scope.entityName.entityName === "ExamPaperQuestionSubject")
+    if($scope.entityName.entityName === "ExamPaperQuestion")
     {
         RESTfacade.query({entityName: "ExamPaper"}).$promise.then(function (result) {
             $scope.collection1 = result;
         });
-        RESTfacade.query({entityName: "QuestionSubject"}).$promise.then(function (result) {
+        RESTfacade.query({entityName: "Question"}).$promise.then(function (result) {
             $scope.collection2 = result;
         });
     }
@@ -199,106 +190,99 @@ exapControllers.controller('ModalUpdateEntityController', ['$scope', '$statePara
     {
         RESTfacade.query({entityName: "ExamType"}).$promise.then(function (result) {
             $scope.collection1 = result;
-            $scope.collection1.forEach(function(entry){
-                if($scope.newEntity.examType.id == entry.id) {
-                    $scope.newEntity.examType = entry;
-                    return;
-                }
-            });
+            if( $scope.newEntity.examType !== null) {
+                $scope.collection1.forEach(function (entry) {
+                    if ($scope.newEntity.examType.id == entry.id) {
+                        $scope.newEntity.examType = entry;
+                        return;
+                    }
+                });
+            }
         });
     }
     if($scope.entityName.entityName === "QuestionDetail")
     {
-        RESTfacade.query({entityName: "QuestionHeader"}).$promise.then(function (result) {
+        RESTfacade.query({entityName: "Question"}).$promise.then(function (result) {
             $scope.collection1 = result;
-            $scope.collection1.forEach(function(entry){
-                if($scope.newEntity.questionHeader.id == entry.id) {
-                    $scope.newEntity.questionHeader = entry;
-                    return;
-                }
-            });
+            if( $scope.newEntity.question !== null) {
+                $scope.collection1.forEach(function (entry) {
+                    if ($scope.newEntity.question.id == entry.id) {
+                        $scope.newEntity.question = entry;
+                        return;
+                    }
+                });
+            }
         });
     }
-    if($scope.entityName.entityName === "QuestionHeader")
+    if($scope.entityName.entityName === "Question")
     {
         RESTfacade.query({entityName: "QuestionType"}).$promise.then(function (result) {
             $scope.collection1 = result;
-            $scope.collection1.forEach(function(entry){
-                if($scope.newEntity.questionType.id == entry.id) {
-                    $scope.newEntity.questionType = entry;
-                    return;
-                }
-            });
+            if( $scope.newEntity.questionType !== null) {
+                $scope.collection1.forEach(function (entry) {
+                    if ($scope.newEntity.questionType.id == entry.id) {
+                        $scope.newEntity.questionType = entry;
+                        return;
+                    }
+                });
+            }
         });
         RESTfacade.query({entityName: "QuestionAnswer"}).$promise.then(function (result) {
             $scope.collection2 = result;
-            $scope.collection2.forEach(function(entry){
-                if($scope.newEntity.questionAnswer.id == entry.id) {
-                    $scope.newEntity.questionAnswer = entry;
-                    return;
-                }
-            });
-        });
-        RESTfacade.query({entityName: "QuestionSubject"}).$promise.then(function (result) {
-            $scope.collection3 = result;
-            $scope.collection3.forEach(function(entry){
-                if($scope.newEntity.questionSubject.id == entry.id) {
-                    $scope.newEntity.questionSubject = entry;
-                    return;
-                }
-            });
-        });
-    }
-    if($scope.entityName.entityName === "QuestionSubject")
-    {
-        RESTfacade.query({entityName: "QuestionType"}).$promise.then(function (result) {
-            $scope.collection1 = result;
-            $scope.collection1.forEach(function(entry){
-                if($scope.newEntity.questionType.id == entry.id) {
-                    $scope.newEntity.questionType = entry;
-                    return;
-                }
-            });
+            if( $scope.newEntity.questionAnswer !== null) {
+                $scope.collection2.forEach(function (entry) {
+                    if ($scope.newEntity.questionAnswer.id == entry.id) {
+                        $scope.newEntity.questionAnswer = entry;
+                        return;
+                    }
+                });
+            }
         });
     }
     if($scope.entityName.entityName === "SubmitQuestionHeader")
     {
         RESTfacade.query({entityName: "SubmitQuestionAnswer"}).$promise.then(function (result) {
             $scope.collection1 = result;
-            $scope.collection1.forEach(function(entry){
-                if($scope.newEntity.submitQuestionAnswer.id == entry.id) {
-                    $scope.newEntity.submitQuestionAnswer = entry;
-                    return;
-                }
-            });
+            if( $scope.newEntity.submitQuestionAnswer !== null) {
+                $scope.collection1.forEach(function (entry) {
+                    if ($scope.newEntity.submitQuestionAnswer.id == entry.id) {
+                        $scope.newEntity.submitQuestionAnswer = entry;
+                        return;
+                    }
+                });
+            }
         });
     }
     if($scope.entityName.entityName === "ExamPaperQuestionSubject")
     {
         RESTfacade.query({entityName: "ExamPaper"}).$promise.then(function (result) {
             $scope.collection1 = result;
-            $scope.collection1.forEach(function(entry){
-                if($scope.newEntity.examPaper.id == entry.id) {
-                    $scope.newEntity.examPaper = entry;
-                    return;
-                }
-            });
+            if( $scope.newEntity.examPaper !== null) {
+                $scope.collection1.forEach(function (entry) {
+                    if ($scope.newEntity.examPaper.id == entry.id) {
+                        $scope.newEntity.examPaper = entry;
+                        return;
+                    }
+                });
+            }
         });
-        RESTfacade.query({entityName: "QuestionSubject"}).$promise.then(function (result) {
+        RESTfacade.query({entityName: "Question"}).$promise.then(function (result) {
             $scope.collection2 = result;
-            $scope.collection2.forEach(function(entry){
-                if($scope.newEntity.questionSubject.id == entry.id) {
-                    $scope.newEntity.questionSubject = entry;
-                    return;
-                }
-            });
+            if( $scope.newEntity.question !== null) {
+                $scope.collection2.forEach(function (entry) {
+                    if ($scope.newEntity.question.id == entry.id) {
+                        $scope.newEntity.question = entry;
+                        return;
+                    }
+                });
+            }
         });
     }
 
     $scope.editMode = true;
     $scope.modalMode = { name : "Edycja" };
 
-    if (typeof args !== 'undefined') {
+    if (typeof args !== null) {
         $scope.newEntity = args;
     } else {
         $scope.newEntity = {};
@@ -335,7 +319,7 @@ exapControllers.controller('ModalDeleteEntityController', ['$scope', '$statePara
 
     $scope.entityName = EntityNameFactory.get($stateParams.entityName);
 
-    if (typeof args !== 'undefined') {
+    if (typeof args !== null) {
         $scope.entity = args;
     } else {
         $scope.entity = {};

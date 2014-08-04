@@ -63,16 +63,13 @@
                     <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-question fa-fw"></i> Pytania<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level" collapse="isCollapsed">
                         <li>
+                            <a ui-sref="Overview.Masterdata({ entityName: 'Question'})">Pytania</a>
+                        </li>
+                        <li>
                             <a ui-sref="Overview.Masterdata({ entityName: 'QuestionAnswer'})">Odpowiedź na pytanie</a>
                         </li>
                         <li>
                             <a ui-sref="Overview.Masterdata({ entityName: 'QuestionDetail'})">Szczegóły pytania</a>
-                        </li>
-                        <li>
-                            <a ui-sref="Overview.Masterdata({ entityName: 'QuestionHeader'})">Nagłówek pytania</a>
-                        </li>
-                        <li>
-                            <a ui-sref="Overview.Masterdata({ entityName: 'QuestionSubject'})">Temat pytania</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
@@ -87,7 +84,7 @@
                             <a ui-sref="Overview.Masterdata({ entityName: 'SubmitQuestionAnswer'})">Szczegóły odpowiedzi</a>
                         </li>
                         <li>
-                            <a ui-sref="Overview.Masterdata({ entityName: 'ExamPaperQuestionSubject'})">Egzamin - tematy odpowiedzi</a>
+                            <a ui-sref="Overview.Masterdata({ entityName: 'ExamPaperQuestion'})">Egzamin - Odpowiedzi</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

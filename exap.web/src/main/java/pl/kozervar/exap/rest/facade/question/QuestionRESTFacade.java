@@ -13,16 +13,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import pl.kozervar.exap.model.question.QuestionDetail;
+import pl.kozervar.exap.model.question.Question;
 import pl.kozervar.exap.rest.facade.RESTFacade;
 
 
 @Stateless
-@Path("/QuestionDetail")
-public class QuestionDetailRESTFacade extends RESTFacade<QuestionDetail> {
+@Path("/Question")
+public class QuestionRESTFacade extends RESTFacade<Question> {
 
-	public QuestionDetailRESTFacade() {
-		super(QuestionDetail.class);
+	public QuestionRESTFacade() {
+		super(Question.class);
 	}
 
 	@GET
@@ -37,7 +37,7 @@ public class QuestionDetailRESTFacade extends RESTFacade<QuestionDetail> {
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
 	@Override
-	public QuestionDetail create(QuestionDetail entity) {
+	public Question create(Question entity) {
 		return super.create(entity);
 	}
 
@@ -46,7 +46,7 @@ public class QuestionDetailRESTFacade extends RESTFacade<QuestionDetail> {
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
 	@Override
-	public QuestionDetail edit(QuestionDetail entity) {
+	public Question edit(Question entity) {
 		return super.edit(entity);
 	}
 
@@ -54,14 +54,14 @@ public class QuestionDetailRESTFacade extends RESTFacade<QuestionDetail> {
 	@Path("{id}")
 	@Produces({ "application/json" })
 	@Override
-	public QuestionDetail find(@PathParam("id") Integer id) {
+	public Question find(@PathParam("id") Integer id) {
 		return super.find(id);
 	}
 
 	@GET
 	@Produces({ "application/json" })
 	@Override
-	public Collection<QuestionDetail> findAll() {
+	public Collection<Question> findAll() {
 		return super.findAll();
 	}
 
@@ -69,8 +69,8 @@ public class QuestionDetailRESTFacade extends RESTFacade<QuestionDetail> {
 	@Path("{from}/{to}")
 	@Produces({ "application/json" })
 	@Override
-	public Collection<QuestionDetail> findRange(@PathParam("from") Integer from,
-	        @PathParam("to") Integer to) {
+	public Collection<Question> findRange(
+	        @PathParam("from") Integer from, @PathParam("to") Integer to) {
 		return super.findRange(from, to);
 	}
 

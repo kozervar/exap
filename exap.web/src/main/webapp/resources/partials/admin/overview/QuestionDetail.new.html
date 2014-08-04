@@ -9,8 +9,16 @@
             <input id="form_content" class="form-control" ng-model="newEntity.content">
         </div>
         <div class="form-group">
-            <label for="form_q_header">Nagłówek pytania</label>
-            <select id="form_q_header" required="required" class="form-control" ng-model="newEntity.questionHeader" ng-options="e as e.id for e in collection1">
+            <label for="form_content">Kolejnośc</label>
+            <input id="form_content" class="form-control" ng-model="newEntity.sortOrder">
+        </div>
+        <div class="form-group">
+            <label for="form_content">Zawartość</label>
+            <input id="form_content" class="form-control" ng-model="newEntity.wynik" float>
+        </div>
+        <div class="form-group">
+            <label for="form_q_header">Pytanie</label>
+            <select id="form_q_header" required="required" class="form-control" ng-model="newEntity.question" ng-options="e as e.id for e in collection1">
             </select>
         </div>
     </form>

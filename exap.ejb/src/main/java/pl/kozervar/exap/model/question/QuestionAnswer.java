@@ -30,7 +30,7 @@ public class QuestionAnswer extends Informable {
 	private String shortTextValue;
 
 	@Column(
-	        name = "long_text_value")
+	        name = "long_text_value", columnDefinition="TEXT")
 	private String longTextValue;
 
 	@Column(

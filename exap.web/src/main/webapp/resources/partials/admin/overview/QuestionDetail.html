@@ -3,15 +3,19 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>Kolejność</th>
             <th>Zawartość</th>
             <th>Nagłówek pytania</th>
+            <th>Punktacja</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="e in entities" ng-click="editRow(e)">
             <td>{{e.id}}</td>
+            <td>{{e.sortOrder}}</td>
             <td>{{e.content}}</td>
-            <td>{{e.questionHeader.description}}</td>
+            <td>{{e.question.subject}}</td>
+            <td>{{e.score}}</td>
         </tr>
         </tbody>
     </table>
