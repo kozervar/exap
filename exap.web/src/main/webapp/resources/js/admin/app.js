@@ -7,6 +7,7 @@ var app = angular.module('exap-admin', [
 //    'ngRoute',
     'ui.router',
     'ui.bootstrap',
+    'ui.codemirror',
     'ngAnimate',
     'exap-admin.filters',
     'exap-admin.services',

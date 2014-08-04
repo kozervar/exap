@@ -18,6 +18,7 @@
         "angular-animate": "~1.2.x",
         "underscore": "~1.6.0",
         "angular": "1.2.20",
-        "html5-boilerplate": "~4.3.0"
+        "html5-boilerplate": "~4.3.0",
+        "angular-ui-codemirror" : "~0.1.x"
     }
 }

@@ -33,7 +33,7 @@ public class QuestionHeader extends Informable {
     private static final long serialVersionUID = 4626491842358924512L;
 
 	@Column(
-	        name = "description")
+	        name = "description", columnDefinition="TEXT")
 	private String description;
 
 	@Column(

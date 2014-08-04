@@ -34,7 +34,7 @@ public class QuestionSubject extends Informable {
     private static final long serialVersionUID = -8335171476206865514L;
 
 	@Column(
-	        name = "content")
+	        name = "content", columnDefinition="TEXT" )
 	private String content;
 
 	@Column(

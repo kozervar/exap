@@ -3,7 +3,6 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Opis</th>
             <th>Wynik</th>
             <th>Typ</th>
         </tr>
@@ -11,7 +10,6 @@
         <tbody>
         <tr ng-repeat="e in entities" ng-click="editRow(e)">
             <td>{{e.id}}</td>
-            <td>{{e.description}}</td>
             <td>{{e.score}}</td>
             <td>{{e.questionType.name}}</td>
         </tr>

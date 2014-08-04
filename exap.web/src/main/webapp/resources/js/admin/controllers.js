@@ -49,11 +49,31 @@ exapControllers.controller('OverviewController', ['$scope', '$stateParams', '$mo
 
     /* MODAL */
 
+    // language modes for codemirror
+    $scope.cmModes = CONSTANTS.CODEMIRROR_LANGUAGES;
+    $scope.cmMode = $scope.cmModes[0];
+
+    $scope.codemirrorOption = {
+        lineNumbers: true,
+        indentWithTabs: true,
+        lineWrapping : true,
+        theme:'elegant',
+        mode: $scope.cmMode.code.toLowerCase(),
+        onLoad : function(_cm){
+            // HACK to have the codemirror instance in the scope...
+            $scope.modeChanged = function(cmMode){
+                $scope.cmMode = cmMode;
+                _cm.setOption("mode", $scope.cmMode.code.toLowerCase());
+            };
+        }
+    };
+
     $scope.newEntityModal = function (args) {
         var modalInstance = $modal.open({
             templateUrl: 'resources/partials/admin/overview/' + $scope.entityName.entityName + '.new.html',
             controller: 'ModalNewEntityController',
-            backdrop: 'static'
+            backdrop: 'static',
+            scope: $scope
         });
 
         modalInstance.result.then(function (result) {
