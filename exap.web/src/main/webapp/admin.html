@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="resources/css/sb-admin-2.css"/>
     <link rel="stylesheet" href="resources/css/plugins/morris.css"/>
     <link rel="stylesheet" href="resources/font-awesome-4.1.0/css/font-awesome.css" type="text/css">
-    <script src="resources/bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
     <link rel="stylesheet" href="resources/bower_components/codemirror/theme/eclipse.css"/>
     <link rel="stylesheet" href="resources/bower_components/codemirror/theme/elegant.css"/>
 </head>
@@ -44,6 +43,9 @@
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
+                <li>
+                    <a ui-sref="Creator.Question">Dodaj</a>
+                </li>
                 <li ng-controller="CollapseController" ng-class="{ 'active': !isCollapsed }">
                     <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-database fa-fw"></i> Dane podstawowe<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level" collapse="isCollapsed">
@@ -96,8 +98,9 @@
     <!-- /.navbar-static-side -->
 </nav>
 
-<div id="page-wrapper" ng-controller="StateController" ui-view="overview">
-
+<div class="page-wrapper" ng-controller="StateController">
+    <div ui-view="overview"></div>
+    <div ui-view="creator"></div>
 </div>
 <!-- /#page-wrapper -->
 
@@ -106,6 +109,9 @@
 
 <!-- Core JavaScript
 ================================================== -->
+<!-- jQuery -->
+<script src="resources/bower_components/jquery/dist/jquery.js"></script>
+<script src="resources/bower_components/jquery-ui/jquery-ui.js"></script>
 <!-- AngularJS -->
 <script src="resources/bower_components/angular/angular.js"></script>
 <script src="resources/bower_components/angular-route/angular-route.js"></script>
@@ -114,8 +120,7 @@
 <!--<script src="resources/bower_components/angular-bootstrap/ui-bootstrap.js"></script>-->
 <script src="resources/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="resources/bower_components/angular-animate/angular-animate.js"></script>
-<!-- jQuery -->
-<script src="resources/bower_components/jquery/dist/jquery.js"></script>
+<script src="resources/bower_components/angular-ui-sortable/sortable.js"></script>
 <!-- codemirror -->
 <script src="resources/bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
 <script src="resources/bower_components/codemirror/lib/codemirror.js"></script>
@@ -138,6 +143,8 @@
 <script src="resources/js/admin/directives.js"></script>
 <script src="resources/js/admin/filters.js"></script>
 <script src="resources/js/admin/controllers.js"></script>
+<script src="resources/js/admin/OverviewControllers.js"></script>
+<script src="resources/js/admin/CreatorControllers.js"></script>
 <script src="resources/js/admin/app.js"></script>
 
 </body>

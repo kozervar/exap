@@ -8,11 +8,14 @@ var app = angular.module('exap-admin', [
     'ui.router',
     'ui.bootstrap',
     'ui.codemirror',
+    'ui.sortable',
     'ngAnimate',
     'exap-admin.filters',
     'exap-admin.services',
     'exap-admin.directives',
-    'exap-admin.controllers'
+    'exap-admin.controllers',
+    'exap-admin.controllers.overview',
+    'exap-admin.controllers.creator'
 ]);
 //app.config(['$routeProvider', function ($routeProvider) {
 //    routeProvider = $routeProvider;
@@ -43,5 +46,24 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
                     templateUrl: 'resources/partials/admin/overview/overview.panel.header.html'
                 }
             }
+        });
+    $stateProvider
+        .state('Creator', {
+            url: "/creator",
+            views: {
+                "creator": {
+                    templateUrl: "resources/partials/admin/Creator.html",
+                    controller: "CreatorController"
+                }
+            }
         })
+        .state('Creator.Question', {
+            url: "/question",
+            views: {
+                "creator_question": {
+                    templateUrl: 'resources/partials/admin/creator/NewQuestion.html',
+                    controller : "QuestionCreatorController"
+                }
+            }
+        });
 }]);

@@ -17,24 +17,41 @@ exapDirectives.directive('appName', ['name', function (name) {
     };
 }]);
 
-exapDirectives.directive('postRender', [ '$timeout', function($timeout) {
+exapDirectives.directive('postRender', [ '$timeout', function ($timeout) {
     var def = {
-        restrict : 'A',
-        terminal : true,
-        transclude : true,
-        link : function(scope, element, attrs) {
+        restrict: 'A',
+        terminal: true,
+        transclude: true,
+        link: function (scope, element, attrs) {
             $timeout(scope.resize, 0);  //Calling a scoped method
         }
     };
     return def;
 }]);
 
-var INTEGER_REGEXP = /^\-?\d+$/;
-exapDirectives.directive('integer', function() {
+exapDirectives.directive('optional', function () {
     return {
         require: 'ngModel',
-        link: function(scope, elm, attrs, ctrl) {
-            ctrl.$parsers.unshift(function(viewValue) {
+        link: function (scope, elm, attrs, ctrl) {
+            elm.addClass('ng-optional');
+            ctrl.$parsers.unshift(function (viewValue) {
+                if (viewValue != "") {
+                    elm.removeClass('ng-optional');
+                    elm.removeClass('ng-valid');
+                } else {
+                    elm.addClass('ng-optional');
+                }
+            });
+        }
+    };
+});
+
+var INTEGER_REGEXP = /^\-?\d+$/;
+exapDirectives.directive('integer', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function (viewValue) {
                 if (INTEGER_REGEXP.test(viewValue)) {
                     // it is valid
                     ctrl.$setValidity('integer', true);
@@ -51,11 +68,11 @@ exapDirectives.directive('integer', function() {
 
 //var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)+$/; // require dot/coma
 var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)?$/; // do not require dot/coma
-exapDirectives.directive('float', function() {
+exapDirectives.directive('float', function () {
     return {
         require: 'ngModel',
-        link: function(scope, elm, attrs, ctrl) {
-            ctrl.$parsers.unshift(function(viewValue) {
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function (viewValue) {
                 if (FLOAT_REGEXP.test(viewValue)) {
                     ctrl.$setValidity('float', true);
                     return parseFloat(viewValue.replace(',', '.'));

@@ -9,6 +9,8 @@ var CONSTANTS = {
         {name : "C", code : "text/x-csrc"},
         {name : "C++", code : "text/x-c++src"},
         {name : "C#", code : "text/x-csharp"}
-    ]
+    ],
+    QUESTION_TYPE : ["OPEN", "CLOSED-SINGLE", "CLOSED-MULTI"],
+    EXAM_TYPE : ["OPEN", "CLOSED"]
 };
 var EVENTS = CONSTANTS.EVENTS;

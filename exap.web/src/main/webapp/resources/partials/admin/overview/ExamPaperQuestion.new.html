@@ -5,21 +5,18 @@
 <div class="modal-body">
     <form role="form">
         <div class="form-group">
-            <label for="form_content">Zawartość</label>
-            <input id="form_content" class="form-control" ng-model="newEntity.content">
-        </div>
-        <div class="form-group">
-            <label for="form_content">Kolejnośc</label>
-            <input id="form_content" class="form-control" ng-model="newEntity.sortOrder">
-        </div>
-        <div class="form-group">
-            <label for="form_content">Punktacja</label>
-            <input id="form_content" class="form-control" ng-model="newEntity.score" placeholder="0" float>
-        </div>
-        <div class="form-group">
-            <label for="form_q_header">Pytanie</label>
-            <select id="form_q_header" required="required" class="form-control" ng-model="newEntity.question" ng-options="e as e.id for e in collection1">
+            <label for="form_q_type">Egzamin</label>
+            <select id="form_q_type" required="required" class="form-control" ng-model="newEntity.examPaper" ng-options="e as e.name for e in collection1">
             </select>
+        </div>
+        <div class="form-group">
+            <label for="form_q_type">Temat pytania</label>
+            <select id="form_q_type" required="required" class="form-control" ng-model="newEntity.questionSubject" ng-options="e as e.id for e in collection2">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Kolejnośc</label>
+            <input class="form-control" ng-model="newEntity.sortOrder">
         </div>
     </form>
 </div>
