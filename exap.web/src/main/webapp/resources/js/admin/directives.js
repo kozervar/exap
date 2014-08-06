@@ -31,15 +31,21 @@ exapDirectives.directive('postRender', [ '$timeout', function ($timeout) {
 
 exapDirectives.directive('optional', function () {
     return {
+        restrict: 'A',
         require: 'ngModel',
+        scope : {
+            value : '=ngModel'
+        },
         link: function (scope, elm, attrs, ctrl) {
             elm.addClass('ng-optional');
             ctrl.$parsers.unshift(function (viewValue) {
+                scope.value = viewValue;
                 if (viewValue != "") {
                     elm.removeClass('ng-optional');
                     elm.removeClass('ng-valid');
                 } else {
                     elm.addClass('ng-optional');
+
                 }
             });
         }

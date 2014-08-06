@@ -44,7 +44,10 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a ui-sref="Creator.Question">Dodaj</a>
+                    <a ui-sref="CRUD.operation.Entity({ operation: 'CREATE', entityName: 'Question'})">Dodaj pytanie</a>
+                </li>
+                <li>
+                    <a ui-sref="CRUD.operation.Entity({ operation: 'READ', entityName: 'Question'})">Pokaż pytania</a>
                 </li>
                 <li ng-controller="CollapseController" ng-class="{ 'active': !isCollapsed }">
                     <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-database fa-fw"></i> Dane podstawowe<span class="fa arrow"></span></a>
@@ -100,7 +103,7 @@
 
 <div class="page-wrapper" ng-controller="StateController">
     <div ui-view="overview"></div>
-    <div ui-view="creator"></div>
+    <div ui-view="CRUD"></div>
 </div>
 <!-- /#page-wrapper -->
 
@@ -139,12 +142,14 @@
 <script src="resources/js/admin/angular-bootstrap.js"></script>
 <!-- Application -->
 <script src="resources/js/admin/Constants.js"></script>
+<script src="resources/js/admin/EntitiesMeta.js"></script>
 <script src="resources/js/admin/services.js"></script>
 <script src="resources/js/admin/directives.js"></script>
 <script src="resources/js/admin/filters.js"></script>
 <script src="resources/js/admin/controllers.js"></script>
 <script src="resources/js/admin/OverviewControllers.js"></script>
-<script src="resources/js/admin/CreatorControllers.js"></script>
+<script src="resources/js/admin/CRUDControllers.js"></script>
+<script src="resources/js/admin/CRUD/QuestionCRUDControllers.js"></script>
 <script src="resources/js/admin/app.js"></script>
 
 </body>

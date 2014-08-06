@@ -1,11 +1,14 @@
 
 package pl.kozervar.exap.model.question;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -21,6 +24,7 @@ import pl.kozervar.exap.model.ExamPaperQuestion;
 import pl.kozervar.exap.model.Informable;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
@@ -29,25 +33,43 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
         name = "question")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.UUIDGenerator.class,
-        property = "@UUID")
+        property = "@Question_UUID")
 public class Question extends Informable {
 
 	private static final long serialVersionUID = -5070667742526477724L;
+
+	public Question() {
+		this.getClass();
+	}
+
+	public Question(Question question) {
+		super(question);
+		this.totalScore = question.getTotalScore();
+		this.subject = question.getSubject();
+		this.description = question.getDescription();
+		this.content = question.getContent();
+		this.questionType = question.getQuestionType();
+		this.questionAnswer = question.getQuestionAnswer();
+	}
+
 
 	@Column(
 	        name = "total_score")
 	private Double totalScore;
 
 	@Column(
-	        name = "subject", columnDefinition="TEXT")
+	        name = "subject",
+	        columnDefinition = "TEXT")
 	private String subject;
 
 	@Column(
-	        name = "description", columnDefinition="TEXT")
+	        name = "description",
+	        columnDefinition = "TEXT")
 	private String description;
 
 	@Column(
-	        name = "content", columnDefinition="TEXT")
+	        name = "content",
+	        columnDefinition = "TEXT")
 	private String content;
 
 	@ManyToOne(
@@ -58,10 +80,10 @@ public class Question extends Informable {
 
 	@OneToMany(
 	        fetch = FetchType.EAGER,
-	        cascade = CascadeType.ALL,
+	        cascade = { CascadeType.ALL, CascadeType.PERSIST },
 	        mappedBy = "question")
 	@OrderBy("sortOrder ASC")
-	private Set<QuestionDetail> questionDetails = new HashSet<QuestionDetail>();
+	private Set<QuestionDetail> questionDetails;
 
 	@ManyToOne(
 	        fetch = FetchType.EAGER,
@@ -74,6 +96,7 @@ public class Question extends Informable {
 	        mappedBy = "question",
 	        fetch = FetchType.LAZY,
 	        cascade = { CascadeType.PERSIST })
+	@JsonIgnore
 	private Set<ExamPaperQuestion> examPaperQuestion;
 
 	public Double getTotalScore() {
@@ -136,23 +159,62 @@ public class Question extends Informable {
 	}
 
 
-	public Set<QuestionDetail> getQuestionDetails() {
-		return questionDetails;
+	public List<QuestionDetail> getQuestionDetails() {
+		if (questionDetails == null) {
+			return new ArrayList<QuestionDetail>(0);
+		}
+		else {
+			return new ArrayList<QuestionDetail>(questionDetails);
+		}
 	}
 
 
-	public void setQuestionDetails(Set<QuestionDetail> questionDetails) {
-		this.questionDetails = questionDetails;
+	public void setQuestionDetails(List<QuestionDetail> questionDetails) {
+		if (questionDetails == null) {
+			return;
+		}
+
+		if (this.questionDetails == null) {
+			this.questionDetails = new HashSet<QuestionDetail>(questionDetails);
+		}
+		else {
+			this.questionDetails.clear();
+			this.questionDetails.addAll(questionDetails);
+		}
+
+		for (QuestionDetail questionDetail : this.questionDetails) {
+			questionDetail.setQuestionHeader(this);
+		}
 	}
 
-	public Set<ExamPaperQuestion> getExamPaperQuestion() {
-	    return examPaperQuestion;
-    }
+	public List<ExamPaperQuestion> getExamPaperQuestion() {
+		if (examPaperQuestion == null) {
+			return new ArrayList<ExamPaperQuestion>(0);
+		}
+		else {
+			return new ArrayList<ExamPaperQuestion>(examPaperQuestion);
+		}
+	}
 
 
-	public void setExamPaperQuestion(Set<ExamPaperQuestion> examPaperQuestion) {
-	    this.examPaperQuestion = examPaperQuestion;
-    }
+	public void setExamPaperQuestion(List<ExamPaperQuestion> examPaperQuestion) {
+		if (examPaperQuestion == null) {
+			return;
+		}
+
+		if (this.examPaperQuestion == null) {
+			this.examPaperQuestion = new HashSet<ExamPaperQuestion>(
+			        examPaperQuestion);
+		}
+		else {
+			this.examPaperQuestion.clear();
+			this.examPaperQuestion.addAll(examPaperQuestion);
+		}
+
+		for (ExamPaperQuestion examPaperQuestion2 : this.examPaperQuestion) {
+			examPaperQuestion2.setQuestion(this);
+		}
+	}
 
 
 	@Override

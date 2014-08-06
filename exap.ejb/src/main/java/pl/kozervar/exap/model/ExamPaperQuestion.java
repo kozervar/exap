@@ -56,12 +56,12 @@ public class ExamPaperQuestion extends Identifiable {
 	}
 
 
-	public Question getQuestionSubject() {
+	public Question getQuestion() {
 		return question;
 	}
 
 
-	public void setQuestionSubject(Question question) {
+	public void setQuestion(Question question) {
 		this.question = question;
 	}
 

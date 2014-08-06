@@ -383,6 +383,9 @@ textarea.ng-valid {
 }
 
 /* NEW QUESTION*/
+#form_new_question .list-group-item {
+    cursor: pointer;
+}
 #form_new_question .list-group .active {
     background-color: #FAFAFA;
     color: #131313;

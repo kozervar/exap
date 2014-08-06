@@ -29,6 +29,11 @@ public abstract class Identifiable implements Serializable {
 	}
 
 
+	public Identifiable(Identifiable identifiable) {
+	    this.id = identifiable.getId();
+    }
+
+
 	public Long getId() {
 		return this.id;
 	}

@@ -15,7 +15,8 @@ var app = angular.module('exap-admin', [
     'exap-admin.directives',
     'exap-admin.controllers',
     'exap-admin.controllers.overview',
-    'exap-admin.controllers.creator'
+    'exap-admin.controllers.crud',
+    'exap-admin.controllers.crud.question'
 ]);
 //app.config(['$routeProvider', function ($routeProvider) {
 //    routeProvider = $routeProvider;
@@ -47,22 +48,44 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
                 }
             }
         });
+
     $stateProvider
-        .state('Creator', {
-            url: "/creator",
+        .state('CRUD', {
+            url: "/CRUD",
             views: {
-                "creator": {
-                    templateUrl: "resources/partials/admin/Creator.html",
-                    controller: "CreatorController"
+                "CRUD": {
+                    controller : "CRUDController",
+                    templateUrl: 'resources/partials/admin/CRUD.html'
                 }
             }
         })
-        .state('Creator.Question', {
-            url: "/question",
+        .state('CRUD.operation', {
+            url: "/:operation",
             views: {
-                "creator_question": {
-                    templateUrl: 'resources/partials/admin/creator/NewQuestion.html',
-                    controller : "QuestionCreatorController"
+                "CRUD_operation": {
+                    controllerProvider: function($stateParams){
+                        return $stateParams.operation + "_CRUDController";
+                    },
+                    templateUrl: function ($stateParams) {
+                        return 'resources/partials/admin/CRUD.' + $stateParams.operation + '.html';
+                    }
+                }
+            }
+        })
+        /* CRUD: Entity */
+        .state('CRUD.operation.Entity', {
+            url: "/:entityName",
+            views: {
+                "CRUD_operation_entity": {
+                    controllerProvider: function($stateParams){
+                        return $stateParams.entityName + "_" + $stateParams.operation + "_CRUDController";
+                    },
+                    templateUrl: function ($stateParams) {
+                        return 'resources/partials/admin/CRUD/' + $stateParams.entityName + '.' + $stateParams.operation + '.html';
+                    }
+                },
+                "CRUD_READ_table_header": {
+                    templateUrl: 'resources/partials/admin/CRUD/READ.table.header.html'
                 }
             }
         });

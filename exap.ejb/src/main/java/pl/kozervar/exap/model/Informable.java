@@ -32,6 +32,15 @@ public abstract class Informable extends Versionable implements Serializable {
 	}
 
 
+	public Informable(Informable informable) {
+	    super(informable);
+	    this.creationUser = informable.getCreationUser();
+	    this.creationDate = informable.getCreationDate();
+	    this.updateDate = informable.getUpdateDate();
+	    this.updateUser = informable.getUpdateUser();
+    }
+
+
 	public String getCreationUser() {
 		return this.creationUser;
 	}

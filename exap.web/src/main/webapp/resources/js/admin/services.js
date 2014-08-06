@@ -16,7 +16,20 @@ var exapServices = angular.module('exap-admin.services', ['ngResource']);
 exapServices.value('version', '0.0.1-SNAPSHOT');
 exapServices.value('name', 'ExAp');
 
-
+exapServices.factory('EntitiesMetaDataFactory', function () {
+    function getByEntityName(entityName) {
+        var entity = {};
+        ENTITIES.forEach(function (entry) {
+            if (entry.entityName == entityName) {
+                entity = entry;
+            }
+        });
+        return entity;
+    }
+    return {
+        get : getByEntityName
+    };
+});
 exapServices.factory('EntityNameFactory', function () {
     var getName = function (entityName) {
         var Name = {};
@@ -72,3 +85,60 @@ exapServices.factory('RESTfacade', ['$resource',
             save: {method: 'POST', params: {entityName: '@entityName'}}
         });
     }]);
+// success & error parameters: data, status, headers, config
+exapServices.factory('QuestionFactory', ['$http', function ($http) {
+    var urlBase = 'rest/crud/Question';
+    var dataFactory = {};
+
+    dataFactory.createQuestion = function (entity, success, error) {
+        return $http.post(urlBase, entity).success(success).error(error);
+    };
+
+    dataFactory.getQuestions = function (success, error) {
+        return $http.get(urlBase).success(success).error(error);
+    };
+
+    dataFactory.getQuestion = function (id, success, error) {
+        return $http.get(urlBase + '/' + id).success(success).error(error);
+    };
+
+    dataFactory.updateQuestion = function (entity, success, error) {
+        return $http.put(urlBase + '/' + entity.id, entity).success(success).error(error);
+    };
+
+    dataFactory.deleteQuestion = function (id, success, error) {
+        return $http.delete(urlBase + '/' + id).success(success).error(error);
+    };
+
+    dataFactory.getQuestionDetails = function (id, success, error) {
+        return $http.get(urlBase + '/' + id + '/questionDetails').success(success).error(error);
+    };
+
+    return dataFactory;
+}]);
+exapServices.factory('QuestionTypeFactory', ['$http', function ($http) {
+    var urlBase = 'rest/QuestionType';
+    var dataFactory = {};
+
+    dataFactory.createQuestionType = function (entity, success, error) {
+        return $http.post(urlBase, entity).success(success).error(error);
+    };
+
+    dataFactory.getQuestionTypes = function (success, error) {
+        return $http.get(urlBase).success(success).error(error);
+    };
+
+    dataFactory.getQuestionType = function (id, success, error) {
+        return $http.get(urlBase + '/' + id).success(success).error(error);
+    };
+
+    dataFactory.updateQuestionType = function (entity, success, error) {
+        return $http.put(urlBase + '/' + entity.id, entity).success(success).error(error);
+    };
+
+    dataFactory.deleteQuestionType = function (id, success, error) {
+        return $http.delete(urlBase + '/' + id).success(success).error(error);
+    };
+
+    return dataFactory;
+}]);

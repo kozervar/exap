@@ -25,6 +25,12 @@ public abstract class Versionable extends Identifiable implements Serializable {
 	}
 
 
+	public Versionable(Versionable versionable) {
+		super(versionable);
+		this.version = versionable.getVersion();
+    }
+
+
 	public Long getVersion() {
 		return this.version;
 	}
