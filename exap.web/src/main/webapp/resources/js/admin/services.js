@@ -26,8 +26,9 @@ exapServices.factory('EntitiesMetaDataFactory', function () {
         });
         return entity;
     }
+
     return {
-        get : getByEntityName
+        get: getByEntityName
     };
 });
 exapServices.factory('EntityNameFactory', function () {
@@ -114,6 +115,26 @@ exapServices.factory('QuestionFactory', ['$http', function ($http) {
         return $http.get(urlBase + '/' + id + '/questionDetails').success(success).error(error);
     };
 
+    dataFactory.getAvailableTags = function (success, error) {
+        return $http.get(urlBase + '/tags').success(success).error(error);
+    };
+
+    dataFactory.getAvailableTagsByQuery = function (query, success, error) {
+        var p = $http.get(urlBase + '/tagsquery?query=' + query);
+        p.success(success);
+        p.error(error);
+        return p;
+    };
+
+    dataFactory.getQuestionTags = function (id, success, error) {
+        return $http.get(urlBase + '/' + id + '/tags').success(success).error(error);
+    };
+
+    dataFactory.getQuestionTagsByQuery = function (id, query, success, error) {
+        return $http.get(urlBase + '/' + id + '/tagsquery?query=' + query).success(success).error(error);
+    };
+
+
     return dataFactory;
 }]);
 exapServices.factory('QuestionTypeFactory', ['$http', function ($http) {
@@ -141,4 +162,18 @@ exapServices.factory('QuestionTypeFactory', ['$http', function ($http) {
     };
 
     return dataFactory;
+}]);
+
+
+exapServices.service('questionTags', [ '$q', 'QuestionFactory', function ($q, QuestionFactory) {
+
+    var promise = QuestionFactory.getAvailableTagsByQuery(query, function (data, status, headers, config) {
+        console.log(data)
+    });
+
+    this.load = function () {
+        var deferred = $q.defer();
+        deferred.resolve(promise);
+        return deferred.promise;
+    };
 }]);

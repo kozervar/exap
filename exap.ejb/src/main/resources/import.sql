@@ -9,19 +9,20 @@ INSERT INTO question_type (id, description, name) VALUES (1, 'Pytanie typu OTWAR
 INSERT INTO question_type (id, description, name) VALUES (2, 'Pytanie typu ZAMKNIĘTE - jedna odpowiedz', 'CLOSED-SINGLE');
 INSERT INTO question_type (id, description, name) VALUES (3, 'Pytanie typu ZAMKNIĘTE - wiele odpowiedzi', 'CLOSED-MULTI');
 
-INSERT INTO question_answer (id, version, creationdate, creationuser, updatedate, updateuser, binary_value, comment, long_text_value, short_text_value) VALUES (1, 1, NULL, NULL, NULL, NULL, 100, 'test', 'Sto', 'Sto');
+INSERT INTO tag (id, name) VALUES (1, 'C++');
+INSERT INTO tag (id, name) VALUES (2, 'java');
+INSERT INTO tag (id, name) VALUES (3, 'c#');
+INSERT INTO tag (id, name) VALUES (4, 'scala');
+INSERT INTO tag (id, name) VALUES (5, 'inne');
+INSERT INTO tag (id, name) VALUES (6, 'otwarte');
 
-INSERT INTO question_subject (id, version, creationdate, creationuser, updatedate, updateuser, content, total_score, question_type_id) VALUES (2, 1, NULL, NULL, NULL, NULL, 'TEST', 100, 1);
+INSERT INTO question (id, version, creationdate, creationuser, updatedate, updateuser, content, description, subject, total_score, question_answer_id, question_type_id) VALUES (4, 1, NULL, NULL, NULL, NULL, 'test', NULL, 'test', 1, NULL, 1);
+INSERT INTO question (id, version, creationdate, creationuser, updatedate, updateuser, content, description, subject, total_score, question_answer_id, question_type_id) VALUES (6, 1, NULL, NULL, NULL, NULL, 'test1', 'test1', 'test1', 1, NULL, 1);
 
-INSERT INTO question_header (id, version, creationdate, creationuser, updatedate, updateuser, description, score, question_answer_id, question_subject_id, question_type_id) VALUES (1, 3, NULL, NULL, NULL, NULL, 'TEST', 100, 1, 2, 1);
+INSERT INTO question_tag (id, version, question_id, tag_id) VALUES (1, 1, 4, 1);
+INSERT INTO question_tag (id, version, question_id, tag_id) VALUES (2, 1, 4, 2);
+INSERT INTO question_tag (id, version, question_id, tag_id) VALUES (3, 1, 4, 6);
+INSERT INTO question_tag (id, version, question_id, tag_id) VALUES (4, 1, 6, 3);
+INSERT INTO question_tag (id, version, question_id, tag_id) VALUES (5, 1, 6, 4);
 
-INSERT INTO question_detail (id, content, sort_order, question_header_id) VALUES (1, 'TEST DETAIL', NULL, 1);
 
-INSERT INTO exam_paper (id, version, creationdate, creationuser, updatedate, updateuser, active, description, name, exam_type_id) VALUES (4, 1, NULL, NULL, NULL, NULL, true, 'test', 'test', 1);
-
-INSERT INTO exam_paper_question_subject (id, sort_order, exam_paper_id, question_subject_id) VALUES (5, 1, 4, 2);
-
-INSERT INTO submit_question_answer (id, version, creationdate, creationuser, updatedate, updateuser, binary_value, comment, long_text_value, short_text_value) VALUES (1, 1, NULL, NULL, NULL, NULL, 100, 'TESST', 'TESST', 'TESST');
-INSERT INTO submit_question_answer (id, version, creationdate, creationuser, updatedate, updateuser, binary_value, comment, long_text_value, short_text_value) VALUES (3, 1, NULL, NULL, NULL, NULL, 200, 'YZY', 'YZY', 'YZY');
-
-INSERT INTO submit_question_header (id, version, creationdate, creationuser, updatedate, updateuser, comment, obtained_score, review_date, submit_question_answer_id) VALUES (2, 3, NULL, NULL, NULL, NULL, 'test', 100, '1970-06-29 22:57:15.354', 3);

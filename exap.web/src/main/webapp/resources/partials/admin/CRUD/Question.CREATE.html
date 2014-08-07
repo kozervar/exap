@@ -1,6 +1,6 @@
 <!-- /.panel-header -->
 <div class="panel-body">
-    <form id="form_new_question" name="form.new" role="form">
+    <form id="form_new_question" name="form_new" role="form" novalidate>
         <div class="row">
             <div class="form-group col-xs-12 col-lg-12">
                 <label for="question_subject">Tytuł</label>
@@ -42,6 +42,15 @@
             </div>
         </div>
         <div class="row">
+            <div class="form-group col-xs-12 col-lg-12">
+                <tags-input name="tags" class="tagsInput" ng-model="tags" display-property="name"
+                            placeholder="Dodaj tag"
+                            add-on-space="true" max-length="20" min-length="1" min-tags="1">
+                    <auto-complete source="loadTags($query)" min-length="1" debounce-delay="50"></auto-complete>
+                </tags-input>
+            </div>
+        </div>
+        <div class="row">
             <div class="form-group col-xs-12 col-lg-12" ng-if="!isOpenQuestionType()">
                 <button type="button" class="btn btn-info btn-lg btn-block" ng-click="addQuestionDetail()"
                         tooltip-popup-delay='700'
@@ -77,8 +86,8 @@
                 <label for="questionAnswer_longTextValue">Odpowiedź</label>
                 <textarea rows="5" id="questionAnswer_longTextValue"
                           name="questionAnswer.longTextValue" class="form-control"
-                          ng-model="questionAnswer.longTextValue" placeholder="Odpowiedź na pytanie otwarte"
-                        ></textarea>
+                          ng-model="questionAnswer.longTextValue" placeholder="Odpowiedź na pytanie otwarte" required>
+                </textarea>
             </div>
         </div>
         <div class="row">

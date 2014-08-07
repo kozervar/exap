@@ -10,6 +10,7 @@ var app = angular.module('exap-admin', [
     'ui.codemirror',
     'ui.sortable',
     'ngAnimate',
+    'ngTagsInput',
     'exap-admin.filters',
     'exap-admin.services',
     'exap-admin.directives',

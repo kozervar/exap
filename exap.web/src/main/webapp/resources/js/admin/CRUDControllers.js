@@ -54,16 +54,23 @@ exapControllers.controller('CRUDController', ['$scope', '$state', 'EntitiesMetaD
     $scope.refresh = function () {
         $scope.$broadcast(EVENTS.CRUD_READ_ENTITIES);
     };
+
     $scope.previousState = {};
     $scope.currentState = {};
     $scope.previousStateParams = {};
     $scope.currentStateParams = {};
+
     $scope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $scope.previousState = from;
         $scope.currentState = to;
         $scope.previousStateParams = fromParams;
         $scope.currentStateParams = toParams;
     });
+    $scope.goToPreviousState = function(){
+        if($scope.previousState) {
+            $state.go($scope.previousState.name, $scope.previousStateParams);
+        }
+    };
 }]);
 exapControllers.controller('CREATE_CRUDController', ['$scope', '$stateParams', function ($scope, $stateParams) {
     console.debug("CREATE_CRUDController");

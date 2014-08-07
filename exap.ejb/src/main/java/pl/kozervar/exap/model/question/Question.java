@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -22,6 +21,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import pl.kozervar.exap.model.ExamPaperQuestion;
 import pl.kozervar.exap.model.Informable;
+import pl.kozervar.exap.model.tag.QuestionTag;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -98,6 +98,13 @@ public class Question extends Informable {
 	        cascade = { CascadeType.PERSIST })
 	@JsonIgnore
 	private Set<ExamPaperQuestion> examPaperQuestion;
+
+	@OneToMany(
+			mappedBy = "question",
+			fetch = FetchType.LAZY,
+			cascade = { CascadeType.ALL })
+	@JsonIgnore
+	private Set<QuestionTag> questionTags;
 
 	public Double getTotalScore() {
 		return totalScore;
@@ -216,6 +223,34 @@ public class Question extends Informable {
 		}
 	}
 
+
+	public List<QuestionTag> getQuestionTags() {
+		if (questionTags == null) {
+			return new ArrayList<QuestionTag>(0);
+		}
+		else {
+			return new ArrayList<QuestionTag>(questionTags);
+		}
+    }
+
+	public void setQuestionTags(List<QuestionTag> questionTags) {
+		if (questionTags == null) {
+			return;
+		}
+
+		if (this.questionTags == null) {
+			this.questionTags = new HashSet<QuestionTag>(
+			        questionTags);
+		}
+		else {
+			this.questionTags.clear();
+			this.questionTags.addAll(questionTags);
+		}
+
+		for (QuestionTag questionTags2 : this.questionTags) {
+			questionTags2.setQuestion(this);
+		}
+    }
 
 	@Override
 	public boolean equals(final Object other) {
