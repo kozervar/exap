@@ -1,5 +1,46 @@
 var exapControllers = angular.module('exap-admin.controllers.crud.question', []);
 
+exapControllers.controller('Question_READ_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', 'TagFactory', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory, TagFactory) {
+    console.debug("Question_READ_CRUDController");
+
+    $scope.updateEntityName($stateParams.entityName);
+
+    $scope.entities = {};
+    $scope.tags = [];
+
+    QuestionFactory.getQuestions(function (data, status, headers, config) {
+        $scope.entities = data;
+    });
+
+    $scope.editRow = function (entity) {
+        $scope.storeEntityForUpdate(entity);
+        $state.go("CRUD.operation.Entity", {
+            operation: CRUD.UPDATE,
+            entityName: $scope.CRUD.entityName.entityName
+        }, {inherit: true});
+    };
+    $scope.$on(EVENTS.CRUD_READ_ENTITIES, function (e) {
+        QuestionFactory.getQuestions(function (data, status, headers, config) {
+            $scope.entities = data;
+        });
+    });
+    $scope.loadTags = function (query) {
+        return TagFactory.getTagsByQuery(query, function (response) {
+        }, function () {
+        });
+    };
+    $scope.tagAdded = function ($tag) {
+        QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
+            $scope.entities = data;
+        });
+    };
+    $scope.tagRemoved = function ($tag) {
+        QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
+            $scope.entities = data;
+        });
+    };
+}]);
+
 exapControllers.controller('Question_CREATE_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', 'TagFactory', '$http', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory, TagFactory, $http) {
     console.debug("Question_CREATE_CRUDController");
 
@@ -85,46 +126,6 @@ exapControllers.controller('Question_CREATE_CRUDController', ['$scope', '$state'
     };
 }]);
 
-exapControllers.controller('Question_READ_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', 'TagFactory', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory, TagFactory) {
-    console.debug("Question_READ_CRUDController");
-
-    $scope.updateEntityName($stateParams.entityName);
-
-    $scope.entities = {};
-    $scope.tags = [];
-
-    QuestionFactory.getQuestions(function (data, status, headers, config) {
-        $scope.entities = data;
-    });
-
-    $scope.editRow = function (entity) {
-        $scope.storeEntityForUpdate(entity);
-        $state.go("CRUD.operation.Entity", {
-            operation: CRUD.UPDATE,
-            entityName: $scope.CRUD.entityName.entityName
-        }, {inherit: true});
-    };
-    $scope.$on(EVENTS.CRUD_READ_ENTITIES, function (e) {
-        QuestionFactory.getQuestions(function (data, status, headers, config) {
-            $scope.entities = data;
-        });
-    });
-    $scope.loadTags = function (query) {
-        return TagFactory.getTagsByQuery(query, function (response) {
-        }, function () {
-        });
-    };
-    $scope.tagAdded = function ($tag) {
-        QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
-            $scope.entities = data;
-        });
-    };
-    $scope.tagRemoved = function ($tag) {
-        QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
-            $scope.entities = data;
-        });
-    };
-}]);
 exapControllers.controller('Question_UPDATE_CRUDController', ['$scope', '$state', '$stateParams', '$modal', 'QuestionTypeFactory', 'QuestionFactory', function ($scope, $state, $stateParams, $modal, QuestionTypeFactory, QuestionFactory) {
     console.debug("Question_UPDATE_CRUDController");
 
@@ -240,13 +241,4 @@ exapControllers.controller('Question_UPDATE_CRUDController', ['$scope', '$state'
         });
     };
 
-}]);
-
-exapControllers.controller('DeleteEntityModalController', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
-    $scope.cancel = function () {
-        $modalInstance.dismiss();
-    };
-    $scope.confirm = function () {
-        $modalInstance.close();
-    };
 }]);

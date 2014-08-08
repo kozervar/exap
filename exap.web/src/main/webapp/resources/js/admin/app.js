@@ -17,7 +17,8 @@ var app = angular.module('exap-admin', [
     'exap-admin.controllers',
     'exap-admin.controllers.overview',
     'exap-admin.controllers.crud',
-    'exap-admin.controllers.crud.question'
+    'exap-admin.controllers.crud.question',
+    'exap-admin.controllers.crud.examPaper'
 ]);
 //app.config(['$routeProvider', function ($routeProvider) {
 //    routeProvider = $routeProvider;

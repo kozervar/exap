@@ -1,7 +1,9 @@
 
 package pl.kozervar.exap.model.exam;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,11 +27,24 @@ import pl.kozervar.exap.model.Informable;
 @Entity
 @Table(
         name = "exam_paper")
-@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.UUIDGenerator.class,
+        property = "@ExamPaper_UUID")
 public class ExamPaper extends Informable {
 
+	private static final long serialVersionUID = -4273328911593134195L;
 
-    private static final long serialVersionUID = -4273328911593134195L;
+	public ExamPaper() {
+	}
+
+	public ExamPaper(ExamPaper examPaper) {
+		super(examPaper);
+		this.name = examPaper.getName();
+		this.description = examPaper.getDescription();
+		this.active = examPaper.getActive();
+		this.examType = examPaper.getExamType();
+	}
+
 
 	@Column(
 	        name = "name")
@@ -53,7 +68,7 @@ public class ExamPaper extends Informable {
 	        mappedBy = "examPaper",
 	        fetch = FetchType.EAGER,
 	        orphanRemoval = true,
-	        cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	        cascade = CascadeType.ALL)
 	private Set<ExamPaperQuestion> examPaperQuestions = new HashSet<ExamPaperQuestion>();
 
 
@@ -87,16 +102,32 @@ public class ExamPaper extends Informable {
 	}
 
 
-	public Set<ExamPaperQuestion> getExamPaperQuestions() {
-		return examPaperQuestions;
+	public List<ExamPaperQuestion> getExamPaperQuestions() {
+		if (examPaperQuestions == null) {
+			return new ArrayList<ExamPaperQuestion>(0);
+		}
+		else {
+			return new ArrayList<ExamPaperQuestion>(examPaperQuestions);
+		}
 	}
 
+	public void setExamPaperQuestions(List<ExamPaperQuestion> examPaperQuestions) {
+		if (examPaperQuestions == null) {
+			return;
+		}
 
-	public void setExamPaperQuestionSubjects(
-	        Set<ExamPaperQuestion> examPaperQuestions) {
-		this.examPaperQuestions = examPaperQuestions;
+		if (this.examPaperQuestions == null) {
+			this.examPaperQuestions = new HashSet<ExamPaperQuestion>(examPaperQuestions);
+		}
+		else {
+			this.examPaperQuestions.clear();
+			this.examPaperQuestions.addAll(examPaperQuestions);
+		}
+
+		for (ExamPaperQuestion examPaperQuestion : this.examPaperQuestions) {
+			examPaperQuestion.setExamPaper(this);
+		}
 	}
-
 
 	public ExamType getExamType() {
 		return examType;

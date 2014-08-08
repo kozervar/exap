@@ -1,8 +1,11 @@
 var CONSTANTS = {
         MENU: {
-            COLLAPSED : true,
-            QUESTION : {
-                COLLAPSED : false
+            COLLAPSED: true,
+            QUESTION: {
+                COLLAPSED: false
+            },
+            EXAM: {
+                COLLAPSED: false
             }
         },
         EVENTS: {
@@ -27,7 +30,10 @@ var CONSTANTS = {
             CLOSED: "CLOSED-SINGLE",
             CLOSED_MUTLI: "CLOSED-MULTI"
         },
-        EXAM_TYPE: ["OPEN", "CLOSED"]
+        EXAM_TYPE: {
+            OPEN: "OPEN",
+            CLOSED: "CLOSED"
+        }
     }
     ;
 var EVENTS = CONSTANTS.EVENTS;

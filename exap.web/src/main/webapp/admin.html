@@ -59,6 +59,18 @@
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
+                <li ng-controller="CollapseController" ng-class="{ 'active': !isCollapsed }" ng-init="isCollapsed = MENU.EXAM.COLLAPSED">
+                    <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-paper-plane-o fa-fw"></i> Egzaminy<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level" collapse="isCollapsed">
+                        <li>
+                            <a ui-sref="CRUD.operation.Entity({ operation: 'CREATE', entityName: 'ExamPaper'})">Dodaj egzamin</a>
+                        </li>
+                        <li>
+                            <a ui-sref="CRUD.operation.Entity({ operation: 'READ', entityName: 'ExamPaper'})">Pokaż egzaminy</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
                 <li ng-controller="CollapseController" ng-class="{ 'active': !isCollapsed }">
                     <a ng-click="isCollapsed = !isCollapsed"><i class="fa fa-database fa-fw"></i> Dane podstawowe<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level" collapse="isCollapsed">
@@ -147,6 +159,7 @@
 <script src="resources/js/admin/OverviewControllers.js"></script>
 <script src="resources/js/admin/CRUDControllers.js"></script>
 <script src="resources/js/admin/CRUD/QuestionCRUDControllers.js"></script>
+<script src="resources/js/admin/CRUD/ExamPaperCRUDControllers.js"></script>
 <script src="resources/js/admin/app.js"></script>
 
 </body>

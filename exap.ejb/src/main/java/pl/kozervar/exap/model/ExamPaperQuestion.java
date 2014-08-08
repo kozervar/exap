@@ -1,6 +1,7 @@
 
 package pl.kozervar.exap.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -22,10 +23,12 @@ import pl.kozervar.exap.model.question.Question;
         name = "exam_paper_question",
         uniqueConstraints = { @UniqueConstraint(
                 columnNames = { "exam_paper_id", "question_id" }) })
-@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.UUIDGenerator.class,
+        property = "@UUID")
 public class ExamPaperQuestion extends Identifiable {
 
-    private static final long serialVersionUID = 4053835661995721531L;
+	private static final long serialVersionUID = 4053835661995721531L;
 
 	@ManyToOne(
 	        optional = false,
@@ -36,7 +39,8 @@ public class ExamPaperQuestion extends Identifiable {
 
 	@ManyToOne(
 	        optional = false,
-	        targetEntity = Question.class)
+	        targetEntity = Question.class,
+	        cascade = CascadeType.MERGE)
 	@JoinColumn(
 	        name = "question_id")
 	private Question question;

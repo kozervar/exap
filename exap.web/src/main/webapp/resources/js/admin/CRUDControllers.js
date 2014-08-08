@@ -89,3 +89,12 @@ exapControllers.controller('UPDATE_CRUDController', ['$scope', '$stateParams', f
     $scope.updateOperation($stateParams.operation);
 
 }]);
+
+exapControllers.controller('DeleteEntityModalController', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+    $scope.cancel = function () {
+        $modalInstance.dismiss();
+    };
+    $scope.confirm = function () {
+        $modalInstance.close();
+    };
+}]);

@@ -187,15 +187,60 @@ exapServices.factory('TagFactory', ['$http', function ($http) {
     return dataFactory;
 }]);
 
-exapServices.service('questionTags', [ '$q', 'QuestionFactory', function ($q, QuestionFactory) {
+exapServices.factory('ExamPaperFactory', ['$http', function ($http) {
+    var urlBase = 'rest/crud/ExamPaper';
+    var dataFactory = {};
 
-    var promise = QuestionFactory.getAvailableTagsByQuery(query, function (data, status, headers, config) {
-        console.log(data)
-    });
-
-    this.load = function () {
-        var deferred = $q.defer();
-        deferred.resolve(promise);
-        return deferred.promise;
+    dataFactory.createExamPaper = function (examPaper, success, error) {
+        return $http.post(urlBase, examPaper).success(success).error(error);
     };
+
+    dataFactory.getExamPapers = function (success, error) {
+        return $http.get(urlBase).success(success).error(error);
+    };
+
+    dataFactory.getExamPaper = function (id, success, error) {
+        return $http.get(urlBase + '/' + id).success(success).error(error);
+    };
+
+    dataFactory.updateExamPaper = function (examPaper, success, error) {
+        return $http.put(urlBase + '/' + examPaper.id, examPaper).success(success).error(error);
+    };
+
+    dataFactory.deleteExamPaper = function (id, success, error) {
+        return $http.delete(urlBase + '/' + id).success(success).error(error);
+    };
+
+    dataFactory.getExamPaperQuestions = function (id, success, error) {
+        return $http.get(urlBase + '/' + id + '/questions').success(success).error(error);
+    };
+
+    return dataFactory;
+}]);
+
+exapServices.factory('ExamTypeFactory', ['$http', function ($http) {
+    var urlBase = 'rest/ExamType';
+    var dataFactory = {};
+
+    dataFactory.createExamType = function (entity, success, error) {
+        return $http.post(urlBase, entity).success(success).error(error);
+    };
+
+    dataFactory.getExamTypes = function (success, error) {
+        return $http.get(urlBase).success(success).error(error);
+    };
+
+    dataFactory.getExamType = function (id, success, error) {
+        return $http.get(urlBase + '/' + id).success(success).error(error);
+    };
+
+    dataFactory.updateExamType = function (entity, success, error) {
+        return $http.put(urlBase + '/' + entity.id, entity).success(success).error(error);
+    };
+
+    dataFactory.deleteExamType = function (id, success, error) {
+        return $http.delete(urlBase + '/' + id).success(success).error(error);
+    };
+
+    return dataFactory;
 }]);

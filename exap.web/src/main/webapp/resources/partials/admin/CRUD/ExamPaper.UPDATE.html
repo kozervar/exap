@@ -1,0 +1,65 @@
+<div class="panel-heading">
+    <div class="row">
+        <div class="pull-right">
+            <div class="btn-group col-xs-12 col-lg-12">
+                <fieldset ng-disabled="isDisabled">
+                    <button type="button" class="btn btn-danger btn-circle" aria-hidden="true"
+                            ng-click="deleteExamPaperModal()"><i class="fa fa-times"></i>
+                    </button>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.panel-header -->
+<div class="panel-body">
+    <form id="form_question" name="form_update" role="form" novalidate>
+        <fieldset ng-disabled="isDisabled">
+            <div class="row">
+                <div class="form-group col-xs-12 col-lg-12">
+                    <label for="examPaper_name">Nazwa</label>
+                    <input id="examPaper_name" name="examPaper.name" class="form-control" ng-model="examPaper.name"
+                           placeholder="Nazwa egzaminu" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 col-lg-12">
+                    <label for="examPaper_description">Opis</label>
+                    <textarea rows="2" id="examPaper_description" name="examPaper.description" class="form-control"
+                              ng-model="examPaper.description" placeholder="Opis egzaminu" optional></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 col-lg-12">
+                    <label>Opcje</label>
+
+                    <div class="checkbox">
+                        <label for="examPaper_active"
+                               tooltip="Egzamin zaznaczony jako 'Aktywny' jest dostępny dla kandydatów">
+                            <input id="examPaper_active" type="checkbox" name="examPaper.active"
+                                   ng-model="examPaper.active">
+                            Aktywny
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 col-lg-12">
+                    <label for="examPaper_examType">Typ pytania</label>
+                    <select id="examPaper_examType" name="examPaper.examType" class="form-control"
+                            ng-model="examPaper.examType" ng-options="q as q.description for q in examTypes"
+                            required="required">
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 col-lg-12">
+                    <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="updateExamPaper()">
+                        Zapisz
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<!-- /.panel-body -->
