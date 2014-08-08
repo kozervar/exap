@@ -99,12 +99,16 @@ exapServices.factory('QuestionFactory', ['$http', function ($http) {
         return $http.get(urlBase).success(success).error(error);
     };
 
+    dataFactory.getQuestionsByTags = function (tags, success, error) {
+        return $http.post(urlBase + "/bytags", tags).success(success).error(error);
+    };
+
     dataFactory.getQuestion = function (id, success, error) {
         return $http.get(urlBase + '/' + id).success(success).error(error);
     };
 
     dataFactory.updateQuestion = function (entity, success, error) {
-        return $http.put(urlBase + '/' + entity.id, entity).success(success).error(error);
+        return $http.put(urlBase + '/' + entity.question.id, entity).success(success).error(error);
     };
 
     dataFactory.deleteQuestion = function (id, success, error) {
@@ -137,6 +141,7 @@ exapServices.factory('QuestionFactory', ['$http', function ($http) {
 
     return dataFactory;
 }]);
+
 exapServices.factory('QuestionTypeFactory', ['$http', function ($http) {
     var urlBase = 'rest/QuestionType';
     var dataFactory = {};
@@ -164,6 +169,23 @@ exapServices.factory('QuestionTypeFactory', ['$http', function ($http) {
     return dataFactory;
 }]);
 
+exapServices.factory('TagFactory', ['$http', function ($http) {
+    var urlBase = 'rest/tags';
+    var dataFactory = {};
+
+    dataFactory.getTags = function (success, error) {
+        return $http.get(urlBase).success(success).error(error);
+    };
+
+    dataFactory.getTagsByQuery = function (query, success, error) {
+        var p = $http.get(urlBase + '/query?query=' + query);
+        p.success(success);
+        p.error(error);
+        return p;
+    };
+
+    return dataFactory;
+}]);
 
 exapServices.service('questionTags', [ '$q', 'QuestionFactory', function ($q, QuestionFactory) {
 

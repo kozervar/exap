@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="panel-body">
-    <form id="form_new_question" name="form.new" role="form">
+    <form id="form_question" name="form_update" role="form">
         <fieldset ng-disabled="isDisabled">
             <div class="row">
                 <div class="form-group col-xs-12 col-lg-12">
@@ -46,6 +46,16 @@
                               ng-model="question.content"
                               placeholder="Zawartość pytania. Np. fragment kodu C#, C++, Java"
                             ></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12 col-lg-12">
+                    <label>Tagi:</label>
+                    <tags-input name="tags" class="tagsInput" ng-model="tags" display-property="name"
+                                placeholder="Dodaj tag"
+                                add-on-space="true" max-length="20" min-length="1" min-tags="1">
+                        <auto-complete source="loadTags($query)" min-length="1" debounce-delay="50"></auto-complete>
+                    </tags-input>
                 </div>
             </div>
             <div class="row">

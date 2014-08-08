@@ -1,6 +1,6 @@
 var exapControllers = angular.module('exap-admin.controllers.crud.question', []);
 
-exapControllers.controller('Question_CREATE_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', '$http', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory, $http) {
+exapControllers.controller('Question_CREATE_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', 'TagFactory', '$http', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory, TagFactory, $http) {
     console.debug("Question_CREATE_CRUDController");
 
     $scope.updateEntityName($stateParams.entityName);
@@ -67,8 +67,8 @@ exapControllers.controller('Question_CREATE_CRUDController', ['$scope', '$state'
         }
         if ($scope.form_new.$valid) {
             var questionDTO = {
-                question : $scope.question,
-                tags : $scope.tags
+                question: $scope.question,
+                tags: $scope.tags
             };
             QuestionFactory.createQuestion(questionDTO, function (data, status, headers, config) {
                 $scope.goToPreviousState();
@@ -78,16 +78,20 @@ exapControllers.controller('Question_CREATE_CRUDController', ['$scope', '$state'
         }
     };
     $scope.loadTags = function (query) {
-        return QuestionFactory.getAvailableTagsByQuery(query, function(){},function(){});
+//        return QuestionFactory.getAvailableTagsByQuery(query, function(){},function(){});
+        return TagFactory.getTagsByQuery(query, function (response) {
+        }, function () {
+        });
     };
 }]);
 
-exapControllers.controller('Question_READ_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory) {
+exapControllers.controller('Question_READ_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', 'TagFactory', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory, TagFactory) {
     console.debug("Question_READ_CRUDController");
 
     $scope.updateEntityName($stateParams.entityName);
 
     $scope.entities = {};
+    $scope.tags = [];
 
     QuestionFactory.getQuestions(function (data, status, headers, config) {
         $scope.entities = data;
@@ -105,7 +109,21 @@ exapControllers.controller('Question_READ_CRUDController', ['$scope', '$state', 
             $scope.entities = data;
         });
     });
-
+    $scope.loadTags = function (query) {
+        return TagFactory.getTagsByQuery(query, function (response) {
+        }, function () {
+        });
+    };
+    $scope.tagAdded = function ($tag) {
+        QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
+            $scope.entities = data;
+        });
+    };
+    $scope.tagRemoved = function ($tag) {
+        QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
+            $scope.entities = data;
+        });
+    };
 }]);
 exapControllers.controller('Question_UPDATE_CRUDController', ['$scope', '$state', '$stateParams', '$modal', 'QuestionTypeFactory', 'QuestionFactory', function ($scope, $state, $stateParams, $modal, QuestionTypeFactory, QuestionFactory) {
     console.debug("Question_UPDATE_CRUDController");
@@ -128,7 +146,8 @@ exapControllers.controller('Question_UPDATE_CRUDController', ['$scope', '$state'
     $scope.totalScore = 0;
     $scope.question = $scope.entityToUpdate;
     $scope.questionDetails = $scope.question.questionDetails;
-    $scope.questionAnswer = {};
+    $scope.questionAnswer = $scope.question.questionAnswer;
+    $scope.tags = [];
 
     QuestionTypeFactory.getQuestionTypes(function (data, status, headers, config) {
         $scope.questionTypes = data;
@@ -140,7 +159,10 @@ exapControllers.controller('Question_UPDATE_CRUDController', ['$scope', '$state'
                 }
             });
         }
-        console.log("Question types received")
+    });
+
+    QuestionFactory.getQuestionTags($scope.question.id, function (data, status, headers, config) {
+        $scope.tags = data;
     });
 
     $scope.isOpenQuestionType = function () {
@@ -180,10 +202,21 @@ exapControllers.controller('Question_UPDATE_CRUDController', ['$scope', '$state'
         else {
             $scope.question.questionDetails = $scope.questionDetails;
         }
-        QuestionFactory.updateQuestion($scope.question, function (data, status, headers, config) {
-            $scope.goToPreviousState();
-        }, function (data, status, headers, config) {
-            console.error("entity not updated")
+        if ($scope.form_update.$valid) {
+            var questionDTO = {
+                question: $scope.question,
+                tags: $scope.tags
+            };
+            QuestionFactory.updateQuestion(questionDTO, function (data, status, headers, config) {
+                $scope.goToPreviousState();
+            }, function (data, status, headers, config) {
+                console.error("entity not updated")
+            });
+        }
+    };
+    $scope.loadTags = function (query) {
+        return QuestionFactory.getAvailableTagsByQuery(query, function () {
+        }, function () {
         });
     };
     $scope.deleteQuestion = function () {

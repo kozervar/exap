@@ -1,9 +1,11 @@
 
-package pl.kozervar.exap.rest.facade;
+package pl.kozervar.exap.rest.creator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,6 +28,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import org.apache.log4j.Logger;
+
 import pl.kozervar.exap.dao.DAO;
 import pl.kozervar.exap.model.ExamPaperQuestion;
 import pl.kozervar.exap.model.question.Question;
@@ -35,7 +39,6 @@ import pl.kozervar.exap.model.tag.QuestionTag;
 import pl.kozervar.exap.model.tag.QuestionTag_;
 import pl.kozervar.exap.model.tag.Tag;
 import pl.kozervar.exap.model.tag.Tag_;
-import pl.kozervar.exap.rest.creator.QuestionDTO;
 
 
 @Stateless
@@ -47,6 +50,9 @@ public class QuestionCreatorRESTFacade {
 
 	@Inject
 	private EntityManager em;
+	
+	@Inject
+	private Logger logger;
 
 	@POST
 	@Consumes({ "application/json" })
@@ -130,7 +136,7 @@ public class QuestionCreatorRESTFacade {
 
 		query.select(root)
 		        .where(cb.and(predicates.toArray(new Predicate[] {})));
-		
+
 		TypedQuery<QuestionTag> q = em.createQuery(query);
 		List<QuestionTag> results = q.getResultList();
 		List<Tag> tags = new ArrayList<Tag>(results.size());
@@ -138,6 +144,31 @@ public class QuestionCreatorRESTFacade {
 			tags.add(questionTag.getTag());
 		}
 		return tags;
+	}
+
+
+	@POST
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
+	@Path("/bytags")
+	public Collection<Question> getQuestionsByTags(List<Tag> tags) {
+		if(tags == null)
+			return new ArrayList<Question>();
+		logger.info("Get question by tags " + tags.size());
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Question> query = cb.createQuery(Question.class);
+		Root<Question> root = query.from(Question.class);
+		Join<Question, QuestionTag> join = (Join<Question, QuestionTag>) root
+		        .fetch(Question_.questionTags);
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		for (Tag tag : tags) {
+			predicates.add(cb.equal(join.get(QuestionTag_.tag).get(Tag_.name), tag.getName()));
+		}
+		query.select(root)
+		        .where(cb.and(predicates.toArray(new Predicate[] {}))).distinct(true);
+		TypedQuery<Question> q = em.createQuery(query);
+		return q.getResultList();
 	}
 
 	@GET
@@ -185,46 +216,51 @@ public class QuestionCreatorRESTFacade {
 			tags.add(questionTag.getTag());
 		}
 		return tags;
-
-		// CriteriaBuilder cb = em.getCriteriaBuilder();
-		// CriteriaQuery<Question> query = cb.createQuery(Question.class);
-		// Root<Question> root = query.from(Question.class);
-		// Join<Question, QuestionTag> questionTags = (Join<Question,
-		// QuestionTag>) root.fetch(Question_.questionTags);
-		//
-		// List<Predicate> predicates = new ArrayList<Predicate>();
-		// predicates.add(cb.like(questionTags.get(QuestionTag_.tag).get(Tag_.name),pattern
-		// ));
-		// predicates.add(cb.equal(root.get(Question_.id), id));
-		//
-		// query.select(root).where(cb.and(predicates.toArray(new Predicate[]
-		// {})));
-		//
-		// TypedQuery<Question> q = em.createQuery(query);
-		// Question question = q.getSingleResult();
-		// List<Tag> tags = new
-		// ArrayList<Tag>(question.getQuestionTags().size());
-		// for (QuestionTag questionTag : question.getQuestionTags()) {
-		// tags.add(questionTag.getTag());
-		// }
-		// return tags;
 	}
 
 	@PUT
 	@Path("{id}")
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
-	public Question update(Question entity) {
-		Question updatedQuestion = new Question(entity);
-		List<QuestionDetail> questionDetails = entity.getQuestionDetails();
-		List<ExamPaperQuestion> examPaperQuestions = entity
-		        .getExamPaperQuestion();
-		updatedQuestion.setQuestionDetails(questionDetails);
-		updatedQuestion.setExamPaperQuestion(examPaperQuestions);
-		Question updated = dao.update(updatedQuestion);
-		return updated;
-	}
+	public Question update(QuestionDTO questionDTO) {
+		logger.info("Updating Question");
+		Question updatedQuestion = questionDTO.getQuestion();
+		List<Tag> tags = questionDTO.getTags();
 
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Question> query = cb.createQuery(Question.class);
+		Root<Question> root = query.from(Question.class);
+		root.fetch(Question_.questionTags);
+		query.select(root).where(
+		        cb.equal(root.get(Question_.id), updatedQuestion.getId()));
+		TypedQuery<Question> q = em.createQuery(query);
+		Question question = q.getSingleResult();
+
+		question.setSubject(updatedQuestion.getSubject());
+		question.setContent(updatedQuestion.getContent());
+		question.setDescription(updatedQuestion.getDescription());
+		question.setQuestionAnswer(updatedQuestion.getQuestionAnswer());
+		question.setQuestionType(updatedQuestion.getQuestionType());
+		question.setTotalScore(updatedQuestion.getTotalScore());
+
+		question.setQuestionDetails(updatedQuestion.getQuestionDetails());
+		
+		Set<QuestionTag> originalQuestionTags = new HashSet<QuestionTag>(question.getQuestionTags());
+		
+		Set<QuestionTag> questionTagsSet = new HashSet<QuestionTag>();
+		for (Tag tag : tags) {
+			QuestionTag qt = new QuestionTag();
+			qt.setTag(tag);
+			qt.setQuestion(updatedQuestion);
+			questionTagsSet.add(qt);
+		}
+		originalQuestionTags.retainAll(questionTagsSet);
+		originalQuestionTags.addAll(questionTagsSet);
+		
+		question.setQuestionTags(new ArrayList<QuestionTag>(originalQuestionTags));
+
+		return dao.update(question);
+	}
 
 	@DELETE
 	@Path("{id}")

@@ -1,5 +1,10 @@
 var CONSTANTS = {
-        MENU_COLLAPSED: true,
+        MENU: {
+            COLLAPSED : true,
+            QUESTION : {
+                COLLAPSED : false
+            }
+        },
         EVENTS: {
             OVERVIEW_ENTITY_NAME_SET: 'exap.overview.entity.name.set',
             CRUD_READ_ENTITIES: 'exap.crud.read.entities'

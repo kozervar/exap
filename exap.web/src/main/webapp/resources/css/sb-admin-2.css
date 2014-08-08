@@ -382,19 +382,20 @@ textarea.ng-valid {
     background-color: #F9F9F9;
 }
 
-/* NEW QUESTION*/
-#form_new_question .list-group-item {
+/* CRUD FORM*/
+#form_question .list-group-item {
     cursor: pointer;
 }
-#form_new_question .list-group .active {
+#form_question .list-group .active {
     background-color: #FAFAFA;
     color: #131313;
 }
-#form_new_question .tooltip-inner {
+#form_question .tooltip-inner {
     max-width: 300px;
     /* If max-width does not work, try using width instead */
     width: 300px;
-}#form_new_question .list-group {
+}
+#form_question .list-group {
     margin-top: 15px;
 }
 

@@ -1,6 +1,6 @@
 <!-- /.panel-header -->
 <div class="panel-body">
-    <form id="form_new_question" name="form_new" role="form" novalidate>
+    <form id="form_question" name="form_new" role="form" novalidate>
         <div class="row">
             <div class="form-group col-xs-12 col-lg-12">
                 <label for="question_subject">Tytuł</label>
@@ -34,20 +34,21 @@
         </div>
         <div class="row">
             <div class="form-group col-xs-12 col-lg-12">
-                <label for="question_questionType">Typ pytania</label>
-                <select id="question_questionType" name="question.questionType" class="form-control"
-                        ng-model="question.questionType" ng-options="q as q.description for q in questionTypes"
-                        required="required">
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
+                <label>Tagi:</label>
                 <tags-input name="tags" class="tagsInput" ng-model="tags" display-property="name"
                             placeholder="Dodaj tag"
                             add-on-space="true" max-length="20" min-length="1" min-tags="1">
                     <auto-complete source="loadTags($query)" min-length="1" debounce-delay="50"></auto-complete>
                 </tags-input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-12 col-lg-12">
+                <label for="question_questionType">Typ pytania</label>
+                <select id="question_questionType" name="question.questionType" class="form-control"
+                        ng-model="question.questionType" ng-options="q as q.description for q in questionTypes"
+                        required="required">
+                </select>
             </div>
         </div>
         <div class="row">

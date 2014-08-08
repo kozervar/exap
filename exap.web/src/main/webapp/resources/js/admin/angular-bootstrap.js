@@ -1,3 +1,3 @@
 function CollapseController($scope) {
-    $scope.isCollapsed = CONSTANTS.MENU_COLLAPSED;
+    $scope.isCollapsed = CONSTANTS.MENU.COLLAPSED;
 }
