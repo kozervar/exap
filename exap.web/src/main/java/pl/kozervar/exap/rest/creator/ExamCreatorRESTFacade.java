@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -30,9 +32,14 @@ import javax.ws.rs.QueryParam;
 
 import org.apache.log4j.Logger;
 
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
+
 import pl.kozervar.exap.dao.DAO;
 import pl.kozervar.exap.model.ExamPaperQuestion;
+import pl.kozervar.exap.model.ExamPaperQuestion_;
 import pl.kozervar.exap.model.exam.ExamPaper;
+import pl.kozervar.exap.model.exam.ExamPaper_;
 import pl.kozervar.exap.model.question.Question;
 import pl.kozervar.exap.model.question.QuestionDetail;
 import pl.kozervar.exap.model.question.Question_;
@@ -51,22 +58,63 @@ public class ExamCreatorRESTFacade {
 
 	@Inject
 	private EntityManager em;
-	
+
 	@Inject
 	private Logger logger;
 
 	@POST
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
-	public ExamPaper create(ExamPaper examPaper) {
-		ExamPaper newExamPaper = new ExamPaper(examPaper);
-		newExamPaper.setExamPaperQuestions(examPaper.getExamPaperQuestions());
-		ExamPaper created = dao.create(newExamPaper);
-		return created;
+	public ExamPaper create(ExamPaperDTO examPaperDTO) {
+		ExamPaper newExamPaper = new ExamPaper(examPaperDTO.getExamPaper());
+		List<Question> questions = examPaperDTO.getQuestions();
+		ExamPaper createdExamPaper = dao.create(newExamPaper);
+		List<ExamPaperQuestion> examPaperQuestions = createdExamPaper
+		        .getExamPaperQuestions();
+
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Question> query = cb.createQuery(Question.class);
+		Root<Question> root = query.from(Question.class);
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		for (Question question : questions) {
+			predicates.add(cb.equal(root.get(Question_.id), question.getId()));
+		}
+
+		query.select(root).where(cb.or(predicates.toArray(new Predicate[] {})));
+		TypedQuery<Question> q = em.createQuery(query);
+		List<Question> originalQuestions = q.getResultList();
+
+		int sortOrder = 0;
+		for (Question question : originalQuestions) {
+			ExamPaperQuestion epq = new ExamPaperQuestion();
+			epq.setQuestion(question);
+			epq.setExamPaper(createdExamPaper);
+			epq.setSortOrder(sortOrder++);
+			examPaperQuestions.add(epq);
+		}
+		createdExamPaper.setExamPaperQuestions(examPaperQuestions);
+		return dao.update(createdExamPaper);
 	}
+
 	@GET
 	@Produces({ "application/json" })
 	public Collection<ExamPaper> getAll() {
+		// List<ExamPaper> all = dao.getAll(ExamPaper.class);
+		// List<ExamPaperDTO> examPaperDTOs = new
+		// ArrayList<ExamPaperDTO>(all.size());
+		// for (ExamPaper examPaper : all) {
+		// List<Question> questions = new ArrayList<Question>();
+		// List<ExamPaperQuestion> examPaperQuestions =
+		// examPaper.getExamPaperQuestions();
+		// for (ExamPaperQuestion examPaperQuestion : examPaperQuestions) {
+		// questions.add(examPaperQuestion.getQuestion());
+		// }
+		// examPaper.setExamPaperQuestions(null);
+		// ExamPaperDTO examPaperDTO = new ExamPaperDTO();
+		// examPaperDTO.setExamPaper(examPaper);
+		// }
 		return dao.getAll(ExamPaper.class);
 	}
 
@@ -81,9 +129,42 @@ public class ExamCreatorRESTFacade {
 	@Path("{id}")
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
-	public ExamPaper update(ExamPaper examPaper) {
-		dao.update(examPaper);
-		return null;
+	public ExamPaper update(ExamPaperDTO examPaperDTO,
+	        @PathParam("id") Integer id) {
+		ExamPaper examPaperToUpdate = examPaperDTO.getExamPaper();
+		List<Question> questions = examPaperDTO.getQuestions();
+		ExamPaper found = em.find(ExamPaper.class, id.longValue());
+		
+		found.setActive(examPaperToUpdate.getActive());
+		found.setDescription(examPaperToUpdate.getDescription());
+		found.setExamType(examPaperToUpdate.getExamType());
+		found.setName(examPaperToUpdate.getName());
+		
+		Set<ExamPaperQuestion> originalExamPaperQuestions = new HashSet<ExamPaperQuestion>(found.getExamPaperQuestions());
+		
+		Set<ExamPaperQuestion> examPaperQuestions = new HashSet<ExamPaperQuestion>();
+
+		int sortOrder = 0;
+		for (Question question : questions) {
+			ExamPaperQuestion epq = new ExamPaperQuestion();
+			epq.setQuestion(question);
+			epq.setExamPaper(examPaperToUpdate);
+			epq.setSortOrder(sortOrder++);
+			examPaperQuestions.add(epq);
+		}
+		originalExamPaperQuestions.retainAll(examPaperQuestions);
+		for (ExamPaperQuestion examPaperQuestion : originalExamPaperQuestions) {
+	        for (ExamPaperQuestion newExamPaperQuestion : examPaperQuestions) {
+	            if(examPaperQuestion.equals(newExamPaperQuestion))
+	            {
+	            	examPaperQuestion.setSortOrder(newExamPaperQuestion.getSortOrder());
+	            }
+            }
+        }
+		originalExamPaperQuestions.addAll(examPaperQuestions);
+		
+		found.setExamPaperQuestions(new ArrayList<ExamPaperQuestion>(originalExamPaperQuestions));
+		return dao.update(found);
 	};
 
 	@DELETE

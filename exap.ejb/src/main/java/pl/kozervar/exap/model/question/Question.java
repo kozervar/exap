@@ -95,14 +95,8 @@ public class Question extends Informable {
 	@OneToMany(
 	        mappedBy = "question",
 	        fetch = FetchType.LAZY,
-	        cascade = { CascadeType.PERSIST })
-	@JsonIgnore
-	private Set<ExamPaperQuestion> examPaperQuestion;
-
-	@OneToMany(
-			mappedBy = "question",
-			fetch = FetchType.LAZY,
-			cascade = CascadeType.ALL, orphanRemoval = true)
+	        cascade = CascadeType.ALL,
+	        orphanRemoval = true)
 	@JsonIgnore
 	private Set<QuestionTag> questionTags;
 
@@ -194,35 +188,6 @@ public class Question extends Informable {
 		}
 	}
 
-	public List<ExamPaperQuestion> getExamPaperQuestion() {
-		if (examPaperQuestion == null) {
-			return new ArrayList<ExamPaperQuestion>(0);
-		}
-		else {
-			return new ArrayList<ExamPaperQuestion>(examPaperQuestion);
-		}
-	}
-
-
-	public void setExamPaperQuestion(List<ExamPaperQuestion> examPaperQuestion) {
-		if (examPaperQuestion == null) {
-			return;
-		}
-
-		if (this.examPaperQuestion == null) {
-			this.examPaperQuestion = new HashSet<ExamPaperQuestion>(
-			        examPaperQuestion);
-		}
-		else {
-			this.examPaperQuestion.clear();
-			this.examPaperQuestion.addAll(examPaperQuestion);
-		}
-
-		for (ExamPaperQuestion examPaperQuestion2 : this.examPaperQuestion) {
-			examPaperQuestion2.setQuestion(this);
-		}
-	}
-
 
 	public List<QuestionTag> getQuestionTags() {
 		if (questionTags == null) {
@@ -231,7 +196,7 @@ public class Question extends Informable {
 		else {
 			return new ArrayList<QuestionTag>(questionTags);
 		}
-    }
+	}
 
 	public void setQuestionTags(List<QuestionTag> questionTags) {
 		if (questionTags == null) {
@@ -239,8 +204,7 @@ public class Question extends Informable {
 		}
 
 		if (this.questionTags == null) {
-			this.questionTags = new HashSet<QuestionTag>(
-			        questionTags);
+			this.questionTags = new HashSet<QuestionTag>(questionTags);
 		}
 		else {
 			this.questionTags.clear();
@@ -250,7 +214,7 @@ public class Question extends Informable {
 		for (QuestionTag questionTags2 : this.questionTags) {
 			questionTags2.setQuestion(this);
 		}
-    }
+	}
 
 	@Override
 	public boolean equals(final Object other) {

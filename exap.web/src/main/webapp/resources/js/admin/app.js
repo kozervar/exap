@@ -90,5 +90,5 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
                     templateUrl: 'resources/partials/admin/CRUD/READ.table.header.html'
                 }
             }
-        });
+        })
 }]);

@@ -1,50 +1,86 @@
-<!-- /.panel-header -->
-<div class="panel-body">
-    <form id="form_question" name="form_new" role="form" novalidate>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label for="examPaper_name">Nazwa</label>
-                <input id="examPaper_name" name="examPaper.name" class="form-control" ng-model="examPaper.name"
-                       placeholder="Nazwa egzaminu" required>
-            </div>
+<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Egzamin
         </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label for="examPaper_description">Opis</label>
-                <textarea rows="2" id="examPaper_description" name="examPaper.description" class="form-control"
-                          ng-model="examPaper.description" placeholder="Opis egzaminu" optional></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label>Opcje</label>
+        <div class="panel-body">
+            <form id="form_question" name="form_new" role="form" novalidate>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label for="examPaper_name">Nazwa</label>
+                        <input id="examPaper_name" name="examPaper.name" class="form-control" ng-model="examPaper.name"
+                               placeholder="Nazwa egzaminu" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label for="examPaper_description">Opis</label>
+                        <textarea rows="2" id="examPaper_description" name="examPaper.description" class="form-control"
+                                  ng-model="examPaper.description" placeholder="Opis egzaminu" optional></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label>Opcje</label>
 
-                <div class="checkbox">
-                    <label for="examPaper_active"
-                           tooltip="Egzamin zaznaczony jako 'Aktywny' jest dostępny dla kandydatów">
-                        <input id="examPaper_active" type="checkbox" name="examPaper.active"
-                               ng-model="examPaper.active">
-                        Aktywny
-                    </label>
+                        <div class="checkbox">
+                            <label for="examPaper_active"
+                                   tooltip="Egzamin zaznaczony jako 'Aktywny' jest dostępny dla kandydatów">
+                                <input id="examPaper_active" type="checkbox" name="examPaper.active"
+                                       ng-model="examPaper.active">
+                                Aktywny
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label for="examPaper_examType">Typ pytania</label>
+                        <select id="examPaper_examType" name="examPaper.examType" class="form-control"
+                                ng-model="examPaper.examType" ng-options="q as q.description for q in examTypes"
+                                required="required">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="saveExamPaper()">
+                            Zapisz
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /.panel-body -->
+
+<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Pytania dodane
+        </div>
+        <div class="panel-body" ng-class="{question_container_body : (questionsAdded.length == 0)}">
+            <div class="list-group question-container" ng-model="questionsAdded" ui-sortable="sortableOptions">
+                <div class="list-group-item" ng-repeat="question in questionsAdded | orderBy:'question'">
+                    {{question.subject | cut:true:100:'...' }}
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label for="examPaper_examType">Typ pytania</label>
-                <select id="examPaper_examType" name="examPaper.examType" class="form-control"
-                        ng-model="examPaper.examType" ng-options="q as q.description for q in examTypes"
-                        required="required">
-                </select>
+    </div>
+</div>
+<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Pytania do wyboru
+        </div>
+        <div class="panel-body" ng-class="{question_container_body : (questions.length == 0)}">
+            <div class="list-group question-container" ng-model="questions" ui-sortable="sortableOptions">
+                <div class="list-group-item" ng-repeat="question in questions">
+                    {{question.subject | cut:true:100:'...' }}
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="saveExamPaper()">
-                    Zapisz
-                </button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
 <!-- /.panel-body -->

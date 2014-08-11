@@ -1,103 +1,114 @@
-<!-- /.panel-header -->
-<div class="panel-body">
-    <form id="form_question" name="form_new" role="form" novalidate>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label for="question_subject">Tytuł</label>
-                <input id="question_subject" name="question.subject" class="form-control" ng-model="question.subject"
-                       placeholder="Tytuł pytania" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label for="question_description">Opis</label>
-                <textarea rows="2" id="question_description" name="question.description" class="form-control"
-                          ng-model="question.description" placeholder="Dodatkowy opis pytania" optional></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-6 col-md-3 col-lg-2">
-                <label for="question_totalScore">Wynik całkowity</label>
-                <input id="question_totalScore" name="question.totalScore" class="form-control"
-                       ng-model="question.totalScore" placeholder="Suma punktów odpowiedzi" required float>
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <!-- /.panel-header -->
+        <div class="panel-body">
+            <form id="form_question" name="form_new" role="form" novalidate>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label for="question_subject">Tytuł</label>
+                        <input id="question_subject" name="question.subject" class="form-control"
+                               ng-model="question.subject"
+                               placeholder="Tytuł pytania" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label for="question_description">Opis</label>
+                        <textarea rows="2" id="question_description" name="question.description" class="form-control"
+                                  ng-model="question.description" placeholder="Dodatkowy opis pytania"
+                                  optional></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6 col-md-3 col-lg-2">
+                        <label for="question_totalScore">Wynik całkowity</label>
+                        <input id="question_totalScore" name="question.totalScore" class="form-control"
+                               ng-model="question.totalScore" placeholder="Suma punktów odpowiedzi" required float>
 
-                <p class="help-block">Suma punktów: {{totalScore.toFixed(2)}}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label for="question_content">Zawartość</label>
-                <textarea rows="5" id="question_content" name="question.content" class="form-control"
-                          ng-model="question.content" placeholder="Zawartość pytania. Np. fragment kodu C#, C++, Java"
-                        ></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label>Tagi:</label>
-                <tags-input name="tags" class="tagsInput" ng-model="tags" display-property="name"
-                            placeholder="Dodaj tag"
-                            add-on-space="true" max-length="20" min-length="1" min-tags="1">
-                    <auto-complete source="loadTags($query)" min-length="1" debounce-delay="50"></auto-complete>
-                </tags-input>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <label for="question_questionType">Typ pytania</label>
-                <select id="question_questionType" name="question.questionType" class="form-control"
-                        ng-model="question.questionType" ng-options="q as q.description for q in questionTypes"
-                        required="required">
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12" ng-if="!isOpenQuestionType()">
-                <button type="button" class="btn btn-info btn-lg btn-block" ng-click="addQuestionDetail()"
-                        tooltip-popup-delay='700'
-                        tooltip="Po dodaniu elementu możesz używać mechanizmu Drag And Drop w celu zmiany kolejności odpowiedzi">
-                    Dodaj odpowiedź
-                </button>
-                <ul class="list-group" ui-sortable ng-model="questionDetails">
-                    <li class="list-group-item" ng-repeat="questionDetail in questionDetails" ng-class="{active: hover}"
-                        ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+                        <p class="help-block">Suma punktów: {{totalScore.toFixed(2)}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label for="question_content">Zawartość</label>
+                        <textarea rows="5" id="question_content" name="question.content" class="form-control"
+                                  ng-model="question.content"
+                                  placeholder="Zawartość pytania. Np. fragment kodu C#, C++, Java"
+                                ></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label>Tagi:</label>
+                        <tags-input name="tags" class="tagsInput" ng-model="tags" display-property="name"
+                                    placeholder="Dodaj tag"
+                                    add-on-space="true" max-length="20" min-length="1" min-tags="1">
+                            <auto-complete source="loadTags($query)" min-length="1" debounce-delay="50"></auto-complete>
+                        </tags-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <label for="question_questionType">Typ pytania</label>
+                        <select id="question_questionType" name="question.questionType" class="form-control"
+                                ng-model="question.questionType" ng-options="q as q.description for q in questionTypes"
+                                required="required">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12" ng-if="!isOpenQuestionType()">
+                        <button type="button" class="btn btn-info btn-lg btn-block" ng-click="addQuestionDetail()"
+                                tooltip-popup-delay='700'
+                                tooltip="Po dodaniu elementu możesz używać mechanizmu Drag And Drop w celu zmiany kolejności odpowiedzi">
+                            Dodaj odpowiedź
+                        </button>
+                        <ul class="list-group" ui-sortable ng-model="questionDetails">
+                            <li class="list-group-item" ng-repeat="questionDetail in questionDetails"
+                                ng-class="{active: hover}"
+                                ng-mouseenter="hover = true" ng-mouseleave="hover = false">
 
-                        {{ setOrder(questionDetail) }}
+                                {{ setOrder(questionDetail) }}
 
-                        <div class="list-group-item-heading">
-                            <button type="button" class="btn btn-danger btn-circle pull-right" aria-hidden="true"
-                                    ng-click="cancelQuestionDetail(questionDetail)"><i class="fa fa-times"></i>
-                            </button>
-                            <h4>Odpowiedź # {{questionDetail.sortOrder + 1}}</h4>
-                        </div>
-                        <div class="form-group">
-                            <label>Zawartość</label>
-                            <input class="form-control" ng-model="questionDetail.content" placeholder="Treść pytania"
-                                   required>
-                        </div>
-                        <div class="form-group">
-                            <label>Punktacja</label>
-                            <input class="input-sm" ng-model="questionDetail.score"
-                                   placeholder="Punktacja" float required ng-change="updateTotalScore()">
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="form-group col-xs-12 col-lg-12" ng-if="isOpenQuestionType()">
-                <label for="questionAnswer_longTextValue">Odpowiedź</label>
-                <textarea rows="5" id="questionAnswer_longTextValue"
-                          name="questionAnswer.longTextValue" class="form-control"
-                          ng-model="questionAnswer.longTextValue" placeholder="Odpowiedź na pytanie otwarte" required>
-                </textarea>
-            </div>
+                                <div class="list-group-item-heading">
+                                    <button type="button" class="btn btn-danger btn-circle pull-right"
+                                            aria-hidden="true"
+                                            ng-click="cancelQuestionDetail(questionDetail)"><i class="fa fa-times"></i>
+                                    </button>
+                                    <h4>Odpowiedź # {{questionDetail.sortOrder + 1}}</h4>
+                                </div>
+                                <div class="form-group">
+                                    <label>Zawartość</label>
+                                    <input class="form-control" ng-model="questionDetail.content"
+                                           placeholder="Treść pytania"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Punktacja</label>
+                                    <input class="input-sm" ng-model="questionDetail.score"
+                                           placeholder="Punktacja" float required ng-change="updateTotalScore()">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group col-xs-12 col-lg-12" ng-if="isOpenQuestionType()">
+                        <label for="questionAnswer_longTextValue">Odpowiedź</label>
+                        <textarea rows="5" id="questionAnswer_longTextValue"
+                                  name="questionAnswer.longTextValue" class="form-control"
+                                  ng-model="questionAnswer.longTextValue" placeholder="Odpowiedź na pytanie otwarte"
+                                  required>
+                        </textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-lg-12">
+                        <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="saveQuestion()">
+                            Zapisz
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-lg-12">
-                <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="saveQuestion()">
-                    Zapisz
-                </button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
 <!-- /.panel-body -->

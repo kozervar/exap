@@ -27,7 +27,7 @@ exapControllers.controller('ExamPaper_READ_CRUDController', ['$scope', '$state',
 
 }]);
 
-exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state', '$stateParams', 'ExamPaperFactory', 'ExamTypeFactory', function ($scope, $state, $stateParams, ExamPaperFactory, ExamTypeFactory) {
+exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state', '$stateParams', 'ExamPaperFactory', 'ExamTypeFactory', 'QuestionFactory', function ($scope, $state, $stateParams, ExamPaperFactory, ExamTypeFactory, QuestionFactory) {
     console.debug("ExamPaper_CREATE_CRUDController");
 
     $scope.updateEntityName($stateParams.entityName);
@@ -39,18 +39,28 @@ exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state
     };
 
     $scope.examPaper = {
-        name : "",
-        description : "",
-        active : false,
-        examType : {},
-        examPaperQuestions : []
+        name: "",
+        description: "",
+        active: false,
+        examType: {},
+        examPaperQuestions: []
     };
     $scope.examTypes = [];
+    $scope.questions = [];
+    $scope.questionsAdded = []; //[{subject:'test', questionType: {name : 'OPEN'}}];
+
+    $scope.sortableOptions = {
+        placeholder: "question",
+        connectWith: ".question-container"
+    };
 
     ExamTypeFactory.getExamTypes(function (data, status, headers, config) {
         $scope.examTypes = data;
         if ($scope.examTypes != null && $scope.examTypes.length > 0)
             $scope.examPaper.examType = $scope.examTypes[0];
+    });
+    QuestionFactory.getQuestions(function (data, status, headers, config) {
+        $scope.questions = data;
     });
 
     $scope.isOpenExamType = function () {
@@ -62,7 +72,11 @@ exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state
 
     $scope.saveExamPaper = function () {
         if ($scope.form_new.$valid) {
-            ExamPaperFactory.createExamPaper($scope.examPaper, function (data, status, headers, config) {
+            var examPaperDTO = {
+                examPaper: $scope.examPaper,
+                questions: $scope.questionsAdded
+            };
+            ExamPaperFactory.createExamPaper(examPaperDTO, function (data, status, headers, config) {
                 $scope.goToPreviousState();
             }, function (data, status, headers, config) {
                 console.error("entity not saved")
@@ -71,7 +85,7 @@ exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state
     };
 
 }]);
-exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state', '$stateParams', '$modal', 'ExamPaperFactory', 'ExamTypeFactory', function ($scope, $state, $stateParams, $modal, ExamPaperFactory, ExamTypeFactory) {
+exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state', '$stateParams', '$modal', 'ExamPaperFactory', 'ExamTypeFactory', 'QuestionFactory', function ($scope, $state, $stateParams, $modal, ExamPaperFactory, ExamTypeFactory, QuestionFactory) {
     console.debug("Question_UPDATE_CRUDController");
 
     $scope.updateEntityName($stateParams.entityName);
@@ -81,15 +95,27 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
         $scope.isDisabled = false;
     else
         return;
-    
+
     $scope.examPaper = {
         questionType: {
             name: CONSTANTS.QUESTION_TYPE.OPEN
         }
     };
-    
+
     $scope.examPaper = $scope.entityToUpdate;
     $scope.examTypes = [];
+    $scope.questions = [];
+    $scope.questionsAdded = []; //[{subject:'test', questionType: {name : 'OPEN'}}];
+
+    $scope.sortableOptions = {
+        placeholder: "question",
+        connectWith: ".question-container"
+    };
+
+    $scope.entityToUpdate.examPaperQuestions.forEach(function (entry) {
+        $scope.questionsAdded.push(entry.question);
+    });
+    $scope.entityToUpdate.examPaperQuestions = [];
 
     ExamTypeFactory.getExamTypes(function (data, status, headers, config) {
         $scope.examTypes = data;
@@ -102,6 +128,17 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
             });
         }
     });
+    QuestionFactory.getQuestions(function (data, status, headers, config) {
+        $scope.questions = data.slice();
+        $scope.questionsAdded.forEach(function (questionAdded) {
+            data.forEach(function (question) {
+                if (question.id == questionAdded.id) {
+                    var index = $scope.questions.indexOf(question);
+                    $scope.questions.splice(index, 1);
+                }
+            });
+        });
+    });
 
     $scope.isOpenExamType = function () {
         if ($scope.question.questionType.name === CONSTANTS.EXAM_TYPE.OPEN)
@@ -112,7 +149,11 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
 
     $scope.updateExamPaper = function () {
         if ($scope.form_update.$valid) {
-            ExamPaperFactory.updateExamPaper($scope.examPaper, function (data, status, headers, config) {
+            var examPaperDTO = {
+                examPaper: $scope.examPaper,
+                questions: $scope.questionsAdded
+            };
+            ExamPaperFactory.updateExamPaper(examPaperDTO, function (data, status, headers, config) {
                 $scope.goToPreviousState();
             }, function (data, status, headers, config) {
                 console.error("entity not saved")

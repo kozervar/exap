@@ -62,11 +62,8 @@ public class QuestionCreatorRESTFacade {
 		List<Tag> tags = questionDTO.getTags();
 		Question newQuestion = new Question(question);
 		List<QuestionDetail> questionDetails = question.getQuestionDetails();
-		List<ExamPaperQuestion> examPaperQuestions = question
-		        .getExamPaperQuestion();
 		Question created = dao.create(newQuestion);
 		created.setQuestionDetails(questionDetails);
-		created.setExamPaperQuestion(examPaperQuestions);
 		for (Tag tag : tags) {
 			QuestionTag qt = new QuestionTag();
 			qt.setTag(tag);

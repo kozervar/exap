@@ -191,8 +191,8 @@ exapServices.factory('ExamPaperFactory', ['$http', function ($http) {
     var urlBase = 'rest/crud/ExamPaper';
     var dataFactory = {};
 
-    dataFactory.createExamPaper = function (examPaper, success, error) {
-        return $http.post(urlBase, examPaper).success(success).error(error);
+    dataFactory.createExamPaper = function (examPaperDTO, success, error) {
+        return $http.post(urlBase, examPaperDTO).success(success).error(error);
     };
 
     dataFactory.getExamPapers = function (success, error) {
@@ -203,8 +203,8 @@ exapServices.factory('ExamPaperFactory', ['$http', function ($http) {
         return $http.get(urlBase + '/' + id).success(success).error(error);
     };
 
-    dataFactory.updateExamPaper = function (examPaper, success, error) {
-        return $http.put(urlBase + '/' + examPaper.id, examPaper).success(success).error(error);
+    dataFactory.updateExamPaper = function (examPaperDTO, success, error) {
+        return $http.put(urlBase + '/' + examPaperDTO.examPaper.id, examPaperDTO).success(success).error(error);
     };
 
     dataFactory.deleteExamPaper = function (id, success, error) {

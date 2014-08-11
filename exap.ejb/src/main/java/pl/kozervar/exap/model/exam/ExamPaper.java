@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -69,6 +70,7 @@ public class ExamPaper extends Informable {
 	        fetch = FetchType.EAGER,
 	        orphanRemoval = true,
 	        cascade = CascadeType.ALL)
+	@OrderBy(value="sortOrder")
 	private Set<ExamPaperQuestion> examPaperQuestions = new HashSet<ExamPaperQuestion>();
 
 
@@ -117,7 +119,8 @@ public class ExamPaper extends Informable {
 		}
 
 		if (this.examPaperQuestions == null) {
-			this.examPaperQuestions = new HashSet<ExamPaperQuestion>(examPaperQuestions);
+			this.examPaperQuestions = new HashSet<ExamPaperQuestion>(
+			        examPaperQuestions);
 		}
 		else {
 			this.examPaperQuestions.clear();

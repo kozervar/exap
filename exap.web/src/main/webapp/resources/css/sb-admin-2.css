@@ -399,6 +399,19 @@ textarea.ng-valid {
     margin-top: 15px;
 }
 
+.question_container_body .list-group {
+    border: 1px dashed #ccc;
+    min-height: 4em;
+}
+
+.question-container .list-group-item {
+    cursor: pointer;
+}
+.question-container .list-group .active {
+    background-color: #FAFAFA;
+    color: #131313;
+}
+
 /* TAGS input*/
 tags-input *, *:before, *:after {
     -moz-box-sizing: border-box;

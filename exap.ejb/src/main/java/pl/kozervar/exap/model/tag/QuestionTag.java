@@ -33,7 +33,8 @@ public class QuestionTag extends Versionable {
 	        optional = false,
 	        targetEntity = Question.class)
 	@JoinColumn(
-	        name = "question_id",referencedColumnName="id")
+	        name = "question_id",
+	        referencedColumnName = "id")
 	private Question question;
 
 	@ManyToOne(
@@ -42,7 +43,8 @@ public class QuestionTag extends Versionable {
 	        cascade = { CascadeType.DETACH, CascadeType.MERGE,
 	                CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(
-	        name = "tag_id",referencedColumnName="id")
+	        name = "tag_id",
+	        referencedColumnName = "id")
 	private Tag tag;
 
 	public Question getQuestion() {
