@@ -21,7 +21,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="e in entities" ng-click="editRow(e)">
+        <tr ng-repeat="e in entities" ng-click="editRow(e)" context-menu data-target="rowContextMenu"
+            ng-class="{ 'highlight': highlight, 'expanded' : expanded }">
             <td>{{e.id}}</td>
             <td>{{e.subject}}</td>
             <td>{{e.totalScore}}</td>
@@ -29,5 +30,15 @@
         </tr>
         </tbody>
     </table>
+    <div class="dropdown position-fixed" id="rowContextMenu">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+            <li>
+                <a class="pointer ng-binding" role="menuitem" tabindex="1" ng-click="contextMenuRemoveAction($event)">Usuń</a>
+            </li>
+            <li>
+                <a class="pointer ng-binding" role="menuitem" tabindex="1" ng-click="contextMenuRefreshAction($event)">Odśwież</a>
+            </li>
+        </ul>
+    </div>
 </div>
 <!-- /.table-responsive -->

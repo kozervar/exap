@@ -24,6 +24,17 @@ exapControllers.controller('ExamPaper_READ_CRUDController', ['$scope', '$state',
             $scope.entities = data;
         });
     });
+    $scope.$on(EVENTS.CRUD_CONTEXT_MENU_REMOVE_ENTITY, function (e, entity) {
+        ExamPaperFactory.deleteExamPaper(entity.id, function (data, status, headers, config) {
+            var index = $scope.entities.indexOf(entity);
+            if (index > -1) {
+                $scope.entities.splice(index, 1);
+            }
+            console.debug("row deleted")
+        }, function (data, status, headers, config) {
+            console.error("row not deleted")
+        });
+    });
 
 }]);
 

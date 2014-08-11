@@ -60,14 +60,14 @@ exapControllers.controller('CRUDController', ['$scope', '$state', 'EntitiesMetaD
     $scope.previousStateParams = {};
     $scope.currentStateParams = {};
 
-    $scope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+    $scope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $scope.previousState = from;
         $scope.currentState = to;
         $scope.previousStateParams = fromParams;
         $scope.currentStateParams = toParams;
     });
-    $scope.goToPreviousState = function(){
-        if($scope.previousState) {
+    $scope.goToPreviousState = function () {
+        if ($scope.previousState) {
             $state.go($scope.previousState.name, $scope.previousStateParams);
         }
     };
@@ -78,10 +78,36 @@ exapControllers.controller('CREATE_CRUDController', ['$scope', '$stateParams', f
     $scope.updateOperation($stateParams.operation);
 
 }]);
-exapControllers.controller('READ_CRUDController', ['$scope', '$stateParams', function ($scope, $stateParams) {
+exapControllers.controller('READ_CRUDController', ['$scope', '$stateParams', 'ContextMenuService', '$modal', function ($scope, $stateParams, ContextMenuService, $modal) {
     console.debug("READ_CRUDController");
 
     $scope.updateOperation($stateParams.operation);
+
+    $scope.contextMenuRemoveAction = function (element) {
+        var el = angular.element(ContextMenuService.element);
+        if (el.scope().e) {
+            $scope.deleteEntityModal(el.scope().e);
+        }
+    };
+    $scope.contextMenuRefreshAction = function (element) {
+        var el = angular.element(ContextMenuService.element);
+        if (el.scope().e) {
+            $scope.$broadcast(EVENTS.CRUD_READ_ENTITIES);
+        }
+    };
+
+    $scope.deleteEntityModal = function (entity) {
+        var modalInstance = $modal.open({
+            templateUrl: 'resources/partials/admin/CRUD/delete.confirmation.modal.html',
+            controller: 'DeleteEntityModalController',
+            backdrop: 'static',
+            scope: $scope
+        });
+
+        modalInstance.result.then(function (result) {
+            $scope.$broadcast(EVENTS.CRUD_CONTEXT_MENU_REMOVE_ENTITY, entity);
+        });
+    };
 }]);
 exapControllers.controller('UPDATE_CRUDController', ['$scope', '$stateParams', function ($scope, $stateParams) {
     console.debug("UPDATE_CRUDController");

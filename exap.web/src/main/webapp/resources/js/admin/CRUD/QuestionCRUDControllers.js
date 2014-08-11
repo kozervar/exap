@@ -1,6 +1,6 @@
 var exapControllers = angular.module('exap-admin.controllers.crud.question', []);
 
-exapControllers.controller('Question_READ_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', 'TagFactory', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory, TagFactory) {
+exapControllers.controller('Question_READ_CRUDController', ['$scope', '$state', '$stateParams', 'QuestionTypeFactory', 'QuestionFactory', 'TagFactory', 'ContextMenuService', function ($scope, $state, $stateParams, QuestionTypeFactory, QuestionFactory, TagFactory, ContextMenuService) {
     console.debug("Question_READ_CRUDController");
 
     $scope.updateEntityName($stateParams.entityName);
@@ -22,6 +22,17 @@ exapControllers.controller('Question_READ_CRUDController', ['$scope', '$state', 
     $scope.$on(EVENTS.CRUD_READ_ENTITIES, function (e) {
         QuestionFactory.getQuestions(function (data, status, headers, config) {
             $scope.entities = data;
+        });
+    });
+    $scope.$on(EVENTS.CRUD_CONTEXT_MENU_REMOVE_ENTITY, function (e, entity) {
+        QuestionFactory.deleteQuestion(entity.id, function (data, status, headers, config) {
+            var index = $scope.entities.indexOf(entity);
+            if (index > -1) {
+                $scope.entities.splice(index, 1);
+            }
+            console.debug("row deleted")
+        }, function (data, status, headers, config) {
+            console.error("row not deleted")
         });
     });
     $scope.loadTags = function (query) {

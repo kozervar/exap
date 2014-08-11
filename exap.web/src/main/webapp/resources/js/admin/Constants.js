@@ -10,7 +10,8 @@ var CONSTANTS = {
         },
         EVENTS: {
             OVERVIEW_ENTITY_NAME_SET: 'exap.overview.entity.name.set',
-            CRUD_READ_ENTITIES: 'exap.crud.read.entities'
+            CRUD_READ_ENTITIES: 'exap.crud.read.entities',
+            CRUD_CONTEXT_MENU_REMOVE_ENTITY: 'exap.crud.context.menu.remove.entity'
         },
         CRUD_OPERATIONS: {
             CREATE: 'CREATE',

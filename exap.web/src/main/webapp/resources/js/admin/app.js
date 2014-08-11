@@ -11,6 +11,7 @@ var app = angular.module('exap-admin', [
     'ui.sortable',
     'ngAnimate',
     'ngTagsInput',
+    'ng-context-menu',
     'exap-admin.filters',
     'exap-admin.services',
     'exap-admin.directives',
