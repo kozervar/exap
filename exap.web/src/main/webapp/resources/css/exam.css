@@ -1,0 +1,219 @@
+html, body {
+    height: 100%;
+}
+
+.full {
+    background: url('../img/background.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.fill-w {
+    width: 100%;
+}
+
+.fill-hw {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.fill-h {
+    height: 100%;
+    min-height: 100%;
+}
+
+.page-wrapper {
+    padding: 0 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.top-spacer {
+    margin-top: 30px;
+}
+
+/* BASIC STYLINGS
+============================================================================= */
+/* FORM VALIDATION */
+
+input.ng-invalid {
+    border: 1px solid red;
+}
+
+input.ng-valid {
+    border: 1px solid #ccc;
+}
+
+input.ng-optional {
+    background-color: #F9F9F9;
+}
+
+textarea.ng-invalid {
+    border: 1px solid red;
+}
+
+textarea.ng-valid {
+    border: 1px solid #ccc;
+}
+
+textarea.ng-optional {
+    background-color: #F9F9F9;
+}
+
+/* accept terms */
+.jumbotron input[type="checkbox"] {
+    position:relative;
+}
+
+/* form styling */
+#form-container {
+    /*background-color: rgba(238, 238, 238, 0.95);*/
+    margin: 20px 0px 20px 0px;
+    border-radius: 5px;
+}
+
+#form-container .page-header {
+    background-color: rgba(238, 238, 238, 0.95);
+    margin: 0;
+    padding: 30px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#form-container .jumbotron {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* numbered buttons */
+#status-buttons {
+}
+
+#status-buttons a {
+    color: #000;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 10px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#status-buttons a:hover {
+    text-decoration: none;
+    color: #B2B2B2;
+}
+
+/* we will style the span as the circled number */
+#status-buttons span {
+    background: #B1CBE4;
+    display: block;
+    height: 30px;
+    margin: 0 auto 10px;
+    padding-top: 6px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+/* active buttons turn light green-blue*/
+#status-buttons a.active span {
+    background: #7DA8D2;
+}
+
+/* ANIMATION STYLINGS
+============================================================================= */
+#signup-form {
+    position: relative;
+    overflow: hidden;
+    min-height: 100%;
+    background-color: rgba(238, 238, 238, 0.95);
+}
+
+#form-views {
+    width: auto;
+}
+
+/* basic styling for entering and leaving */
+/* left and right added to ensure full width */
+#form-views.ng-enter,
+#form-views.ng-leave {
+    position: absolute;
+    transition: 0.5s all ease;
+    -moz-transition: 0.5s all ease;
+    -webkit-transition: 0.5s all ease;
+}
+
+/* enter animation */
+#form-views.ng-enter {
+    -webkit-animation: slideInRight 0.5s both ease;
+    -moz-animation: slideInRight 0.5s both ease;
+    animation: slideInRight 0.5s both ease;
+}
+
+/* leave animation */
+#form-views.ng-leave {
+    -webkit-animation: slideOutLeft 0.5s both ease;
+    -moz-animation: slideOutLeft 0.5s both ease;
+    animation: slideOutLeft 0.5s both ease;
+}
+
+/* ANIMATIONS
+============================================================================= */
+/* slide out to the left */
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-200%);
+    }
+}
+
+@-moz-keyframes slideOutLeft {
+    from {
+        -moz-transform: translateX(0);
+    }
+    to {
+        -moz-transform: translateX(-200%);
+    }
+}
+
+@-webkit-keyframes slideOutLeft {
+    from {
+        -webkit-transform: translateX(0);
+    }
+    to {
+        -webkit-transform: translateX(-200%);
+    }
+}
+
+/* slide in from the right */
+@keyframes slideInRight {
+    from {
+        transform: translateX(200%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@-moz-keyframes slideInRight {
+    from {
+        -moz-transform: translateX(200%);
+    }
+    to {
+        -moz-transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes slideInRight {
+    from {
+        -webkit-transform: translateX(200%);
+    }
+    to {
+        -webkit-transform: translateX(0);
+    }
+}
+
