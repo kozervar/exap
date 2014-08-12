@@ -132,11 +132,11 @@ public class QuestionCreatorRESTFacade {
 		predicates.add(cb.like(tag.get(Tag_.name), pattern));
 
 		query.select(root)
-		        .where(cb.and(predicates.toArray(new Predicate[] {})));
+		        .where(cb.and(predicates.toArray(new Predicate[] {}))).distinct(true);
 
 		TypedQuery<QuestionTag> q = em.createQuery(query);
 		List<QuestionTag> results = q.getResultList();
-		List<Tag> tags = new ArrayList<Tag>(results.size());
+		HashSet<Tag> tags = new HashSet<Tag>(results.size());
 		for (QuestionTag questionTag : results) {
 			tags.add(questionTag.getTag());
 		}

@@ -67,7 +67,7 @@ exapControllers.controller('CRUDController', ['$scope', '$state', 'EntitiesMetaD
         $scope.currentStateParams = toParams;
     });
     $scope.goToPreviousState = function () {
-        if ($scope.previousState) {
+        if ($scope.previousState && $scope.previousState.name != "") {
             $state.go($scope.previousState.name, $scope.previousStateParams);
         }
     };

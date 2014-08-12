@@ -83,7 +83,7 @@ public class TagRESTFacade {
 		predicates.add(cb.like(root.get(Tag_.name), pattern));
 
 		query.select(root)
-		        .where(cb.and(predicates.toArray(new Predicate[] {})));
+		        .where(cb.and(predicates.toArray(new Predicate[] {}))).distinct(true);
 
 		TypedQuery<Tag> q = em.createQuery(query);
 		List<Tag> results = q.getResultList();

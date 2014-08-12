@@ -38,7 +38,7 @@ exapControllers.controller('ExamPaper_READ_CRUDController', ['$scope', '$state',
 
 }]);
 
-exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state', '$stateParams', 'ExamPaperFactory', 'ExamTypeFactory', 'QuestionFactory', function ($scope, $state, $stateParams, ExamPaperFactory, ExamTypeFactory, QuestionFactory) {
+exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state', '$stateParams', 'ExamPaperFactory', 'ExamTypeFactory', 'QuestionFactory', 'TagFactory', function ($scope, $state, $stateParams, ExamPaperFactory, ExamTypeFactory, QuestionFactory, TagFactory) {
     console.debug("ExamPaper_CREATE_CRUDController");
 
     $scope.updateEntityName($stateParams.entityName);
@@ -59,6 +59,7 @@ exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state
     $scope.examTypes = [];
     $scope.questions = [];
     $scope.questionsAdded = []; //[{subject:'test', questionType: {name : 'OPEN'}}];
+    $scope.tags = [];
 
     $scope.sortableOptions = {
         placeholder: "question",
@@ -70,9 +71,9 @@ exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state
         if ($scope.examTypes != null && $scope.examTypes.length > 0)
             $scope.examPaper.examType = $scope.examTypes[0];
     });
-    QuestionFactory.getQuestions(function (data, status, headers, config) {
-        $scope.questions = data;
-    });
+//    QuestionFactory.getQuestions(function (data, status, headers, config) {
+//        $scope.questions = data;
+//    });
 
     $scope.isOpenExamType = function () {
         if ($scope.question.questionType.name === CONSTANTS.EXAM_TYPE.OPEN)
@@ -94,9 +95,52 @@ exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state
             });
         }
     };
+    /* TAGS */
+    $scope.filterQuestions = function(){
+        var data = $scope.questions.slice();
+        $scope.questionsAdded.forEach(function (questionAdded) {
+            data.forEach(function (question) {
+                if (question.id == questionAdded.id) {
+                    var index = $scope.questions.indexOf(question);
+                    $scope.questions.splice(index, 1);
+                }
+            });
+        });
+        data.forEach(function (question) {
+            var type = question.questionType.name;
+            if(type == CONSTANTS.QUESTION_TYPE.CLOSED_MUTLI)
+                type = CONSTANTS.EXAM_TYPE.CLOSED;
+            if (type != $scope.examPaper.examType.name) {
+                var index = $scope.questions.indexOf(question);
+                $scope.questions.splice(index, 1);
+            }
+        });
+    };
+    $scope.loadTags = function (query) {
+        return TagFactory.getTagsByQuery(query, function (response) {
+        }, function () {
+        });
+    };
+    $scope.tagAdded = function ($tag) {
+        QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
+            $scope.questions = data;
+            $scope.filterQuestions();
+        });
+    };
+    $scope.tagRemoved = function ($tag) {
+        if($scope.tags.length > 0 ) {
+            QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
+                $scope.questions = data;
+                $scope.filterQuestions();
+            });
+        }else
+        {
+            $scope.questions = [];
+        }
+    };
 
 }]);
-exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state', '$stateParams', '$modal', 'ExamPaperFactory', 'ExamTypeFactory', 'QuestionFactory', function ($scope, $state, $stateParams, $modal, ExamPaperFactory, ExamTypeFactory, QuestionFactory) {
+exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state', '$stateParams', '$modal', 'ExamPaperFactory', 'ExamTypeFactory', 'QuestionFactory', 'TagFactory', function ($scope, $state, $stateParams, $modal, ExamPaperFactory, ExamTypeFactory, QuestionFactory, TagFactory) {
     console.debug("Question_UPDATE_CRUDController");
 
     $scope.updateEntityName($stateParams.entityName);
@@ -117,6 +161,7 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
     $scope.examTypes = [];
     $scope.questions = [];
     $scope.questionsAdded = []; //[{subject:'test', questionType: {name : 'OPEN'}}];
+    $scope.tags = [];
 
     $scope.sortableOptions = {
         placeholder: "question",
@@ -139,17 +184,17 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
             });
         }
     });
-    QuestionFactory.getQuestions(function (data, status, headers, config) {
-        $scope.questions = data.slice();
-        $scope.questionsAdded.forEach(function (questionAdded) {
-            data.forEach(function (question) {
-                if (question.id == questionAdded.id) {
-                    var index = $scope.questions.indexOf(question);
-                    $scope.questions.splice(index, 1);
-                }
-            });
-        });
-    });
+//    QuestionFactory.getQuestions(function (data, status, headers, config) {
+//        $scope.questions = data.slice();
+//        $scope.questionsAdded.forEach(function (questionAdded) {
+//            data.forEach(function (question) {
+//                if (question.id == questionAdded.id) {
+//                    var index = $scope.questions.indexOf(question);
+//                    $scope.questions.splice(index, 1);
+//                }
+//            });
+//        });
+//    });
 
     $scope.isOpenExamType = function () {
         if ($scope.question.questionType.name === CONSTANTS.EXAM_TYPE.OPEN)
@@ -192,7 +237,49 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
             $scope.deleteExamPaper();
         });
     };
-
+    /* TAGS */
+    $scope.filterQuestions = function(){
+        var data = $scope.questions.slice();
+        $scope.questionsAdded.forEach(function (questionAdded) {
+            data.forEach(function (question) {
+                if (question.id == questionAdded.id) {
+                    var index = $scope.questions.indexOf(question);
+                    $scope.questions.splice(index, 1);
+                }
+            });
+        });
+        data.forEach(function (question) {
+            var type = question.questionType.name;
+            if(type == CONSTANTS.QUESTION_TYPE.CLOSED_MUTLI)
+                type = CONSTANTS.EXAM_TYPE.CLOSED;
+            if (type != $scope.examPaper.examType.name) {
+                var index = $scope.questions.indexOf(question);
+                $scope.questions.splice(index, 1);
+            }
+        });
+    };
+    $scope.loadTags = function (query) {
+        return TagFactory.getTagsByQuery(query, function (response) {
+        }, function () {
+        });
+    };
+    $scope.tagAdded = function ($tag) {
+        QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
+            $scope.questions = data;
+            $scope.filterQuestions();
+        });
+    };
+    $scope.tagRemoved = function ($tag) {
+        if($scope.tags.length > 0 ) {
+            QuestionFactory.getQuestionsByTags($scope.tags, function (data, status, headers, config) {
+                $scope.questions = data;
+                $scope.filterQuestions();
+            });
+        }else
+        {
+            $scope.questions = [];
+        }
+    };
 
 }]);
 

@@ -74,6 +74,16 @@
         <div class="panel-heading">
             Pytania do wyboru
         </div>
+        <div class="form-group col-xs-12 col-lg-12">
+            <tags-input class="tagsInput" ng-model="tags" display-property="name"
+                        placeholder="Wpisz tag aby przefiltrować listę"
+                        add-on-space="true" max-length="20" min-length="1"
+                        add-from-autocomplete-only="true"
+                        on-tag-added="tagAdded($tag)"
+                        on-tag-removed="tagRemoved($tag)">
+                <auto-complete source="loadTags($query)" min-length="1" debounce-delay="100"></auto-complete>
+            </tags-input>
+        </div>
         <div class="panel-body" ng-class="{question_container_body : (questions.length == 0)}">
             <div class="list-group question-container" ng-model="questions" ui-sortable="sortableOptions">
                 <div class="list-group-item" ng-repeat="question in questions">
