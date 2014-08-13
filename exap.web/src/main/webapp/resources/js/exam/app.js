@@ -12,6 +12,7 @@ var app = angular.module('exap-exam', [
     'ngAnimate',
     'ngTagsInput',
     'ng-context-menu',
+    'timer',
     'exap-exam.controllers',
     'exap-exam.helpers',
 ]);

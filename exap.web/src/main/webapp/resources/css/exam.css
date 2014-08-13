@@ -131,8 +131,11 @@ textarea.ng-optional {
     background-color: rgba(238, 238, 238, 0.95);
 }
 
-#form-views #question-view {
-    width: auto;
+#form-views {
+    width: 100%;
+}
+#question-view {
+    width: 100%;
 }
 
 /* basic styling for entering and leaving */

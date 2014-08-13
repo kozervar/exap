@@ -5,25 +5,36 @@
         <div class="page-header text-center">
             <h1>Egzamin</h1>
 
-            <div id="status-buttons" class="text-center">
+            <div id="status-buttons" class="center-block">
                 <a ui-sref-active="active" ui-sref=".welcome"><span>1</span> Witaj</a>
                 <a ui-sref-active="active" ui-sref=".profile"><span>2</span> Profil</a>
                 <a ui-sref-active="active" ui-sref=".begin"><span>3</span> Zgoda</a>
                 <a ui-sref-active="active" ui-sref=".exam"><span>4</span> Egzamin</a>
                 <a ui-sref-active="active" ui-sref=".finish"><span>5</span> Koniec</a>
             </div>
+            <div ng-show="timerRunning">
+                <timer autostart="autostart" interval="timerInterval">
+                    <progressbar max="max" value="dynamic" type="success"></span>
+                    </progressbar>
+                </timer>
+                <div class="center-block">
+                    <p>Pozostało: <strong>{{max - dynamic}}</strong> sekund</p>
+                </div>
+            </div>
+            <a ng-click="startTimer()">start</a>
+            <a ng-click="stopTimer()">stop</a>
         </div>
 
         <!-- use ng-submit to catch the form submission and use our Angular function -->
         <form id="signup-form" ng-submit="processForm()">
 
             <!-- our nested state views will be injected here -->
-            <div id="form-views" ui-view ></div>
+            <div id="form-views" ui-view></div>
         </form>
     </div>
 
 
 </div>
 <!--<div class="col-sm-8 col-sm-offset-2" >-->
-    <!--<pre>{{formData}}</pre>-->
+<!--<pre>{{formData}}</pre>-->
 <!--</div>-->
