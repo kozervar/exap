@@ -8,7 +8,7 @@
             <div id="status-buttons" class="center-block">
                 <a ui-sref-active="active" ui-sref=".welcome"><span>1</span> Witaj</a>
                 <a ui-sref-active="active" ui-sref=".profile"><span>2</span> Profil</a>
-                <a ui-sref-active="active" ui-sref=".begin"><span>3</span> Zgoda</a>
+                <a ui-sref-active="active" ui-sref=".terms"><span>3</span> Zgoda</a>
                 <a ui-sref-active="active" ui-sref=".exam"><span>4</span> Egzamin</a>
                 <a ui-sref-active="active" ui-sref=".finish"><span>5</span> Koniec</a>
             </div>
@@ -26,7 +26,7 @@
         </div>
 
         <!-- use ng-submit to catch the form submission and use our Angular function -->
-        <form id="signup-form" ng-submit="processForm()">
+        <form id="exam_form" name="exam_form" ng-submit="processForm()">
 
             <!-- our nested state views will be injected here -->
             <div id="form-views" ui-view></div>

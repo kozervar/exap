@@ -43,7 +43,7 @@ exapControllers.controller('FormController', ['$scope', '$state', '$stateParams'
 
     $scope.updateProgressbarValue = function (value) {
         $scope.dynamic = Math.round(value);
-        if($scope.dynamic >= $scope.max) {
+        if ($scope.dynamic >= $scope.max) {
             console.debug('timeout');
             $scope.$broadcast(EVENTS.EXAM_TIMEOUT);
             $scope.stopTimer();
@@ -54,12 +54,12 @@ exapControllers.controller('FormController', ['$scope', '$state', '$stateParams'
     $interval(function () {
     }, 1000); // hack for dynamic value of progress bar
 
-    $scope.startTimer = function (){
+    $scope.startTimer = function () {
         $scope.$broadcast('timer-start');
         $scope.timerRunning = true;
     };
 
-    $scope.stopTimer = function (){
+    $scope.stopTimer = function () {
         $scope.$broadcast('timer-stop');
         $scope.$broadcast('timer-clear');
         $scope.timerRunning = false;
@@ -70,8 +70,29 @@ exapControllers.controller('FormController', ['$scope', '$state', '$stateParams'
         $scope.updateProgressbarValue(args.millis / $scope.timerInterval);
     });
 }]);
-exapControllers.controller('ProfileController', ['$scope', '$stateParams', function ($scope, $stateParams) {
+exapControllers.controller('ProfileController', ['$scope', '$state', '$stateParams', function ($scope, $state, $stateParams) {
     console.debug("Profile controller initialized");
+
+    $scope.submitProfileData = function () {
+        if ($scope.exam_form.$valid) {
+            $state.go('form.terms');
+        }
+        else {
+            console.log("exam form invalid");
+        }
+    };
+}]);
+exapControllers.controller('TermsController', ['$scope', '$state', '$stateParams', function ($scope, $state, $stateParams) {
+    console.debug("Profile controller initialized");
+
+    $scope.submitTerms = function () {
+        if ($scope.exam_form.$valid) {
+            $scope.storePersonalData();
+        }
+        else {
+            console.log("exam form invalid");
+        }
+    };
 }]);
 exapControllers.controller('ExamController', ['$scope', '$state', '$stateParams', function ($scope, $state, $stateParams) {
     console.debug("Exam controller initialized");
@@ -125,7 +146,7 @@ exapControllers.controller('QuestionController', ['$scope', '$state', '$statePar
             $scope.questionIndex++;
             return $scope.questionIndex;
         }
-        console.log("No more questions!");
+        console.debug("No more questions. Exam finished");
         return -1;
     };
     $scope.goToNextQuestion = function () {

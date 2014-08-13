@@ -4,9 +4,10 @@
 <br>
 <div ng-if="openType" class="form-group col-xs-12 col-lg-12">
     <label for="answer">Odpowiedź</label>
-    <textarea rows="6" id="answer" name="answer" class="form-control" ng-model="answer" ng-maxlength="500"
+    <textarea rows="6" id="answer" name="answer" class="form-control" ng-model="$parent.answer" ng-maxlength="500"
               placeholder="Odpowiedź na pytanie">
     </textarea>
+    {{$parent.answer}}
 </div>
 <div ng-if="closedType">
     <div ui-codemirror ui-codemirror-opts="codemirrorOptions" ng-model="question.content" class="form-group"></div>

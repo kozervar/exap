@@ -10,6 +10,7 @@ public class ExamData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private String token;
 	private Long examId;
 	private String name;
 	private String description;
@@ -19,9 +20,10 @@ public class ExamData implements Serializable {
 	public ExamData() {
 	}
 
-	public ExamData(Long examId, String name, String description,
+	public ExamData(String token, Long examId, String name, String description,
 	        ExamType examType, List<QuestionData> questionData) {
 		super();
+		this.token = token;
 		this.examId = examId;
 		this.name = name;
 		this.description = description;
@@ -68,5 +70,13 @@ public class ExamData implements Serializable {
 	public void setQuestionData(List<QuestionData> questionData) {
 		this.questionData = questionData;
 	}
+
+	public String getToken() {
+	    return token;
+    }
+
+	public void setToken(String token) {
+	    this.token = token;
+    }
 
 }

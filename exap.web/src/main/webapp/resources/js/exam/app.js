@@ -32,9 +32,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             templateUrl: "resources/partials/exam/profile.html",
             controller: "ProfileController"
         })
-        .state('form.begin', {
+        .state('form.terms', {
             url: "/begin",
-            templateUrl: "resources/partials/exam/begin.html"
+            templateUrl: "resources/partials/exam/terms.html",
+            controller: "TermsController"
         })
         .state('form.exam', {
             url: "/exam",
