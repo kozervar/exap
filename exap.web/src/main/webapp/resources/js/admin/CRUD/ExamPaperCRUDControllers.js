@@ -250,7 +250,7 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
         });
         data.forEach(function (question) {
             var type = question.questionType.name;
-            if(type == CONSTANTS.QUESTION_TYPE.CLOSED_MUTLI)
+            if(type == CONSTANTS.QUESTION_TYPE.CLOSED_MUTLI || type == CONSTANTS.QUESTION_TYPE.CLOSED)
                 type = CONSTANTS.EXAM_TYPE.CLOSED;
             if (type != $scope.examPaper.examType.name) {
                 var index = $scope.questions.indexOf(question);

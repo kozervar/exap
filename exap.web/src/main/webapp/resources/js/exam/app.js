@@ -12,7 +12,8 @@ var app = angular.module('exap-exam', [
     'ngAnimate',
     'ngTagsInput',
     'ng-context-menu',
-    'exap-exam.controllers'
+    'exap-exam.controllers',
+    'exap-exam.helpers',
 ]);
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -38,6 +39,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             url: "/exam",
             templateUrl: "resources/partials/exam/exam.html",
             controller: "ExamController"
+        })
+        .state('form.exam.question', {
+            url: "/question/:index",
+            templateUrl: "resources/partials/exam/question.html",
+            controller: "QuestionController"
         })
         .state('form.finish', {
             url: "/finish",

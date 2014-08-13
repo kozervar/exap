@@ -11,7 +11,7 @@
     <p class="checkbox">
         <label for="accepted">
             <input id="accepted" type="checkbox"
-                   ng-model="formData.accepted" required>
+                   ng-model="personalData.accepted" required>
             Akceptuję
         </label>
     </p>
@@ -24,7 +24,7 @@
                 </a>
             </div>
             <div class="col-xs-6">
-                <a ui-sref="form.exam" class="btn btn-block btn-info">
+                <a ng-click="storePersonalData()" class="btn btn-block btn-info">
                     <span class="fa fa-play"></span>
                 </a>
             </div>
