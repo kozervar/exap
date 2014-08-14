@@ -11,10 +11,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -27,20 +30,28 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(
-        name = "person_exam")
+        name = "person_exam",
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = { "sha_token" }))
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.UUIDGenerator.class,
         property = "@PersonExam_UUID")
+@NamedQuery(
+        name = PersonExam.SELECT_BY_TOKEN,
+        query = "SELECT pe FROM PersonExam pe WHERE pe.shaToken = :p0 ")
 public class PersonExam extends Informable {
+
+	public static final String SELECT_BY_TOKEN = "SELECT_BY_TOKEN";
 
 	private static final long serialVersionUID = -4273328911593134195L;
 
-	@Column( 
-	        name = "sha_token", nullable = false)
+	@Column(
+	        name = "sha_token",
+	        nullable = false)
 	private String shaToken;
-	
-	@OneToOne(
-	        optional = false,
+
+	@ManyToOne(
+	        optional = true,
 	        targetEntity = ExamPaper.class,
 	        cascade = { CascadeType.DETACH, CascadeType.MERGE,
 	                CascadeType.PERSIST, CascadeType.REFRESH })
@@ -48,7 +59,7 @@ public class PersonExam extends Informable {
 	        name = "exam_paper_id",
 	        referencedColumnName = "id")
 	private ExamPaper examPaper;
-	
+
 	@OneToOne(
 	        optional = false,
 	        targetEntity = Person.class,
@@ -58,57 +69,55 @@ public class PersonExam extends Informable {
 	        name = "person_id",
 	        referencedColumnName = "id")
 	private Person person;
-	
+
 	@OneToMany(
 	        mappedBy = "personExam",
 	        fetch = FetchType.EAGER,
 	        orphanRemoval = true,
 	        cascade = CascadeType.ALL)
-	@OrderBy(value="sortOrder")
 	private Set<PersonAnswer> personAnswers;
-	
+
 	public PersonExam() {
 	}
 
-	
-    public String getShaToken() {
-    	return shaToken;
-    }
 
-	
-    public void setShaToken(String shaToken) {
-    	this.shaToken = shaToken;
-    }
+	public String getShaToken() {
+		return shaToken;
+	}
 
-	
-    public ExamPaper getExamPaper() {
-    	return examPaper;
-    }
 
-	
-    public void setExamPaper(ExamPaper examPaper) {
-    	this.examPaper = examPaper;
-    }
+	public void setShaToken(String shaToken) {
+		this.shaToken = shaToken;
+	}
 
-	
-    public List<PersonAnswer> getPersonAnswers() {
+
+	public ExamPaper getExamPaper() {
+		return examPaper;
+	}
+
+
+	public void setExamPaper(ExamPaper examPaper) {
+		this.examPaper = examPaper;
+	}
+
+
+	public List<PersonAnswer> getPersonAnswers() {
 		if (personAnswers == null) {
 			return new ArrayList<PersonAnswer>(0);
 		}
 		else {
 			return new ArrayList<PersonAnswer>(personAnswers);
 		}
-    }
+	}
 
-	
-    public void setPersonAnswers(List<PersonAnswer> personAnswers) {
+
+	public void setPersonAnswers(List<PersonAnswer> personAnswers) {
 		if (personAnswers == null) {
 			return;
 		}
 
 		if (this.personAnswers == null) {
-			this.personAnswers = new HashSet<PersonAnswer>(
-			        personAnswers);
+			this.personAnswers = new HashSet<PersonAnswer>(personAnswers);
 		}
 		else {
 			this.personAnswers.clear();
@@ -118,32 +127,30 @@ public class PersonExam extends Informable {
 		for (PersonAnswer personAnswer : this.personAnswers) {
 			personAnswer.setPersonExam(this);
 		}
-    }
-    
-    public Person getPerson() {
-	    return person;
-    }
+	}
+
+	public Person getPerson() {
+		return person;
+	}
 
 
 	public void setPerson(Person person) {
-	    this.person = person;
-    }
+		this.person = person;
+	}
 
 
 	@Override
-    public boolean equals( final Object other )
-    {
-        if( !(other instanceof PersonExam) )
-            return false;
-        PersonExam castOther = (PersonExam)other;
-        return new EqualsBuilder().append( shaToken, castOther.shaToken ).isEquals();
-    }
+	public boolean equals(final Object other) {
+		if (!(other instanceof PersonExam)) return false;
+		PersonExam castOther = (PersonExam) other;
+		return new EqualsBuilder().append(shaToken, castOther.shaToken)
+		        .isEquals();
+	}
 
 
-    @Override
-    public int hashCode()
-    {
-        return new HashCodeBuilder().append( shaToken ).toHashCode();
-    }
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(shaToken).toHashCode();
+	}
 
 }

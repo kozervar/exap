@@ -108,7 +108,7 @@ exapControllers.controller('ExamPaper_CREATE_CRUDController', ['$scope', '$state
         });
         data.forEach(function (question) {
             var type = question.questionType.name;
-            if(type == CONSTANTS.QUESTION_TYPE.CLOSED_MUTLI)
+            if(type == CONSTANTS.QUESTION_TYPE.CLOSED_MUTLI || type == CONSTANTS.QUESTION_TYPE.CLOSED)
                 type = CONSTANTS.EXAM_TYPE.CLOSED;
             if (type != $scope.examPaper.examType.name) {
                 var index = $scope.questions.indexOf(question);
@@ -168,10 +168,10 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
         connectWith: ".question-container"
     };
 
-    $scope.entityToUpdate.examPaperQuestions.forEach(function (entry) {
-        $scope.questionsAdded.push(entry.question);
-    });
-    $scope.entityToUpdate.examPaperQuestions = [];
+//    $scope.entityToUpdate.examPaperQuestions.forEach(function (entry) {
+//        $scope.questionsAdded.push(entry.question);
+//    });
+//    $scope.entityToUpdate.examPaperQuestions = [];
 
     ExamTypeFactory.getExamTypes(function (data, status, headers, config) {
         $scope.examTypes = data;
@@ -195,6 +195,9 @@ exapControllers.controller('ExamPaper_UPDATE_CRUDController', ['$scope', '$state
 //            });
 //        });
 //    });
+    ExamPaperFactory.getExamPaperQuestions($scope.examPaper.id, function (data, status, headers, config) {
+        $scope.questionsAdded = data.slice();
+    });
 
     $scope.isOpenExamType = function () {
         if ($scope.question.questionType.name === CONSTANTS.EXAM_TYPE.OPEN)

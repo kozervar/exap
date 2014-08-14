@@ -10,6 +10,9 @@ exap.factory('ExamFormFactory', ['$http', function ($http) {
     dataFactory.storePersonalData = function (personalData, success, error) {
         return $http.post(urlBase + "/personalData", personalData).success(success).error(error);
     };
+    dataFactory.saveQuestionAnswer = function (submittedQuestionAnswer, success, error) {
+        return $http.post(urlBase + "/answer", submittedQuestionAnswer).success(success).error(error);
+    };
 
     return dataFactory;
 }]);

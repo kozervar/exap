@@ -4,8 +4,16 @@
 
 var exapControllers = angular.module('exap-exam.controllers', []);
 
-exapControllers.controller('FormController', ['$scope', '$state', '$stateParams', 'ExamFormFactory', '$interval', function ($scope, $state, $stateParams, ExamFormFactory, $interval) {
+exapControllers.controller('FormController', ['$scope', '$state', '$stateParams', 'ExamFormFactory', '$timeout', function ($scope, $state, $stateParams, ExamFormFactory, $timeout) {
     console.debug("Form controller initialized");
+
+    $scope.isEmptyObject = function (obj) {
+        for (var prop in obj) {
+            if (obj.hasOwnProperty(prop))
+                return false;
+        }
+        return true;
+    };
 
     $scope.formData = {};
     $scope.personalData = {};
@@ -21,7 +29,7 @@ exapControllers.controller('FormController', ['$scope', '$state', '$stateParams'
         lineWrapping: true,
         readOnly: 'nocursor',
         theme: 'elegant',
-        mode: CONSTANTS.CODEMIRROR_LANGUAGES[0]
+        mode: 'text/x-java'
     };
 
     $scope.storePersonalData = function () {
@@ -33,41 +41,59 @@ exapControllers.controller('FormController', ['$scope', '$state', '$stateParams'
             console.error("personal data not saved")
         });
     };
+    $scope.saveQuestionAnswer = function (submittedQuestionAnswer) {
+        ExamFormFactory.saveQuestionAnswer(submittedQuestionAnswer, function (data, status, headers, config) {
+            console.log("Question answer saved");
+        }, function (data, status, headers, config) {
+            console.error("Question answer not saved")
+        });
+    };
+    $scope.stopExam = function(){
+        console.debug("Stopping exam");
+        $state.go("form.finish");
+        $scope.stopTimer();
+    };
 
     /* PROGRESS BAR */
     $scope.autostart = false;
     $scope.timerRunning = false;
     $scope.timerInterval = 1000;
-    $scope.max = 60;
-    $scope.dynamic = 0;
+    $scope.max = 15;
+    $scope.dynamic = -2;
+    $scope.isProgBarInitialized = false;
 
-    $scope.updateProgressbarValue = function (value) {
-        $scope.dynamic = Math.round(value);
-        if ($scope.dynamic >= $scope.max) {
+    $scope.isTimerRunning = function () {
+        return $scope.timerRunning;
+    };
+
+    $scope.updateProgressbarValue = function () {
+        $scope.dynamic++;
+        if ($scope.dynamic > $scope.max) {
             console.debug('timeout');
             $scope.$broadcast(EVENTS.EXAM_TIMEOUT);
             $scope.stopTimer();
         }
     };
-    $scope.updateProgressbarValue(1);
-
-    $interval(function () {
-    }, 1000); // hack for dynamic value of progress bar
 
     $scope.startTimer = function () {
         $scope.$broadcast('timer-start');
         $scope.timerRunning = true;
+        $timeout(function () {
+            $scope.updateProgressbarValue();
+        });
     };
 
     $scope.stopTimer = function () {
         $scope.$broadcast('timer-stop');
         $scope.$broadcast('timer-clear');
         $scope.timerRunning = false;
-        $scope.updateProgressbarValue(0);
+        $scope.dynamic = -2;
     };
 
     $scope.$on('timer-tick', function (event, args) {
-        $scope.updateProgressbarValue(args.millis / $scope.timerInterval);
+        $timeout(function () {
+            $scope.updateProgressbarValue();
+        });
     });
 }]);
 exapControllers.controller('ProfileController', ['$scope', '$state', '$stateParams', function ($scope, $state, $stateParams) {
@@ -99,9 +125,10 @@ exapControllers.controller('ExamController', ['$scope', '$state', '$stateParams'
 
     $scope.questionData = $scope.examData.questionData;
 
-    $scope.saveAnswer = function (answer) {
-        console.log(answer);
-    };
+    $scope.$on(EVENTS.EXAM_TIMEOUT, function(ev,args){
+        $scope.stopExam();
+    });
+
     $scope.startTimer();
     $scope.currentIndex = 0;
     $state.go('form.exam.question', {index: $scope.currentIndex });
@@ -150,13 +177,16 @@ exapControllers.controller('QuestionController', ['$scope', '$state', '$statePar
         return -1;
     };
     $scope.goToNextQuestion = function () {
+
         var answer = {
-            question: $scope.question,
-            answer: $scope.answer,
-            selectedAnswer: $scope.selectedAnswer,
-            selectedAnswers: $scope.selectedAnswers
+            token: $scope.examData.token,
+            questionId: $scope.question.questionId
         };
-        $scope.saveAnswer(answer);
+        if (!$scope.isEmptyObject($scope.answer)) answer.answer = $scope.answer;
+        if (!$scope.isEmptyObject($scope.selectedAnswer)) answer.selectedAnswer = $scope.selectedAnswer;
+        if (!$scope.isEmptyObject($scope.selectedAnswers)) answer.selectedAnswers = $scope.selectedAnswers;
+
+        $scope.saveQuestionAnswer(answer);
         $state.go("form.exam.question", { index: $scope.getIndexValue() });
     };
 

@@ -3,6 +3,8 @@ package pl.kozervar.exap.rest.creator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +42,7 @@ import pl.kozervar.exap.model.ExamPaperQuestion;
 import pl.kozervar.exap.model.ExamPaperQuestion_;
 import pl.kozervar.exap.model.exam.ExamPaper;
 import pl.kozervar.exap.model.exam.ExamPaper_;
+import pl.kozervar.exap.model.person.PersonExam;
 import pl.kozervar.exap.model.question.Question;
 import pl.kozervar.exap.model.question.QuestionDetail;
 import pl.kozervar.exap.model.question.Question_;
@@ -170,7 +173,42 @@ public class ExamCreatorRESTFacade {
 	@DELETE
 	@Path("{id}")
 	public void delete(@PathParam("id") Integer id) {
-		dao.delete(dao.get(ExamPaper.class, id));
+		TypedQuery<ExamPaper> query = em.createNamedQuery(ExamPaper.SELECT_JOIN_PERSON_EXAM, ExamPaper.class);
+		query.setParameter("id", id.longValue());
+		ExamPaper examPaper = query.getSingleResult();
+		Set<PersonExam> personExams = examPaper.getPersonExams();
+		for (PersonExam personExam : personExams) {
+			PersonExam merged = em.merge(personExam);
+			merged.setExamPaper(null);
+	        em.merge(merged);
+        }
+		examPaper.setPersonExams(new HashSet<PersonExam>());
+		em.remove(examPaper);
+		em.flush();
+	}
+	
+	@GET
+	@Path("{id}/questions")
+	@Produces({ "application/json" })
+	public Collection<Question> getExamPaperQuestions(@PathParam("id") Integer id) {
+		ExamPaper examPaper = em.find(ExamPaper.class, id.longValue());
+		List<ExamPaperQuestion> examPaperQuestions = examPaper.getExamPaperQuestions();
+		Collections.sort(examPaperQuestions,
+		        new Comparator<ExamPaperQuestion>() {
+
+			        @Override
+			        public int compare(ExamPaperQuestion o1,
+			                ExamPaperQuestion o2) {
+			        	Integer s1 = o1.getSortOrder();
+			        	Integer s2 = o2.getSortOrder();
+				        return s1 < s2 ? -1 : s1 > s2 ? 1 : 0;
+			        }
+		        });
+		List<Question> questions = new ArrayList<Question>();
+		for (ExamPaperQuestion examPaperQuestion : examPaperQuestions) {
+	        questions.add(examPaperQuestion.getQuestion());
+        }
+		return questions;
 	}
 
 }

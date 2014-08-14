@@ -1,4 +1,5 @@
 var CONSTANTS = {
+        EXAM_TIMEOUT : 1200, // 20 minutes
         MENU: {
             COLLAPSED: true,
             QUESTION: {

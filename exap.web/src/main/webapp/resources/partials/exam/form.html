@@ -12,11 +12,9 @@
                 <a ui-sref-active="active" ui-sref=".exam"><span>4</span> Egzamin</a>
                 <a ui-sref-active="active" ui-sref=".finish"><span>5</span> Koniec</a>
             </div>
-            <div ng-show="timerRunning">
-                <timer autostart="autostart" interval="timerInterval">
-                    <progressbar max="max" value="dynamic" type="success"></span>
-                    </progressbar>
-                </timer>
+            <div ng-show="isTimerRunning()">
+                <timer autostart="autostart" interval="timerInterval">{{}}</timer>
+                <progressbar max="max" value="dynamic" type="success"></progressbar>
                 <div class="center-block">
                     <p>Pozostało: <strong>{{max - dynamic}}</strong> sekund</p>
                 </div>

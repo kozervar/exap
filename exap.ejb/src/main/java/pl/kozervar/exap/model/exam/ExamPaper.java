@@ -12,6 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -20,10 +23,12 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import pl.kozervar.exap.model.ExamPaperQuestion;
 import pl.kozervar.exap.model.Informable;
+import pl.kozervar.exap.model.person.PersonExam;
 
 @Entity
 @Table(
@@ -31,8 +36,16 @@ import pl.kozervar.exap.model.Informable;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.UUIDGenerator.class,
         property = "@ExamPaper_UUID")
+@NamedNativeQuery(name = ExamPaper.SELECT_RANDOM_POSTGRE, query = "SELECT * FROM exam_paper ORDER BY RANDOM() LIMIT 1", resultClass=ExamPaper.class)
+@NamedQueries(value = {
+		@NamedQuery(name = ExamPaper.SELECT_JOIN_PERSON_EXAM, query="SELECT ep FROM ExamPaper ep LEFT JOIN FETCH ep.personExams WHERE ep.id = :id "),
+		@NamedQuery(name = ExamPaper.SELECT_ACTIVE, query="SELECT ep FROM ExamPaper ep WHERE ep.active = true ")
+})
 public class ExamPaper extends Informable {
 
+	public static final String SELECT_RANDOM_POSTGRE = "SELECT_RANDOM_POSTGRE";
+	public static final String SELECT_JOIN_PERSON_EXAM = "SELECT_JOIN_PERSON_EXAM";
+	public static final String SELECT_ACTIVE = "SELECT_ACTIVE";
 	private static final long serialVersionUID = -4273328911593134195L;
 
 	public ExamPaper() {
@@ -71,7 +84,17 @@ public class ExamPaper extends Informable {
 	        orphanRemoval = true,
 	        cascade = CascadeType.ALL)
 	@OrderBy(value="sortOrder")
+	@JsonIgnore
 	private Set<ExamPaperQuestion> examPaperQuestions = new HashSet<ExamPaperQuestion>();
+	
+	@OneToMany(
+			mappedBy = "examPaper",
+			fetch = FetchType.LAZY,
+			orphanRemoval = false,
+			cascade = { CascadeType.DETACH, CascadeType.MERGE,
+	                CascadeType.PERSIST, CascadeType.REFRESH })
+	@JsonIgnore
+	private Set<PersonExam> personExams = new HashSet<PersonExam>();
 
 
 	public String getName() {
@@ -141,6 +164,14 @@ public class ExamPaper extends Informable {
 		this.examType = examType;
 	}
 
+
+	public Set<PersonExam> getPersonExams() {
+	    return personExams;
+    }
+
+	public void setPersonExams(Set<PersonExam> personExams) {
+	    this.personExams = personExams;
+    }
 
 	@Override
 	public boolean equals(final Object other) {
